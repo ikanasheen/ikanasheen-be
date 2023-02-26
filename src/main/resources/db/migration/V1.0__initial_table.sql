@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS transaksi(
     id_transaksi VARCHAR(25) NOT NULL,
     nama_ikan VARCHAR(255) NOT NULL,
     jumlah int NOT NULL,
+    satuan VARCHAR(255) NOT NULL,
     id_pembeli VARCHAR(25) NOT NULL,
     ekspedisi VARCHAR(255) NOT NULL,
     tanggal_input DATE NOT NULL,

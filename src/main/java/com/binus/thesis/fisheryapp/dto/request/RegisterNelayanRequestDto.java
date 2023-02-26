@@ -1,6 +1,5 @@
 package com.binus.thesis.fisheryapp.dto.request;
 
-import com.binus.thesis.fisheryapp.enums.GenderEnum;
 import lombok.Data;
 
 @Data
@@ -10,7 +9,7 @@ public class RegisterNelayanRequestDto {
 
     private String namaLengkap;
 
-    private GenderEnum gender;
+    private String gender;
 
     private String tanggalLahir;
 
