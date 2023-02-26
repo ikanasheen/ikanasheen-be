@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(EndpointAPI.REGISTER)
 @RequiredArgsConstructor
@@ -54,7 +55,6 @@ public class RegisterController {
         return response;
     }
 
-    @CrossOrigin(origins = "http://localhost:8023")
     @PostMapping("/pembeli")
     public BaseResponse<Pembeli> registerPembeli(@Valid @RequestBody BaseRequest<BaseParameter<RegisterPembeliRequestDto>> request) {
         BaseResponse<Pembeli> response = new BaseResponse<>();

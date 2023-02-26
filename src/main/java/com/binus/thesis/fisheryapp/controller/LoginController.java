@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(EndpointAPI.LOGIN)
 @RequiredArgsConstructor
 @Slf4j
@@ -35,7 +36,6 @@ public class LoginController {
 
     private final LoginValidator loginValidator;
 
-    @CrossOrigin(origins = "http://localhost:8023")
     @PostMapping
     public BaseResponse<User> login(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
         BaseResponse<User> response = new BaseResponse<>();
