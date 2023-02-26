@@ -21,7 +21,7 @@ public @interface GlobalMessage {
         public static final String FIELD_REQUIRED = "field " + paramVariable.get(0) + " tidak boleh kosong";
         public static final String USER_NOT_REGISTERED = "user belum terdaftar";
         public static final String INVALID_PASSWORD = "password salah";
-        public static final String USER_ALREADY_EXISTS = "username " + paramVariable.get(0) + "sudah digunakan";
+        public static final String USER_ALREADY_EXISTS = "username " + paramVariable.get(0) + " sudah digunakan";
     }
 
     class Resp {

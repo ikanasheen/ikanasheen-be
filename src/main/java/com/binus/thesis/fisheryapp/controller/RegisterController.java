@@ -21,10 +21,7 @@ import com.binus.thesis.fisheryapp.validator.RegisterNelayanValidator;
 import com.binus.thesis.fisheryapp.validator.RegisterPembeliValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -39,6 +36,7 @@ public class RegisterController {
     private final RegisterNelayanValidator regNelayanValidator;
     private final RegisterPembeliValidator regPembeliValidator;
 
+    @CrossOrigin(origins = "http://localhost:8023")
     @PostMapping("/nelayan")
     public BaseResponse<Nelayan> registerNelayan(@Valid @RequestBody BaseRequest<BaseParameter<RegisterNelayanRequestDto>> request) {
         BaseResponse<Nelayan> response = new BaseResponse<>();
@@ -56,6 +54,7 @@ public class RegisterController {
         return response;
     }
 
+    @CrossOrigin(origins = "http://localhost:8023")
     @PostMapping("/pembeli")
     public BaseResponse<Pembeli> registerPembeli(@Valid @RequestBody BaseRequest<BaseParameter<RegisterPembeliRequestDto>> request) {
         BaseResponse<Pembeli> response = new BaseResponse<>();
