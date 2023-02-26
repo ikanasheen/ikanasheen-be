@@ -32,7 +32,7 @@ public class ApplicationException extends BaseException {
     }
 
     public ApplicationException(Status status) {
-        super(status.getResponsemessage());
+        super(status.getResponseMessage());
         this.status = status;
         type = TYPE_APPLICATION;
     }

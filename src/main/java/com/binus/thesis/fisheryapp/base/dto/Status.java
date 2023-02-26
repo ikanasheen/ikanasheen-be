@@ -31,70 +31,70 @@ public class Status implements BaseInterface {
     public static final String ERROR_CODE = "9999";
     public static final String ERROR_DESC = "Error";
 
-    private String responsecode;
+    private String responseCode;
 
-    private String responsedesc;
+    private String responseDesc;
 
-    private String responsemessage;
+    private String responseMessage;
 
     private String stacktrace;
 
     public Status() {
     }
 
-    public Status(String responsecode) {
-        this.responsecode = responsecode;
-        if (responsecode.equals(APP_ERROR_CODE)) {
-            this.responsedesc = APP_ERROR_DESC;
+    public Status(String responseCode) {
+        this.responseCode = responseCode;
+        if (responseCode.equals(APP_ERROR_CODE)) {
+            this.responseDesc = APP_ERROR_DESC;
         }
-        if (responsecode.equals(SYS_ERROR_CODE)) {
-            this.responsedesc = SYS_ERROR_DESC;
+        if (responseCode.equals(SYS_ERROR_CODE)) {
+            this.responseDesc = SYS_ERROR_DESC;
         }
-        if (responsecode.equals(ERROR_CODE)) {
-            this.responsedesc = ERROR_DESC;
+        if (responseCode.equals(ERROR_CODE)) {
+            this.responseDesc = ERROR_DESC;
         }
     }
 
-    public Status(String responsecode, String responsedesc) {
-        this.responsecode = responsecode;
-        this.responsedesc = responsedesc;
+    public Status(String responseCode, String responseDesc) {
+        this.responseCode = responseCode;
+        this.responseDesc = responseDesc;
     }
 
-    public Status(String responsecode, String responsedesc, String responsemessage) {
-        this.responsecode = responsecode;
-        this.responsedesc = responsedesc;
-        this.responsemessage = responsemessage;
+    public Status(String responseCode, String responseDesc, String responseMessage) {
+        this.responseCode = responseCode;
+        this.responseDesc = responseDesc;
+        this.responseMessage = responseMessage;
     }
 
-    public Status(String responsecode, String responsedesc, String responsemessage, String stacktrace) {
-        this.responsecode = responsecode;
-        this.responsedesc = responsedesc;
-        this.responsemessage = responsemessage;
+    public Status(String responseCode, String responseDesc, String responseMessage, String stacktrace) {
+        this.responseCode = responseCode;
+        this.responseDesc = responseDesc;
+        this.responseMessage = responseMessage;
         this.stacktrace = stacktrace;
     }
 
-    public String getResponsecode() {
-        return responsecode;
+    public String getResponseCode() {
+        return responseCode;
     }
 
-    public void setResponsecode(String responsecode) {
-        this.responsecode = responsecode;
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
-    public String getResponsedesc() {
-        return responsedesc;
+    public String getResponseDesc() {
+        return responseDesc;
     }
 
-    public void setResponsedesc(String responsedesc) {
-        this.responsedesc = responsedesc;
+    public void setResponseDesc(String responseDesc) {
+        this.responseDesc = responseDesc;
     }
 
-    public String getResponsemessage() {
-        return responsemessage;
+    public String getResponseMessage() {
+        return responseMessage;
     }
 
-    public void setResponsemessage(String responsemessage) {
-        this.responsemessage = responsemessage;
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
     }
 
     public String getStacktrace() {
@@ -108,9 +108,9 @@ public class Status implements BaseInterface {
     @Override
     public String toString() {
         return "Status{" +
-                "responsecode='" + responsecode + '\'' +
-                ", responsedesc='" + responsedesc + '\'' +
-                ", responsemessage='" + responsemessage + '\'' +
+                "responsecode='" + responseCode + '\'' +
+                ", responsedesc='" + responseDesc + '\'' +
+                ", responsemessage='" + responseMessage + '\'' +
                 ", stacktrace='" + stacktrace + '\'' +
                 '}';
     }
