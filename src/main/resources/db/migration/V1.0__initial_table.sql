@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS proposal_bantuan(
     deskripsi VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     file VARCHAR(255) NOT NULL,
-    catatan VARCHAR(255) NOT NULL,
+    catatan VARCHAR(255),
     CONSTRAINT pkey_proposal_bantuan PRIMARY KEY (id_proposal_bantuan),
     CONSTRAINT fk_nelayan_proposal_bantuan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan)
 );
