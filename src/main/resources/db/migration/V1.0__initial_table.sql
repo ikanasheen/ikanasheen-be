@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS role(
-    id_role INT AUTO_INCREMENT NOT NULL,
+    id_role VARCHAR(25) NOT NULL,
     nama_role VARCHAR(255) NOT NULL,
-    deskripsi VARCHAR(255) NOT NULL,
+    deskripsi VARCHAR(255),
     CONSTRAINT pkey_role PRIMARY KEY (id_role)
 );
 
 CREATE TABLE IF NOT EXISTS user(
     id_user VARCHAR(25) NOT NULL,
-    id_role INT NOT NULL,
+    id_role VARCHAR(25) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
@@ -101,6 +101,7 @@ CREATE TABLE IF NOT EXISTS proposal_bantuan(
     deskripsi VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     file VARCHAR(255) NOT NULL,
+    catatan VARCHAR(255) NOT NULL,
     CONSTRAINT pkey_proposal_bantuan PRIMARY KEY (id_proposal_bantuan),
     CONSTRAINT fk_nelayan_proposal_bantuan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan)
 );
