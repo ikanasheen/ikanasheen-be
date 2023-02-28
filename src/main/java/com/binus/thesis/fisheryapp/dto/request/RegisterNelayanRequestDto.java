@@ -26,4 +26,6 @@ public class RegisterNelayanRequestDto {
     private String username;
 
     private String password;
+
+    private String confirmPassword;
 }
