@@ -28,4 +28,6 @@ public class RegisterNelayanRequestDto {
     private String password;
 
     private String confirmPassword;
+
+    private boolean showPassword;
 }

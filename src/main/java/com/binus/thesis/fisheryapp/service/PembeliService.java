@@ -7,6 +7,7 @@ import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
 import com.binus.thesis.fisheryapp.model.Pembeli;
+import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.PembeliRepository;
 import com.binus.thesis.fisheryapp.transform.PembeliTransform;
@@ -28,10 +29,12 @@ public class PembeliService {
     private final PembeliTransform pembeliTransform;
     private final UserTransform userTransform;
 
+    private final RoleService roleService;
     private final UserService userService;
 
     public Pembeli register(RegisterPembeliRequestDto request) {
         User checkUser = checkUser(request.getUsername());
+
         if (checkUser != null) {
             throw new ApplicationException(Status.DATA_ALREADY_EXIST(
                     GlobalMessage.Error.USER_ALREADY_EXISTS.replaceAll(
@@ -40,12 +43,13 @@ public class PembeliService {
             ));
         }
 
+        Role role = roleService.findById(request.getIdRole());
         String idUser = GeneratorUtils.generateId(String.valueOf(request.getIdRole()), null, 7);
-        User user = userTransform.regPembeliReqtoUser(request, idUser, StatusUserEnum.ACTIVE);
+        User user = userTransform.regPembeliReqtoUser(request, idUser, StatusUserEnum.ACTIVE, role);
         userService.save(user);
 
         String idPembeli = GeneratorUtils.generateId(idUser, new Date(), 0);
-        Pembeli pembeli = pembeliTransform.regPembelitoPembeli(request, idPembeli, idUser);
+        Pembeli pembeli = pembeliTransform.regPembelitoPembeli(request, idPembeli, user);
         pembeli = repository.save(pembeli);
 
         return pembeli;

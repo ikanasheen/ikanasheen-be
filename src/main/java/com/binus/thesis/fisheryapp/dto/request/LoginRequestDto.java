@@ -13,4 +13,6 @@ public class LoginRequestDto{
     private String password;
 
     private String confirmPassword;
+
+    private boolean showPassword;
 }

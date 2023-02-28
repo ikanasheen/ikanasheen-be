@@ -37,8 +37,7 @@ public class RegisterController {
     private final RegisterNelayanValidator regNelayanValidator;
     private final RegisterPembeliValidator regPembeliValidator;
 
-    @CrossOrigin(origins = "http://localhost:8023")
-    @PostMapping("/nelayan")
+    @PutMapping("/nelayan")
     public BaseResponse<Nelayan> registerNelayan(@Valid @RequestBody BaseRequest<BaseParameter<RegisterNelayanRequestDto>> request) {
         BaseResponse<Nelayan> response = new BaseResponse<>();
         try {
@@ -55,7 +54,7 @@ public class RegisterController {
         return response;
     }
 
-    @PostMapping("/pembeli")
+    @PutMapping("/pembeli")
     public BaseResponse<Pembeli> registerPembeli(@Valid @RequestBody BaseRequest<BaseParameter<RegisterPembeliRequestDto>> request) {
         BaseResponse<Pembeli> response = new BaseResponse<>();
         try {

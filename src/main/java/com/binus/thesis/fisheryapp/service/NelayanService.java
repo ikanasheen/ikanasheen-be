@@ -7,6 +7,7 @@ import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
 import com.binus.thesis.fisheryapp.model.Nelayan;
+import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.NelayanRepository;
 import com.binus.thesis.fisheryapp.transform.NelayanTransform;
@@ -28,6 +29,7 @@ public class NelayanService {
     private final NelayanTransform nelayanTransform;
     private final UserTransform userTransform;
 
+    private final RoleService roleService;
     private final UserService userService;
 
     public Nelayan register(RegisterNelayanRequestDto request) {
@@ -40,12 +42,13 @@ public class NelayanService {
             ));
         }
 
+        Role role = roleService.findById(request.getIdRole());
         String idUser = GeneratorUtils.generateId(String.valueOf(request.getIdRole()), null, 7);
-        User user = userTransform.regNelayanReqtoUser(request, idUser, StatusUserEnum.ACTIVE);
+        User user = userTransform.regNelayanReqtoUser(request, idUser, StatusUserEnum.ACTIVE, role);
         userService.save(user);
 
         String idNelayan = GeneratorUtils.generateId(idUser, new Date(), 0);
-        Nelayan nelayan = nelayanTransform.regNelayantoNelayan(request, idNelayan, idUser);
+        Nelayan nelayan = nelayanTransform.regNelayantoNelayan(request, idNelayan, user);
         nelayan = repository.save(nelayan);
 
         return nelayan;

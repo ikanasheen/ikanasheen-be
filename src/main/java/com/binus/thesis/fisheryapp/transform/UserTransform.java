@@ -3,6 +3,7 @@ package com.binus.thesis.fisheryapp.transform;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
+import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,7 +18,8 @@ public interface UserTransform {
     @Mapping(target = "password", source = "requestDto.password")
     @Mapping(target = "idRole", source = "requestDto.idRole")
     @Mapping(target = "status", source = "status")
-    User regNelayanReqtoUser(RegisterNelayanRequestDto requestDto, String idUser, StatusUserEnum status);
+    @Mapping(target = "role", source = "role")
+    User regNelayanReqtoUser(RegisterNelayanRequestDto requestDto, String idUser, StatusUserEnum status, Role role);
 
     @Named("regPembeliReqtoUser")
     @Mapping(target = "idUser", source = "idUser")
@@ -25,5 +27,6 @@ public interface UserTransform {
     @Mapping(target = "password", source = "requestDto.password")
     @Mapping(target = "idRole", source = "requestDto.idRole")
     @Mapping(target = "status", source = "status")
-    User regPembeliReqtoUser(RegisterPembeliRequestDto requestDto, String idUser, StatusUserEnum status);
+    @Mapping(target = "role", source = "role")
+    User regPembeliReqtoUser(RegisterPembeliRequestDto requestDto, String idUser, StatusUserEnum status, Role role);
 }
