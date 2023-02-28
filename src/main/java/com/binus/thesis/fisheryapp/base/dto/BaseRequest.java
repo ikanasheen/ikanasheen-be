@@ -9,6 +9,9 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseRequest<T> implements BaseInterface {
 
+    @JsonProperty("paging")
+    protected Paging paging;
+
     @JsonProperty("parameter")
     protected T parameter;
 }

@@ -39,4 +39,11 @@ public interface Constants extends BaseInterface {
 
     public static final String ASC = "ASC";
     public static final String DESC = "DESC";
+
+    /** FORMAT **/
+
+    String FORMAT_TIMESTAMP = "yyyy-MM-dd HH:mm:ss";
+    String FORMAT_DATE = "yyyy-MM-dd";
+    String FORMAT_DATE_LONG = "dd MMMM yyyy";
+    String TIME_ZONE_AREA = "Asia/Jakarta";
 }

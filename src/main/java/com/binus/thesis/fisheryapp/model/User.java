@@ -15,7 +15,7 @@ public class User {
     private String idUser;
 
     @Column(name = "id_role")
-    private String idRole;
+    private int idRole;
 
     @Column(name = "username")
     private String username;

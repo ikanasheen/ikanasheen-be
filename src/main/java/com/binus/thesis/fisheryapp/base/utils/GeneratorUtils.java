@@ -1,4 +1,4 @@
-package com.binus.thesis.fisheryapp.base.Generator;
+package com.binus.thesis.fisheryapp.base.utils;
 
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.model;
 
+import com.binus.thesis.fisheryapp.enums.GenderEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,7 +22,8 @@ public class Nelayan {
     private String namaLengkap;
 
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private GenderEnum gender;
 
     @Column(name = "tanggal_lahir")
     private LocalDate tanggalLahir;

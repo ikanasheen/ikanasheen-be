@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS role(
-    id_role VARCHAR(25) NOT NULL,
+    id_role INT AUTO_INCREMENT NOT NULL,
     nama_role VARCHAR(255) NOT NULL,
     deskripsi VARCHAR(255),
     CONSTRAINT pkey_role PRIMARY KEY (id_role)
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS role(
 
 CREATE TABLE IF NOT EXISTS user(
     id_user VARCHAR(25) NOT NULL,
-    id_role VARCHAR(25) NOT NULL,
+    id_role INT NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,

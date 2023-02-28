@@ -7,4 +7,6 @@ public @interface EndpointAPI {
     String REGISTER = "/register";
 
     String DASHBOARD = "/dashboard";
+
+    String USER = "/user";
 }
