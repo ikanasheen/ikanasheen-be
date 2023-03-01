@@ -61,13 +61,14 @@ CREATE TABLE IF NOT EXISTS admin(
 
 CREATE TABLE IF NOT EXISTS transaksi(
     id_transaksi VARCHAR(25) NOT NULL,
+    id_pembeli VARCHAR(25) NOT NULL,
     nama_ikan VARCHAR(255) NOT NULL,
     jumlah int NOT NULL,
-    satuan VARCHAR(255) NOT NULL,
-    id_pembeli VARCHAR(25) NOT NULL,
-    ekspedisi VARCHAR(255) NOT NULL,
-    tanggal_input DATE NOT NULL,
-    tanggal_terima DATE,
+    harga_diajukan int NOT NULL,
+    harga_nego int,
+    harga_akhir int,
+    tanggal_dibutuhkan DATE NOT NULL,
+    alamat VARCHAR(255) NOT NULL,
     catatan VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     CONSTRAINT pkey_transaksi PRIMARY KEY (id_transaksi),
@@ -83,25 +84,35 @@ CREATE TABLE IF NOT EXISTS transaksi_nelayan(
     CONSTRAINT fk_transaksi_transaksi_nelayan FOREIGN KEY (id_transaksi) REFERENCES transaksi(id_transaksi)
 );
 
-CREATE TABLE IF NOT EXISTS pengembangan_diri(
-    id_pengembangan_diri VARCHAR(25) NOT NULL,
-    topik VARCHAR(255) NOT NULL,
-    tanggal_pelaksanaan TIMESTAMP NOT NULL,
-    lokasi VARCHAR(255) NOT NULL,
-    deskripsi VARCHAR(255) NOT NULL,
-    CONSTRAINT pkey_pengembangan_diri PRIMARY KEY (id_pengembangan_diri)
+CREATE TABLE IF NOT EXISTS sosialisasi(
+    id_sosialisasi VARCHAR(25) NOT NULL,
+    judul VARCHAR(255) NOT NULL,
+    jenis_konten VARCHAR(255) NOT NULL,
+    konten TEXT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_sosialisasi PRIMARY KEY (id_sosialisasi)
+);
+
+CREATE TABLE IF NOT EXISTS bantuan_tersedia(
+    id_bantuan VARCHAR(25) NOT NULL,
+    nama_bantuan VARCHAR(255) NOT NULL,
+    jenis_bantuan VARCHAR(255) NOT NULL,
+    kuota int NOT NULL,
+    format_proposal VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_bantuan PRIMARY KEY (id_bantuan)
 );
 
 CREATE TABLE IF NOT EXISTS proposal_bantuan(
     id_proposal_bantuan VARCHAR(25) NOT NULL,
     id_nelayan VARCHAR(25) NOT NULL,
+    id_bantuan VARCHAR(25) NOT NULL,
     tanggal_pengajuan TIMESTAMP NOT NULL,
     tanggal_disetujui TIMESTAMP,
     tanggal_ditolak TIMESTAMP,
-    deskripsi VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     file VARCHAR(255) NOT NULL,
-    catatan VARCHAR(255),
     CONSTRAINT pkey_proposal_bantuan PRIMARY KEY (id_proposal_bantuan),
-    CONSTRAINT fk_nelayan_proposal_bantuan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan)
+    CONSTRAINT fk_nelayan_proposal_bantuan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan),
+    CONSTRAINT fk_bantuan_proposal_bantuan FOREIGN KEY (id_bantuan) REFERENCES bantuan_tersedia(id_bantuan)
 );

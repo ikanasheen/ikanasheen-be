@@ -1,6 +1,5 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.EkspedisiEnum;
 import com.binus.thesis.fisheryapp.enums.StatusTransaksiEnum;
 import lombok.Data;
 
@@ -16,29 +15,35 @@ public class Transaksi {
     @Column(name = "id_transaksi")
     private String idTransaksi;
 
+    @Column(name = "id_pembeli")
+    private String idPembeli;
+
     @Column(name = "nama_ikan")
     private String namaIkan;
 
     @Column(name = "jumlah")
     private int jumlah;
 
-    @Column(name = "id_pembeli")
-    private String idPembeli;
+    @Column(name = "harga_diajukan")
+    private int hargaDiajukan;
 
-    @Column(name = "ekspedisi")
-    private EkspedisiEnum ekspedisi;
+    @Column(name = "harga_nego")
+    private int hargaNego;
 
-    @Column(name = "tanggal_input")
-    private LocalDate tanggalInput;
+    @Column(name = "harga_akhir")
+    private int hargaAkhir;
 
-    @Column(name = "tanggal_terima")
-    private LocalDate tanggalTerima;
+    @Column(name = "tanggal_dibutuhkan")
+    private LocalDate tanggalDibutuhkan;
+
+    @Column(name = "alamat")
+    private String alamat;
 
     @Column(name = "catatan")
     private String catatan;
 
     @Column(name = "status")
-    private StatusTransaksiEnum status;
+    private StatusTransaksiEnum statusTransaksi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)

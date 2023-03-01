@@ -4,5 +4,6 @@ public enum StatusTransaksiEnum {
     DIAJUKAN,
     DIPROSES,
     DIBATALKAN,
-    SELESAI
+    SELESAI,
+    NEGO
 }

@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.model;
 
+import com.binus.thesis.fisheryapp.enums.StatusProposalBantuanEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,9 @@ public class ProposalBantuan {
     @Column(name = "id_nelayan")
     private String idNelayan;
 
+    @Column(name = "id_bantuan")
+    private String idBantuan;
+
     @Column(name = "tanggal_pengajuan")
     private LocalDate tanggalPengajuan;
 
@@ -30,13 +34,14 @@ public class ProposalBantuan {
     @Column(name = "file")
     private String file;
 
-    @Column(name = "deskripsi")
-    private String deskripsi;
-
     @Column(name = "status")
-    private String status;
+    private StatusProposalBantuanEnum statusProposal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nelayan", referencedColumnName = "id_nelayan", insertable = false, updatable = false)
     private Nelayan nelayan;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_bantuan", referencedColumnName = "id_bantuan", insertable = false, updatable = false)
+    private BantuanTersedia bantuan;
 }
