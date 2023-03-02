@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(EndpointAPI.IKAN)
 @RequiredArgsConstructor
 @Slf4j
@@ -29,9 +30,7 @@ public class IkanController {
 
     private final IkanValidator validator;
 
-
-    @CrossOrigin(origins = "*")
-    @PutMapping("/create")
+    @PutMapping()
     public BaseResponse<Ikan> create(@Valid @RequestBody BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<Ikan> response = new BaseResponse<>();
         BaseParameter<Ikan> parameter = request.getParameter();
@@ -49,9 +48,7 @@ public class IkanController {
         return response;
     }
 
-
-    @CrossOrigin(origins = "*")
-    @PatchMapping("/update")
+    @PatchMapping()
     public BaseResponse<Ikan> update(@Valid @RequestBody BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<Ikan> response = new BaseResponse<>();
         BaseParameter<Ikan> parameter = request.getParameter();
@@ -69,9 +66,7 @@ public class IkanController {
         return response;
     }
 
-
-    @CrossOrigin(origins = "*")
-    @DeleteMapping("delete/{idIkan}")
+    @DeleteMapping("/{idIkan}")
     public BaseResponse<Ikan> delete(@Valid @PathVariable(value = "idIkan") String idIkan) {
         BaseResponse<Ikan> response = new BaseResponse<>();
         try {
@@ -86,15 +81,13 @@ public class IkanController {
         return response;
     }
 
-
-    @CrossOrigin(origins = "*")
-    @GetMapping("/detail/{idIkan}")
+    @GetMapping("/{idIkan}")
     public BaseResponse<Ikan> detail(@Valid @PathVariable(value = "idIkan") String idIkan) {
         BaseResponse<Ikan> response = new BaseResponse<>();
         try {
             Ikan ikan = ikanService.detail(idIkan);
             response.setResult(ikan);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -104,9 +97,7 @@ public class IkanController {
         return response;
     }
 
-
-    @CrossOrigin(origins = "*")
-    @PostMapping("/retrieve")
+    @PostMapping("")
     public BaseResponse<List<Ikan>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
         BaseResponse<List<Ikan>> response = new BaseResponse<>();
         try {
@@ -115,7 +106,7 @@ public class IkanController {
             response.setPaging(request.getPaging());
             response.getPaging().setTotalpage(1);
             response.getPaging().setTotalrecord(ikanList.size());
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_RETRIEVE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

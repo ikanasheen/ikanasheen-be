@@ -38,7 +38,7 @@ public @interface GlobalMessage {
                 "#Variable5");
 
         public static final String SUCCESS_CREATE_ACCOUNT = "akun berhasil dibuat";
-        public static final String SUCCESS_RETRIEVE_DATA = "berhasil mengambil data";
+        public static final String SUCESS_GET_DATA = "berhasil mengambil data";
         public static final String SUCCESS_CREATE_DATA = "data berhasil dibuat";
         public static final String SUCCESS_UPDATE_DATA = "data berhasil diubah";
         public static final String SUCCESS_DELETE_DATA = "data berhasil dihapus";
