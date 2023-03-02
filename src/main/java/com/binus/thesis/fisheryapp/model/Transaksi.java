@@ -18,8 +18,8 @@ public class Transaksi {
     @Column(name = "id_pembeli")
     private String idPembeli;
 
-    @Column(name = "nama_ikan")
-    private String namaIkan;
+    @Column(name = "id_ikan")
+    private String idIkan;
 
     @Column(name = "jumlah")
     private int jumlah;
@@ -48,4 +48,8 @@ public class Transaksi {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)
     private Pembeli pembeli;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_ikan", referencedColumnName = "id_ikan", insertable = false, updatable = false)
+    private Ikan ikan;
 }

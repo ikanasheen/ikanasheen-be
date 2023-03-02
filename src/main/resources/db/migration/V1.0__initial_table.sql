@@ -59,10 +59,17 @@ CREATE TABLE IF NOT EXISTS admin(
     CONSTRAINT fk_user_admin FOREIGN KEY (id_user) REFERENCES user(id_user)
 );
 
+CREATE TABLE IF NOT EXISTS ikan(
+    id_ikan VARCHAR(25) NOT NULL,
+    nama_ikan VARCHAR(255) NOT NULL,
+    deskripsi VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_ikan PRIMARY KEY (id_ikan)
+);
+
 CREATE TABLE IF NOT EXISTS transaksi(
     id_transaksi VARCHAR(25) NOT NULL,
     id_pembeli VARCHAR(25) NOT NULL,
-    nama_ikan VARCHAR(255) NOT NULL,
+    id_ikan VARCHAR(25) NOT NULL,
     jumlah int NOT NULL,
     harga_diajukan int NOT NULL,
     harga_nego int,
@@ -72,7 +79,8 @@ CREATE TABLE IF NOT EXISTS transaksi(
     catatan VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
     CONSTRAINT pkey_transaksi PRIMARY KEY (id_transaksi),
-    CONSTRAINT fk_pembeli_transaksi FOREIGN KEY (id_pembeli) REFERENCES pembeli(id_pembeli)
+    CONSTRAINT fk_pembeli_transaksi FOREIGN KEY (id_pembeli) REFERENCES pembeli(id_pembeli),
+    CONSTRAINT fk_ikan_transaksi FOREIGN KEY (id_ikan) REFERENCES ikan(id_ikan)
 );
 
 CREATE TABLE IF NOT EXISTS transaksi_nelayan(
