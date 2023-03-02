@@ -8,10 +8,8 @@ import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
 import com.binus.thesis.fisheryapp.enums.ValidatorTypeEnum;
 import com.binus.thesis.fisheryapp.model.Ikan;
-import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.service.IkanService;
 import com.binus.thesis.fisheryapp.validator.IkanValidator;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(EndpointAPI.IKAN)
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +29,8 @@ public class IkanController {
 
     private final IkanValidator validator;
 
+
+    @CrossOrigin(origins = "*")
     @PutMapping("/create")
     public BaseResponse<Ikan> create(@Valid @RequestBody BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<Ikan> response = new BaseResponse<>();
@@ -50,6 +49,8 @@ public class IkanController {
         return response;
     }
 
+
+    @CrossOrigin(origins = "*")
     @PatchMapping("/update")
     public BaseResponse<Ikan> update(@Valid @RequestBody BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<Ikan> response = new BaseResponse<>();
@@ -68,6 +69,8 @@ public class IkanController {
         return response;
     }
 
+
+    @CrossOrigin(origins = "*")
     @DeleteMapping("delete/{idIkan}")
     public BaseResponse<Ikan> delete(@Valid @PathVariable(value = "idIkan") String idIkan) {
         BaseResponse<Ikan> response = new BaseResponse<>();
@@ -83,6 +86,8 @@ public class IkanController {
         return response;
     }
 
+
+    @CrossOrigin(origins = "*")
     @GetMapping("/detail/{idIkan}")
     public BaseResponse<Ikan> detail(@Valid @PathVariable(value = "idIkan") String idIkan) {
         BaseResponse<Ikan> response = new BaseResponse<>();
@@ -99,6 +104,8 @@ public class IkanController {
         return response;
     }
 
+
+    @CrossOrigin(origins = "*")
     @PostMapping("/retrieve")
     public BaseResponse<List<Ikan>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
         BaseResponse<List<Ikan>> response = new BaseResponse<>();
