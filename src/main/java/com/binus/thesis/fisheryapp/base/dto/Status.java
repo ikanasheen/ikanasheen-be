@@ -10,25 +10,25 @@ public class Status implements BaseInterface {
 
     private static final long serialVersionUID = -3214983983781773869L;
 
-    public static final String SUCCESS_CODE = "0000";
+    public static final String SUCCESS_CODE = "200";
     public static final String SUCCESS_DESC = "Success";
 
-    public static final String ERROR_EXIST_CODE = "9002";
+    public static final String ERROR_EXIST_CODE = "405";
     public static final String ERROR_EXIST_DESC = "Data already exist";
 
-    public static final String ERROR_NOTFOUND_CODE = "9003";
+    public static final String ERROR_NOTFOUND_CODE = "405";
     public static final String ERROR_NOTFOUND_DESC = "Data Not Found";
 
-    public static final String ERROR_INVALID_DATA_CODE = "9005";
+    public static final String ERROR_INVALID_DATA_CODE = "405";
     public static final String ERROR_INVALID_DATA_DESC = "Invalid Data";
 
-    public static final String APP_ERROR_CODE = "9997";
+    public static final String APP_ERROR_CODE = "500";
     public static final String APP_ERROR_DESC = "Application Error";
 
-    public static final String SYS_ERROR_CODE = "9998";
+    public static final String SYS_ERROR_CODE = "500";
     public static final String SYS_ERROR_DESC = "Systems Error";
 
-    public static final String ERROR_CODE = "9999";
+    public static final String ERROR_CODE = "500";
     public static final String ERROR_DESC = "Error";
 
     private String responseCode;

@@ -1,6 +1,6 @@
 package com.binus.thesis.fisheryapp.base.validator;
 
-import com.binus.thesis.fisheryapp.base.component.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import org.springframework.util.StringUtils;

@@ -1,6 +1,6 @@
 package com.binus.thesis.fisheryapp.service;
 
-import com.binus.thesis.fisheryapp.base.component.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
@@ -8,8 +8,6 @@ import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -4,5 +4,6 @@ public enum ValidatorTypeEnum {
     CREATE,
     UPDATE,
     RETRIEVE,
-    DETAIL
+    DETAIL,
+    DELETE
 }

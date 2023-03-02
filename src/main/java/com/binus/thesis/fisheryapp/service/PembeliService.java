@@ -1,7 +1,7 @@
 package com.binus.thesis.fisheryapp.service;
 
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
-import com.binus.thesis.fisheryapp.base.component.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;

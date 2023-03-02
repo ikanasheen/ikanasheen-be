@@ -9,4 +9,6 @@ public @interface EndpointAPI {
     String DASHBOARD = "/dashboard";
 
     String USER = "/user";
+
+    String IKAN = "/ikan";
 }
