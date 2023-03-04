@@ -1,13 +1,9 @@
 package com.binus.thesis.fisheryapp.validator;
 
-import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.BaseParameter;
-import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.validator.BaseValidator;
-import com.binus.thesis.fisheryapp.enums.JenisKontenSosialisasiEnum;
 import com.binus.thesis.fisheryapp.enums.ValidatorTypeEnum;
-import com.binus.thesis.fisheryapp.model.Ikan;
 import com.binus.thesis.fisheryapp.model.Sosialisasi;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +20,9 @@ public class SosialisasiValidator extends BaseValidator<Sosialisasi> {
             return;
         }
         notBlankorNull(request.getJudul(), "judul");
-        notNull(request.getJenisKonten(), "jenis konten");
+        notBlankorNull(request.getJenisKonten(), "jenis konten");
         notBlankorNull(request.getKonten(), "konten");
-        notNull(request.getStatus(), "status");
+        notBlankorNull(request.getStatus(), "status");
+        notBlankorNull(request.getPenulis(), "penulis");
     }
 }

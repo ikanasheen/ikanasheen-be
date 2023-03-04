@@ -98,15 +98,10 @@ public class SosialisasiController {
     }
 
     @PostMapping("")
-    public BaseResponse<List<Sosialisasi>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
+    public BaseResponse<List<Sosialisasi>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<Sosialisasi>> request) {
         BaseResponse<List<Sosialisasi>> response = new BaseResponse<>();
         try {
-            List<Sosialisasi> sosialisasiList = sosialisasiService.retrieveList();
-            response.setResult(sosialisasiList);
-            response.setPaging(request.getPaging());
-            response.getPaging().setTotalpage(1);
-            response.getPaging().setTotalrecord(sosialisasiList.size());
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+            response = sosialisasiService.retrieve(request);
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

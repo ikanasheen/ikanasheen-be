@@ -98,6 +98,9 @@ CREATE TABLE IF NOT EXISTS sosialisasi(
     jenis_konten VARCHAR(255) NOT NULL,
     konten TEXT NOT NULL,
     status VARCHAR(255) NOT NULL,
+    penulis VARCHAR(255) NOT NULL,
+    tanggal_dibuat DATE NOT NULL,
+    tanggal_diubah DATE,
     CONSTRAINT pkey_sosialisasi PRIMARY KEY (id_sosialisasi)
 );
 

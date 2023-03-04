@@ -7,12 +7,15 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
+import java.time.LocalDate;
+
 @Mapper(componentModel = "spring")
 public interface SosialisasiTransform {
 
     @Named("createSosialisasitoEntity")
     @Mapping(target = "idSosialisasi", source = "idSosialisasi")
-    Sosialisasi createSosialisasitoEntity(@MappingTarget Sosialisasi sosialisasi, String idSosialisasi);
+    @Mapping(target = "tanggalDibuat", source = "date")
+    Sosialisasi createSosialisasitoEntity(@MappingTarget Sosialisasi sosialisasi, String idSosialisasi, LocalDate date);
 
     @Named("updateSosialisasitoEntity")
     @Mapping(target = "idSosialisasi", source = "idSosialisasi")
@@ -20,5 +23,7 @@ public interface SosialisasiTransform {
     @Mapping(target = "jenisKonten", expression = "java(sosialisasi.getJenisKonten() == null ? sosialisasiRepo.getJenisKonten() : sosialisasi.getJenisKonten())")
     @Mapping(target = "konten", expression = "java(sosialisasi.getKonten() == null || sosialisasi.getKonten().isEmpty() ? sosialisasiRepo.getKonten() : sosialisasi.getKonten())")
     @Mapping(target = "status", expression = "java(sosialisasi.getStatus() == null ? sosialisasiRepo.getStatus() : sosialisasi.getStatus())")
+    @Mapping(target = "tanggalDibuat", expression = "java(sosialisasi.getTanggalDibuat() == null ? sosialisasiRepo.getTanggalDibuat() : sosialisasi.getTanggalDibuat())")
+    @Mapping(target = "tanggalDiubah", expression = "java(LocalDate.now())")
     Sosialisasi updateSosialisasitoEntity(@MappingTarget Sosialisasi sosialisasiRepo, Sosialisasi sosialisasi);
 }

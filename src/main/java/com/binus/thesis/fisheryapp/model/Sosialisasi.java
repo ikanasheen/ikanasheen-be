@@ -1,11 +1,9 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.JenisKontenSosialisasiEnum;
-import com.binus.thesis.fisheryapp.enums.StatusSosialisasiEnum;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -20,11 +18,20 @@ public class Sosialisasi {
     private String judul;
 
     @Column(name = "jenis_konten")
-    private JenisKontenSosialisasiEnum jenisKonten;
+    private String jenisKonten;
 
     @Column(name = "konten")
     private String konten;
 
     @Column(name = "status")
-    private StatusSosialisasiEnum status;
+    private String status;
+
+    @Column(name = "penulis")
+    private String penulis;
+
+    @Column(name = "tanggal_dibuat")
+    private LocalDate tanggalDibuat;
+
+    @Column(name = "tanggal_diubah")
+    private LocalDate tanggalDiubah;
 }
