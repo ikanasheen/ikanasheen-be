@@ -15,11 +15,11 @@ public class BaseParameter<T> implements BaseInterface {
     @JsonProperty("sort")
     protected Map<String, String> sort;
 
-    @JsonProperty("column")
-    protected List<String> column;
-
     @JsonProperty("criteria")
     protected Map<String, String> criteria;
+
+    @JsonProperty("filter")
+    protected Map<String, String> filter;
 
     @JsonProperty("data")
     protected T data;
