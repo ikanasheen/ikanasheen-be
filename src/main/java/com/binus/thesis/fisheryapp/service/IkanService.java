@@ -1,14 +1,19 @@
 package com.binus.thesis.fisheryapp.service;
 
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
-import com.binus.thesis.fisheryapp.base.dto.Status;
+import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.model.Ikan;
 import com.binus.thesis.fisheryapp.repository.IkanRepository;
+import com.binus.thesis.fisheryapp.service.specification.IkanSpecification;
 import com.binus.thesis.fisheryapp.transform.IkanTransform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,7 +27,10 @@ public class IkanService {
 
     private final IkanRepository repository;
 
+    private final IkanSpecification specification;
+
     private final IkanTransform transform;
+    private final PageTransform pageTransform;
 
     public Ikan create(Ikan ikan) {
         String idIkan = GeneratorUtils.generateId("", new Date(), 4);
@@ -47,9 +55,28 @@ public class IkanService {
         return getIkan(idIkan);
     }
 
-    public List<Ikan> retrieveList() {
-        List<Ikan> ikanList = repository.findAll();
-        return ikanList;
+    public BaseResponse<List<Ikan>> retrieve(BaseRequest<BaseParameter<Ikan>> request) {
+        BaseResponse<List<Ikan>> response = new BaseResponse<>();
+        Pageable pageable = specification.pageGenerator(
+                request.getPaging().getPage(),
+                request.getPaging().getLimit()
+        );
+        Page<Ikan> data = repository.findAll(
+                specification.predicate(request.getParameter()), pageable
+        );
+
+        Paging paging = pageTransform.toPage(
+                request.getPaging().getPage(),
+                request.getPaging().getLimit(),
+                data.getTotalPages(),
+                data.getTotalElements()
+        );
+
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setPaging(paging);
+        response.setResult(data.getContent());
+
+        return response;
     }
 
     public Ikan getIkan(String idIkan) {

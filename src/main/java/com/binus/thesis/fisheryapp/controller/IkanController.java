@@ -7,7 +7,6 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
 import com.binus.thesis.fisheryapp.enums.ValidatorTypeEnum;
 import com.binus.thesis.fisheryapp.model.Ikan;
 import com.binus.thesis.fisheryapp.service.IkanService;
@@ -98,15 +97,10 @@ public class IkanController {
     }
 
     @PostMapping("")
-    public BaseResponse<List<Ikan>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
+    public BaseResponse<List<Ikan>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<List<Ikan>> response = new BaseResponse<>();
         try {
-            List<Ikan> ikanList = ikanService.retrieveList();
-            response.setResult(ikanList);
-            response.setPaging(request.getPaging());
-            response.getPaging().setTotalpage(1);
-            response.getPaging().setTotalrecord(ikanList.size());
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+            response = ikanService.retrieve(request);
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

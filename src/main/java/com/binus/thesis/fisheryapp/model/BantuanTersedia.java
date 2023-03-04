@@ -1,11 +1,8 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.JenisBantuanEnum;
-import com.binus.thesis.fisheryapp.enums.StatusBantuanEnum;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -20,7 +17,7 @@ public class BantuanTersedia {
     private String namaBantuan;
 
     @Column(name = "jenis_bantuan")
-    private JenisBantuanEnum jenisBantuan;
+    private String jenisBantuan;
 
     @Column(name = "kuota")
     private int kuota;
@@ -29,5 +26,5 @@ public class BantuanTersedia {
     private String formatProposal;
 
     @Column(name = "status_bantuan")
-    private StatusBantuanEnum statusBantuan;
+    private String statusBantuan;
 }

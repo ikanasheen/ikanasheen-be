@@ -33,8 +33,8 @@ public class UserController {
 //            loginValidator.validate(request.getParameter());
             response.setResult(userLogin);
             response.setPaging(request.getPaging());
-            response.getPaging().setTotalpage(1);
-            response.getPaging().setTotalrecord(2);
+            response.getPaging().setTotalPage(1);
+            response.getPaging().setTotalRecord(2);
             response.setStatus(Status.SUCCESS("Retrieve Data Success"));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());

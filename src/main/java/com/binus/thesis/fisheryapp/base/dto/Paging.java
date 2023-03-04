@@ -10,27 +10,27 @@ public class Paging implements BaseInterface {
 
     private static final long serialVersionUID = -9127618400914496104L;
 
-    public static final int DEFAULT_LIMIT = 10;
-    public static final int DEFAULT_PAGE = 1;
+    public static final Integer DEFAULT_LIMIT = 10;
+    public static final Integer DEFAULT_PAGE = 1;
 
-    private int page;
+    private Integer page;
 
-    private int limit;
+    private Integer limit;
 
-    private int totalpage;
+    private Integer totalPage;
 
-    private long totalrecord;
+    private long totalRecord;
 
     public Paging() {
         this.page = DEFAULT_PAGE;
         this.limit = DEFAULT_LIMIT;
     }
 
-    public Paging(int limit) {
+    public Paging(Integer limit) {
         this(DEFAULT_PAGE, limit);
     }
 
-    public Paging(int page, int limit) {
+    public Paging(Integer page, Integer limit) {
         this.page = page;
         this.limit = limit;
     }
@@ -47,36 +47,36 @@ public class Paging implements BaseInterface {
         return paging;
     }
 
-    public int getPage() {
+    public Integer getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(Integer page) {
         this.page = page;
     }
 
-    public int getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
-    public int getTotalpage() {
-        return totalpage;
+    public Integer getTotalPage() {
+        return totalPage;
     }
 
-    public void setTotalpage(int totalpage) {
-        this.totalpage = totalpage;
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
 
-    public long getTotalrecord() {
-        return totalrecord;
+    public long getTotalRecord() {
+        return totalRecord;
     }
 
-    public void setTotalrecord(long totalrecord) {
-        this.totalrecord = totalrecord;
+    public void setTotalRecord(long totalRecord) {
+        this.totalRecord = totalRecord;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class Paging implements BaseInterface {
         return "Paging{" +
                 "page='" + page + '\'' +
                 ", limit='" + limit + '\'' +
-                ", totalpage='" + totalpage + '\'' +
-                ", totalrecord='" + totalrecord + '\'' +
+                ", totalpage='" + totalPage + '\'' +
+                ", totalrecord='" + totalRecord + '\'' +
                 '}';
     }
 }

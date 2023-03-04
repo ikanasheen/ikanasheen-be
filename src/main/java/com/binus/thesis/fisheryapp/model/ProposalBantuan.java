@@ -1,11 +1,9 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.StatusProposalBantuanEnum;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -35,7 +33,7 @@ public class ProposalBantuan {
     private String file;
 
     @Column(name = "status")
-    private StatusProposalBantuanEnum statusProposal;
+    private String statusProposal;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_nelayan", referencedColumnName = "id_nelayan", insertable = false, updatable = false)

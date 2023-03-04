@@ -2,7 +2,7 @@ package com.binus.thesis.fisheryapp.base.constant;
 
 import com.binus.thesis.fisheryapp.base.dto.BaseInterface;
 
-public interface Constants extends BaseInterface {
+public interface GlobalConstant extends BaseInterface {
 
     public static final String _REGEX_ALPHABETH = "[A-Za-z]*";
     public static final String _REGEX_ALPHABETH_SPACE = "[A-Za-z ]*";

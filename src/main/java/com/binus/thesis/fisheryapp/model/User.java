@@ -24,8 +24,7 @@ public class User {
     private String password;
 
     @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private StatusUserEnum status;
+    private String status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_role", referencedColumnName = "id_role", insertable = false, updatable = false)

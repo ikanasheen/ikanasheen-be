@@ -1,6 +1,5 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.StatusTransaksiEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -43,7 +42,7 @@ public class Transaksi {
     private String catatan;
 
     @Column(name = "status")
-    private StatusTransaksiEnum statusTransaksi;
+    private String statusTransaksi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)
