@@ -41,7 +41,7 @@ public class IkanSpecification extends BaseSpecification {
 
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
-            if(paramSort != null && !paramCriteria.isEmpty()) {
+            if(paramSort != null && !paramSort.isEmpty()) {
                 ((CriteriaQuery) query).orderBy(generateSort(paramSort, builder, root));
             }
 
