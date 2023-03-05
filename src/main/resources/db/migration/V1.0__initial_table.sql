@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS nelayan(
     nama_lengkap VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL,
     tanggal_lahir DATE NOT NULL,
-    alamat VARCHAR(25) NOT NULL,
+    alamat VARCHAR(255) NOT NULL,
     kecamatan VARCHAR(255) NOT NULL,
     kelurahan_desa VARCHAR(255) NOT NULL,
     no_telepon VARCHAR(25) NOT NULL,
