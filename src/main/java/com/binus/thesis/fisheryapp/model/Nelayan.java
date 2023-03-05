@@ -44,7 +44,7 @@ public class Nelayan {
     @Column(name = "email")
     private String email;
 
-    @JsonIgnore
+    @Transient
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", insertable = false, updatable = false)
     private User user;

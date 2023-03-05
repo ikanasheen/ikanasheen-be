@@ -8,7 +8,6 @@ import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
 import com.binus.thesis.fisheryapp.model.Nelayan;
-import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.NelayanRepository;
@@ -80,7 +79,9 @@ public class NelayanService {
     }
 
     public Nelayan detail(String idNelayan) {
-        return getNelayan(idNelayan);
+        Nelayan nelayan = getNelayan(idNelayan);
+        User user = userService.findById(nelayan.getIdUser());
+        return transform.mapToEntity(nelayan, user);
     }
 
     public BaseResponse<List<Nelayan>> retrieve(BaseRequest<BaseParameter<Nelayan>> request) {
@@ -98,6 +99,12 @@ public class NelayanService {
                 data.getTotalPages(),
                 data.getTotalElements()
         );
+
+        List<Nelayan> listNelayan = data.getContent();
+        for (Nelayan nelayan : listNelayan) {
+            User user = userService.findById(nelayan.getIdUser());
+            transform.mapToEntity(nelayan, user);
+        }
 
         response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
         response.setPaging(paging);

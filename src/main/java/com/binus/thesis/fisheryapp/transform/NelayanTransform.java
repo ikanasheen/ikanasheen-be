@@ -37,4 +37,8 @@ public interface NelayanTransform {
     @Mapping(target = "noTelepon", expression = "java(nelayan.getNoTelepon() == null || nelayan.getNoTelepon().isEmpty() ? nelayanRepo.getNoTelepon() : nelayan.getNoTelepon())")
     @Mapping(target = "user", source = "user")
     Nelayan updateNelayantoEntity(@MappingTarget Nelayan nelayanRepo, Nelayan nelayan);
+
+    @Named("mapToEntity")
+    @Mapping(target = "user", source = "user")
+    Nelayan mapToEntity(@MappingTarget Nelayan nelayan, User user);
 }
