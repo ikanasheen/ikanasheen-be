@@ -6,6 +6,7 @@ import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.model.Ikan;
+import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.repository.IkanRepository;
 import com.binus.thesis.fisheryapp.service.specification.IkanSpecification;
 import com.binus.thesis.fisheryapp.transform.IkanTransform;
@@ -57,17 +58,16 @@ public class IkanService {
 
     public BaseResponse<List<Ikan>> retrieve(BaseRequest<BaseParameter<Ikan>> request) {
         BaseResponse<List<Ikan>> response = new BaseResponse<>();
-        Pageable pageable = specification.pageGenerator(
-                request.getPaging().getPage(),
-                request.getPaging().getLimit()
-        );
+        int page = request.getPaging().getPage() - 1;
+        int limit = request.getPaging().getLimit();
+        Pageable pageable = specification.pageGenerator(page, limit);
         Page<Ikan> data = repository.findAll(
                 specification.predicate(request.getParameter()), pageable
         );
 
         Paging paging = pageTransform.toPage(
                 request.getPaging().getPage(),
-                request.getPaging().getLimit(),
+                limit,
                 data.getTotalPages(),
                 data.getTotalElements()
         );

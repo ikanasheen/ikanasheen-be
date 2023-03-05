@@ -5,6 +5,7 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
+import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Sosialisasi;
 import com.binus.thesis.fisheryapp.repository.SosialisasiRepository;
 import com.binus.thesis.fisheryapp.service.specification.SosialisasiSpecification;
@@ -63,17 +64,16 @@ public class SosialisasiService {
 
     public BaseResponse<List<Sosialisasi>> retrieve(BaseRequest<BaseParameter<Sosialisasi>> request) {
         BaseResponse<List<Sosialisasi>> response = new BaseResponse<>();
-        Pageable pageable = specification.pageGenerator(
-                request.getPaging().getPage(),
-                request.getPaging().getLimit()
-        );
+        int page = request.getPaging().getPage() - 1;
+        int limit = request.getPaging().getLimit();
+        Pageable pageable = specification.pageGenerator(page, limit);
         Page<Sosialisasi> data = repository.findAll(
                 specification.predicate(request.getParameter()), pageable
         );
 
         Paging paging = pageTransform.toPage(
                 request.getPaging().getPage(),
-                request.getPaging().getLimit(),
+                limit,
                 data.getTotalPages(),
                 data.getTotalElements()
         );
