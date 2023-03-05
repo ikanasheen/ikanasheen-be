@@ -1,23 +1,29 @@
 package com.binus.thesis.fisheryapp.service;
 
+import com.binus.thesis.fisheryapp.base.dto.*;
+import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
-import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
+import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.NelayanRepository;
+import com.binus.thesis.fisheryapp.service.specification.NelayanSpecification;
 import com.binus.thesis.fisheryapp.transform.NelayanTransform;
 import com.binus.thesis.fisheryapp.transform.UserTransform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,11 +32,14 @@ public class NelayanService {
 
     private final NelayanRepository repository;
 
-    private final NelayanTransform nelayanTransform;
+    private final NelayanTransform transform;
+    private final PageTransform pageTransform;
     private final UserTransform userTransform;
 
     private final RoleService roleService;
     private final UserService userService;
+
+    private final NelayanSpecification specification;
 
     public Nelayan register(RegisterNelayanRequestDto request) {
         User checkUser = checkUser(request.getUsername());
@@ -48,7 +57,7 @@ public class NelayanService {
         userService.save(user);
 
         String idNelayan = GeneratorUtils.generateId(idUser, new Date(), 0);
-        Nelayan nelayan = nelayanTransform.regNelayantoNelayan(request, idNelayan, user);
+        Nelayan nelayan = transform.regNelayantoNelayan(request, idNelayan, user);
         nelayan = repository.save(nelayan);
 
         return nelayan;
@@ -58,7 +67,54 @@ public class NelayanService {
         return userService.findByUsername(username);
     }
 
-    public List<Nelayan> list() {
-        return repository.findAll();
+    public Nelayan update(Nelayan nelayan) {
+        Nelayan nelayanRepo = getNelayan(nelayan.getIdNelayan());
+        return repository.save(
+                transform.updateNelayantoEntity(nelayanRepo, nelayan)
+        );
+    }
+
+    public void delete(String idNelayan) {
+        getNelayan(idNelayan);
+        repository.deleteById(idNelayan);
+    }
+
+    public Nelayan detail(String idNelayan) {
+        return getNelayan(idNelayan);
+    }
+
+    public BaseResponse<List<Nelayan>> retrieve(BaseRequest<BaseParameter<Nelayan>> request) {
+        BaseResponse<List<Nelayan>> response = new BaseResponse<>();
+        int page = request.getPaging().getPage() - 1;
+        int limit = request.getPaging().getLimit();
+        Pageable pageable = specification.pageGenerator(page, limit);
+        Page<Nelayan> data = repository.findAll(
+                specification.predicate(request.getParameter()), pageable
+        );
+
+        Paging paging = pageTransform.toPage(
+                request.getPaging().getPage(),
+                limit,
+                data.getTotalPages(),
+                data.getTotalElements()
+        );
+
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setPaging(paging);
+        response.setResult(data.getContent());
+
+        return response;
+    }
+
+    public Nelayan getNelayan(String idNelayan) {
+        Optional<Nelayan> nelayanRepo = repository.findById(idNelayan);
+        if (nelayanRepo.isEmpty()) {
+            throw new ApplicationException(Status.DATA_NOT_FOUND(GlobalMessage.Error.DATA_NOT_FOUND
+                    .replaceAll(GlobalMessage.Error.paramVariable.get(0), "nelayan")
+                    .replaceAll(GlobalMessage.Error.paramVariable.get(1), idNelayan))
+            );
+        }
+
+        return nelayanRepo.get();
     }
 }

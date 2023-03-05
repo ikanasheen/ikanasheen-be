@@ -1,5 +1,8 @@
 package com.binus.thesis.fisheryapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -41,6 +44,7 @@ public class Nelayan {
     @Column(name = "email")
     private String email;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", referencedColumnName = "id_user", insertable = false, updatable = false)
     private User user;

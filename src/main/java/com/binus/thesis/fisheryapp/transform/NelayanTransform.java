@@ -5,6 +5,7 @@ import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
@@ -23,4 +24,17 @@ public interface NelayanTransform {
     @Mapping(target = "email", source = "requestDto.email")
     @Mapping(target = "user", source = "user")
     Nelayan regNelayantoNelayan(RegisterNelayanRequestDto requestDto, String idNelayan, User user);
+
+    @Named("updateNelayantoEntity")
+    @Mapping(target = "idNelayan", source = "idNelayan")
+    @Mapping(target = "idUser", source = "idUser")
+    @Mapping(target = "namaLengkap", expression = "java(nelayan.getNamaLengkap() == null || nelayan.getNamaLengkap().isEmpty() ? nelayanRepo.getNamaLengkap() : nelayan.getNamaLengkap())")
+    @Mapping(target = "gender", expression = "java(nelayan.getGender() == null || nelayan.getGender().isEmpty() ? nelayanRepo.getGender() : nelayan.getGender())")
+    @Mapping(target = "tanggalLahir", expression = "java(nelayan.getTanggalLahir() == null ? nelayanRepo.getTanggalLahir() : nelayan.getTanggalLahir())")
+    @Mapping(target = "alamat", expression = "java(nelayan.getAlamat() == null || nelayan.getAlamat().isEmpty() ? nelayanRepo.getAlamat() : nelayan.getAlamat())")
+    @Mapping(target = "kecamatan", expression = "java(nelayan.getKecamatan() == null || nelayan.getKecamatan().isEmpty() ? nelayanRepo.getKecamatan() : nelayan.getKecamatan())")
+    @Mapping(target = "kelurahanDesa", expression = "java(nelayan.getKelurahanDesa() == null || nelayan.getKelurahanDesa().isEmpty() ? nelayanRepo.getKelurahanDesa() : nelayan.getKelurahanDesa())")
+    @Mapping(target = "noTelepon", expression = "java(nelayan.getNoTelepon() == null || nelayan.getNoTelepon().isEmpty() ? nelayanRepo.getNoTelepon() : nelayan.getNoTelepon())")
+    @Mapping(target = "user", source = "user")
+    Nelayan updateNelayantoEntity(@MappingTarget Nelayan nelayanRepo, Nelayan nelayan);
 }
