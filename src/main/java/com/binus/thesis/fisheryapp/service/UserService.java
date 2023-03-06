@@ -3,11 +3,18 @@ package com.binus.thesis.fisheryapp.service;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.base.transform.PageTransform;
+import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
+import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.UserRepository;
+import com.binus.thesis.fisheryapp.service.specification.UserSpecification;
+import com.binus.thesis.fisheryapp.transform.UserTransform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +25,11 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository repository;
+
+    private final UserSpecification specification;
+
+    private final PageTransform pageTransform;
+    private final UserTransform transform;
 
     public User login(LoginRequestDto requestDto) {
         User userByUsername = repository.findByUsername(requestDto.getUsername());
@@ -32,11 +44,6 @@ public class UserService {
         return user;
     }
 
-    public List<User> retrieveList() {
-        List<User> userList = repository.findAll();
-        return userList;
-    }
-
     public User findByUsername(String username) {
         return repository.findByUsername(username);
     }
@@ -49,4 +56,44 @@ public class UserService {
         return repository.save(user);
     }
 
+    public User create(User user) {
+        return repository.save(user);
+    }
+
+    public User update(UpdateUserRequestDto user) {
+        User userRepo = repository.findByUsername(user.getUsername());
+        return repository.save(
+                transform.updateUsertoEntity(userRepo, user)
+        );
+    }
+
+    public void delete(String username) {
+        User user = repository.findByUsername(username);
+        repository.deleteById(user.getIdUser());
+    }
+
+    public User detail(String username) {
+        return repository.findByUsername(username);
+    }
+
+    public BaseResponse<List<ResponseUser>> retrieve(BaseRequest<BaseParameter<User>> request) {
+        BaseResponse<List<ResponseUser>> response = new BaseResponse<>();
+        int page = request.getPaging().getPage() - 1;
+        int limit = request.getPaging().getLimit();
+        Pageable pageable = specification.pageGenerator(page, limit);
+        Page<User> data = repository.findAll(specification.predicate(request.getParameter()), pageable);
+
+        Paging paging = pageTransform.toPage(
+                request.getPaging().getPage(),
+                limit,
+                data.getTotalPages(),
+                data.getTotalElements()
+        );
+
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setPaging(paging);
+        response.setResult(transform.buildResponseUserList(data.getContent()));
+
+        return response;
+    }
 }
