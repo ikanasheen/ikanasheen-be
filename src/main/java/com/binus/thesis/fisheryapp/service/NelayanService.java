@@ -4,6 +4,7 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
+import com.binus.thesis.fisheryapp.dto.response.ResponseNelayan;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
@@ -78,14 +79,14 @@ public class NelayanService {
         repository.deleteById(idNelayan);
     }
 
-    public Nelayan detail(String idNelayan) {
+    public ResponseNelayan detail(String idNelayan) {
         Nelayan nelayan = getNelayan(idNelayan);
         User user = userService.findById(nelayan.getIdUser());
-        return transform.mapToEntity(nelayan, user);
+        return transform.buildResponseNelayan(nelayan);
     }
 
-    public BaseResponse<List<Nelayan>> retrieve(BaseRequest<BaseParameter<Nelayan>> request) {
-        BaseResponse<List<Nelayan>> response = new BaseResponse<>();
+    public BaseResponse<List<ResponseNelayan>> retrieve(BaseRequest<BaseParameter<Nelayan>> request) {
+        BaseResponse<List<ResponseNelayan>> response = new BaseResponse<>();
         int page = request.getPaging().getPage() - 1;
         int limit = request.getPaging().getLimit();
         Pageable pageable = specification.pageGenerator(page, limit);
@@ -100,15 +101,9 @@ public class NelayanService {
                 data.getTotalElements()
         );
 
-        List<Nelayan> listNelayan = data.getContent();
-        for (Nelayan nelayan : listNelayan) {
-            User user = userService.findById(nelayan.getIdUser());
-            transform.mapToEntity(nelayan, user);
-        }
-
         response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
         response.setPaging(paging);
-        response.setResult(data.getContent());
+        response.setResult(transform.buildResponseNelayanList(data.getContent()));
 
         return response;
     }

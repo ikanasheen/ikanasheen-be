@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
+import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
@@ -9,7 +10,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {
+        RoleTransform.class
+})
 public interface UserTransform {
 
     @Named("regNelayanReqtoUser")
@@ -29,4 +32,8 @@ public interface UserTransform {
     @Mapping(target = "status", source = "status")
     @Mapping(target = "role", source = "role")
     User regPembeliReqtoUser(RegisterPembeliRequestDto requestDto, String idUser, StatusUserEnum status, Role role);
+
+    @Named("buildResponseUser")
+    @Mapping(target = "role", source = "role", qualifiedByName = "buildResponseRole")
+    ResponseUser buildResponseUser(User data);
 }

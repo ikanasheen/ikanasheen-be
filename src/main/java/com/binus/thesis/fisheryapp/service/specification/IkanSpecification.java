@@ -42,10 +42,19 @@ public class IkanSpecification extends BaseSpecification {
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
             if(paramSort != null && !paramSort.isEmpty()) {
-                ((CriteriaQuery) query).orderBy(generateSort(paramSort, builder, root));
+                ((CriteriaQuery) query).orderBy(generateSort(getSortList(paramSort), builder, root));
             }
 
             return query.getRestriction();
         });
+    }
+
+    private List<String> getSortList(Map<String, String> sort){
+        List<String> sortList = new ArrayList<>();
+        for (Map.Entry<String, String> entry : sort.entrySet()) {
+            sortList.add(entry.getKey());
+            sortList.add(entry.getValue());
+        }
+        return sortList;
     }
 }

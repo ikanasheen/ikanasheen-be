@@ -6,7 +6,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.response.DashboardResponseDto;
+import com.binus.thesis.fisheryapp.dto.response.ResponseDashboardDto;
 import com.binus.thesis.fisheryapp.service.UserService;
 import com.binus.thesis.fisheryapp.validator.LoginValidator;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +27,10 @@ public class DashboardController {
     private final LoginValidator loginValidator;
 
     @PostMapping
-    public BaseResponse<DashboardResponseDto> hello(@Valid @RequestBody BaseRequest<BaseParameter> request) {
-        BaseResponse<DashboardResponseDto> response = new BaseResponse<>();
+    public BaseResponse<ResponseDashboardDto> hello(@Valid @RequestBody BaseRequest<BaseParameter> request) {
+        BaseResponse<ResponseDashboardDto> response = new BaseResponse<>();
         try {
-            DashboardResponseDto responseDto = new DashboardResponseDto();
+            ResponseDashboardDto responseDto = new ResponseDashboardDto();
             responseDto.setMessage("HELLO GURLSSSSS");
 //            loginValidator.validate(request.getParameter());
             response.setResult(responseDto);

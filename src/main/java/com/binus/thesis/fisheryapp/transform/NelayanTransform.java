@@ -1,14 +1,16 @@
 package com.binus.thesis.fisheryapp.transform;
 
 import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
+import com.binus.thesis.fisheryapp.dto.response.ResponseNelayan;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = {
+        UserTransform.class,
+})
 public interface NelayanTransform {
 
     @Named("regNelayanReqtoNelayan")
@@ -38,7 +40,11 @@ public interface NelayanTransform {
     @Mapping(target = "user", source = "user")
     Nelayan updateNelayantoEntity(@MappingTarget Nelayan nelayanRepo, Nelayan nelayan);
 
-    @Named("mapToEntity")
-    @Mapping(target = "user", source = "user")
-    Nelayan mapToEntity(@MappingTarget Nelayan nelayan, User user);
+    @Named("buildResponseNelayan")
+    @Mapping(target = "user", source = "user", qualifiedByName = "buildResponseUser")
+    ResponseNelayan buildResponseNelayan(Nelayan nelayan);
+
+    @Named("buildResponseNelayanList")
+    @IterableMapping(qualifiedByName = "buildResponseNelayan")
+    List<ResponseNelayan> buildResponseNelayanList(List<Nelayan> entities);
 }

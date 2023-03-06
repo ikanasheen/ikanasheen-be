@@ -33,12 +33,7 @@ public class BaseSpecification {
         return null;
     }
 
-    public List<Order> generateSort(Map<String, String> sort, CriteriaBuilder builder, Root root) {
-        List<String> sortList = new ArrayList<>();
-        for (Map.Entry<String, String> entry : sort.entrySet()) {
-            sortList.add(entry.getKey());
-            sortList.add(entry.getValue());
-        }
+    public List<Order> generateSort(List<String> sortList, CriteriaBuilder builder, Root root) {
         List<Order> orderList = new ArrayList<>();
         String sortElement = "";
         for (int i = 0; i < sortList.size(); i++) {

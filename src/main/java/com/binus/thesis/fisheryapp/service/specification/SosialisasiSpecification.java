@@ -42,22 +42,20 @@ public class SosialisasiSpecification extends BaseSpecification {
 
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
-            if(paramSort != null && !paramCriteria.isEmpty()) {
-                ((CriteriaQuery) query).orderBy(generateSort(paramSort, builder, root));
+            if(paramSort != null && !paramSort.isEmpty()) {
+                ((CriteriaQuery) query).orderBy(generateSort(getSortList(paramSort), builder, root));
             }
 
             return query.getRestriction();
         });
     }
 
-    public List<Predicate> generateFilter(Map<String, String> filter, CriteriaBuilder builder, Root root){
-        List<Predicate> predicates = new ArrayList<>();
-        if (filter != null && !filter.isEmpty()) {
-            for (Map.Entry<String, String> entry : filter.entrySet()) {
-                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), entry.getValue()));
-            }
+    private List<String> getSortList(Map<String, String> sort){
+        List<String> sortList = new ArrayList<>();
+        for (Map.Entry<String, String> entry : sort.entrySet()) {
+            sortList.add(entry.getKey());
+            sortList.add(entry.getValue());
         }
-
-        return predicates;
+        return sortList;
     }
 }

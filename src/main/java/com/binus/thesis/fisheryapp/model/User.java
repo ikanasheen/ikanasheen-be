@@ -1,6 +1,5 @@
 package com.binus.thesis.fisheryapp.model;
 
-import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import lombok.Data;
 
 import javax.persistence.*;

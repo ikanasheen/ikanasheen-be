@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class LoginResponseDto {
+public class ResponseLoginDto {
 
     @NotEmpty(message = "cannot be null")
     private String username;
