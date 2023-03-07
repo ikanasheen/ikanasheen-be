@@ -5,13 +5,9 @@ import lombok.Data;
 @Data
 public class UpdateUserRequestDto {
 
+    private String userId;
+
     private String username;
 
-    private String password;
-
     private String status;
-
-    private String confirmPassword;
-
-    private boolean showPassword;
 }

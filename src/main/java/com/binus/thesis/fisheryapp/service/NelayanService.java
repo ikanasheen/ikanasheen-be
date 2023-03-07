@@ -81,7 +81,6 @@ public class NelayanService {
 
     public ResponseNelayan detail(String idNelayan) {
         Nelayan nelayan = getNelayan(idNelayan);
-        User user = userService.findById(nelayan.getIdUser());
         return transform.buildResponseNelayan(nelayan);
     }
 

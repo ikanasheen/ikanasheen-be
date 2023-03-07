@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
+import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
@@ -42,9 +43,12 @@ public interface UserTransform {
     @IterableMapping(qualifiedByName = "buildResponseUser")
     List<ResponseUser> buildResponseUserList(List<User> data);
 
-    @Named("toUserEntity")
+    @Named("updateUsertoEntity")
     @Mapping(target = "username", expression = "java(request.getUsername() == null || request.getUsername().isEmpty() ? userRepo.getUsername() : request.getUsername())")
-    @Mapping(target = "password", expression = "java(request.getPassword() == null || request.getPassword().isEmpty() ? userRepo.getPassword() : request.getPassword())")
     @Mapping(target = "status", expression = "java(request.getStatus() == null || request.getStatus().isEmpty() ? userRepo.getStatus() : request.getStatus())")
     User updateUsertoEntity(@MappingTarget User userRepo, UpdateUserRequestDto request);
+
+    @Named("changePasswordtoEntity")
+    @Mapping(target = "password", source = "request.password")
+    User changePasswordtoEntity(@MappingTarget User userRepo, ChangePasswordRequestDto request);
 }

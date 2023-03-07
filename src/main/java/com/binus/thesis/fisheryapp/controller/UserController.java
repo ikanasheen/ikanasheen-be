@@ -4,6 +4,7 @@ import com.binus.thesis.fisheryapp.base.constant.EndpointAPI;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.model.User;
@@ -47,6 +48,23 @@ public class UserController {
         BaseParameter<UpdateUserRequestDto> parameter = request.getParameter();
         try {
             User user = userService.update(parameter.getData());
+            response.setResult(user);
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+    @PostMapping("/changepassword")
+    public BaseResponse<User> changePassword(@Valid @RequestBody BaseRequest<BaseParameter<ChangePasswordRequestDto>> request) {
+        BaseResponse<User> response = new BaseResponse<>();
+        BaseParameter<ChangePasswordRequestDto> parameter = request.getParameter();
+        try {
+            User user = userService.changePassword(parameter.getData());
             response.setResult(user);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
