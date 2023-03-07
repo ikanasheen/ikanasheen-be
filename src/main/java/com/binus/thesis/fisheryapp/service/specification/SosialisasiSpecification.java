@@ -32,8 +32,11 @@ public class SosialisasiSpecification extends BaseSpecification {
                 String criteria = entry.getValue();
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
+                        builder.like(builder.lower(root.get("idSosialisasi")), searchLike),
                         builder.like(builder.lower(root.get("judul")), searchLike),
-                        builder.like(builder.lower(root.get("konten")), searchLike)
+                        builder.like(builder.lower(root.get("konten")), searchLike),
+                        builder.like(builder.lower(root.get("jenisKonten")), searchLike),
+                        builder.like(builder.lower(root.get("status")), searchLike)
                 );
                 predicates.add(predicate);
             }

@@ -31,6 +31,7 @@ public class IkanSpecification extends BaseSpecification {
                 String criteria = entry.getValue();
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
+                        builder.like(builder.lower(root.get("idIkan")), searchLike),
                         builder.like(builder.lower(root.get("namaIkan")), searchLike),
                         builder.like(builder.lower(root.get("deskripsi")), searchLike)
                 );

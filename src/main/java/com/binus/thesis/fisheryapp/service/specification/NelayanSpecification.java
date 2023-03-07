@@ -29,6 +29,7 @@ public class NelayanSpecification extends BaseSpecification {
                 String criteria = entry.getValue();
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
+                        builder.like(builder.lower(root.get("idNelayan")), searchLike),
                         builder.like(builder.lower(root.get("namaLengkap")), searchLike),
                         builder.like(builder.lower(root.get("idUser")), searchLike),
                         builder.like(builder.lower(root.get("gender")), searchLike),
