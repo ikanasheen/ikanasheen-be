@@ -17,6 +17,7 @@ public class RegisterNelayanValidator extends BaseValidator<RegisterNelayanReque
     public void validate(RegisterNelayanRequestDto request) throws ApplicationException {
         notNull(request.getIdRole(), "id role");
         notBlankorNull(request.getNamaLengkap(), "nama lengkap");
+        isMax(request.getNamaLengkap(), "nama lengkap", 255);
         notBlankorNull(request.getGender(), "gender");
         notNull(request.getTanggalLahir(), "tanggal lahir");
         notBlankorNull(request.getAlamat(), "alamat");

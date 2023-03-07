@@ -20,6 +20,8 @@ public class IkanValidator extends BaseValidator<Ikan> {
             return;
         }
         notBlankorNull(request.getNamaIkan(), "nama ikan");
+        isMax(request.getNamaIkan(), "nama ikan", 255);
         notBlankorNull(request.getDeskripsi(), "deskripsi");
+        isMax(request.getDeskripsi(), "deskripsi", 255);
     }
 }

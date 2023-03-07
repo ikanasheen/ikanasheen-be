@@ -20,9 +20,11 @@ public class SosialisasiValidator extends BaseValidator<Sosialisasi> {
             return;
         }
         notBlankorNull(request.getJudul(), "judul");
+        isMax(request.getJudul(), "judul", 255);
         notBlankorNull(request.getJenisKonten(), "jenis konten");
         notBlankorNull(request.getKonten(), "konten");
         notBlankorNull(request.getStatus(), "status");
         notBlankorNull(request.getPenulis(), "penulis");
+        isMax(request.getPenulis(), "penulis", 255);
     }
 }

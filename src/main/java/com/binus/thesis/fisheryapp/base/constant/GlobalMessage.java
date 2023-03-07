@@ -18,7 +18,8 @@ public @interface GlobalMessage {
                 "#Variable4",
                 "#Variable5");
 
-        public static final String FIELD_REQUIRED = "Filed " + paramVariable.get(0) + " tidak boleh kosong!";
+        public static final String FIELD_REQUIRED = "Field " + paramVariable.get(0) + " tidak boleh kosong!";
+        public static final String FIELD_MAX_LENGTH = "Field " + paramVariable.get(0) + " tidak boleh melebihi " + paramVariable.get(1) + " karakter!";
         public static final String USER_NOT_REGISTERED = "User belum terdaftar!";
         public static final String INVALID_PASSWORD = "Password yang Anda masukkan salah!";
         public static final String USER_ALREADY_EXISTS = "Username " + paramVariable.get(0) + " sudah digunakan!";

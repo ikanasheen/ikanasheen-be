@@ -25,6 +25,7 @@ public class NelayanValidator extends BaseValidator<Nelayan> {
         }
         notBlankorNull(request.getIdUser(), "id user");
         notBlankorNull(request.getNamaLengkap(), "nama lengkap");
+        isMax(request.getNamaLengkap(), "nama lengkap", 255);
         notBlankorNull(request.getGender(), "jenis kelamin");
         notNull(request.getTanggalLahir(), "tanggal lahir");
         notNull(request.getAlamat(), "alamat");
