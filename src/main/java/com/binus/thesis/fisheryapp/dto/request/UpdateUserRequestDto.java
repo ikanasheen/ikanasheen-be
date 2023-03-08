@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UpdateUserRequestDto {
 
-    private String userId;
+    private String idUser;
 
     private String username;
 

@@ -60,14 +60,17 @@ public class UserService {
     }
 
     public User update(UpdateUserRequestDto request) {
-        User userRepo = getUser(request.getUserId());
+        User userRepo = getUser(request.getIdUser());
         return repository.save(
                 transform.updateUsertoEntity(userRepo, request)
         );
     }
 
     public User changePassword(ChangePasswordRequestDto request) {
-        User userRepo = getUser(request.getUserId());
+        User userRepo = getUser(request.getIdUser());
+        if (!request.getOldPassword().equals(userRepo.getPassword())) {
+            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.MISMATCH_PASSWORD));
+        }
         return repository.save(
                 transform.changePasswordtoEntity(userRepo, request)
         );
@@ -78,8 +81,8 @@ public class UserService {
         repository.deleteById(user.getIdUser());
     }
 
-    public User detail(String username) {
-        return repository.findByUsername(username);
+    public User detail(String idUser) {
+        return getUser(idUser);
     }
 
     public BaseResponse<List<ResponseUser>> retrieve(BaseRequest<BaseParameter<User>> request) {

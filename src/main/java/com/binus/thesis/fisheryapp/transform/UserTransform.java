@@ -44,6 +44,7 @@ public interface UserTransform {
     List<ResponseUser> buildResponseUserList(List<User> data);
 
     @Named("updateUsertoEntity")
+    @Mapping(target = "idUser", source = "request.idUser")
     @Mapping(target = "username", expression = "java(request.getUsername() == null || request.getUsername().isEmpty() ? userRepo.getUsername() : request.getUsername())")
     @Mapping(target = "status", expression = "java(request.getStatus() == null || request.getStatus().isEmpty() ? userRepo.getStatus() : request.getStatus())")
     User updateUsertoEntity(@MappingTarget User userRepo, UpdateUserRequestDto request);
