@@ -16,12 +16,12 @@ public class IkanValidator extends BaseValidator<Ikan> {
 
     public void validate(Ikan request, ValidatorTypeEnum type) throws ApplicationException {
         if (!type.equals(ValidatorTypeEnum.CREATE) && !type.equals(ValidatorTypeEnum.RETRIEVE)) {
-            notBlankorNull(request.getIdIkan(), "id ikan");
+            notBlankorNull(request.getIdIkan(), "Id ikan");
             return;
         }
-        notBlankorNull(request.getNamaIkan(), "nama ikan");
-        isMax(request.getNamaIkan(), "nama ikan", 255);
-        notBlankorNull(request.getDeskripsi(), "deskripsi");
-        isMax(request.getDeskripsi(), "deskripsi", 255);
+        notBlankorNull(request.getNamaIkan(), "Nama ikan");
+        isMax(request.getNamaIkan(), "Nama ikan", 255);
+        notBlankorNull(request.getDeskripsi(), "Deskripsi");
+        isMax(request.getDeskripsi(), "Deskripsi", 255);
     }
 }

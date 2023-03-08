@@ -20,17 +20,17 @@ public class NelayanValidator extends BaseValidator<Nelayan> {
 
     public void validate(Nelayan request, ValidatorTypeEnum type) throws ApplicationException {
         if (!type.equals(ValidatorTypeEnum.CREATE) && !type.equals(ValidatorTypeEnum.RETRIEVE)) {
-            notBlankorNull(request.getIdNelayan(), "id nelayan");
+            notBlankorNull(request.getIdNelayan(), "Id nelayan");
             return;
         }
-        notBlankorNull(request.getIdUser(), "id user");
-        notBlankorNull(request.getNamaLengkap(), "nama lengkap");
-        isMax(request.getNamaLengkap(), "nama lengkap", 255);
-        notBlankorNull(request.getGender(), "jenis kelamin");
-        notNull(request.getTanggalLahir(), "tanggal lahir");
-        notNull(request.getAlamat(), "alamat");
-        notNull(request.getKecamatan(), "kecamatan");
-        notNull(request.getKelurahanDesa(), "kelurahan / desa");
-        notNull(request.getNoTelepon(), "no telepon");
+        notBlankorNull(request.getIdUser(), "Id user");
+        notBlankorNull(request.getNamaLengkap(), "Nama lengkap");
+        isMax(request.getNamaLengkap(), "Nama lengkap", 255);
+        notBlankorNull(request.getGender(), "Jenis kelamin");
+        notNull(request.getTanggalLahir(), "Tanggal lahir");
+        notNull(request.getAlamat(), "Alamat");
+        notNull(request.getKecamatan(), "Kecamatan");
+        notNull(request.getKelurahanDesa(), "Kelurahan / desa");
+        notNull(request.getNoTelepon(), "No telepon");
     }
 }

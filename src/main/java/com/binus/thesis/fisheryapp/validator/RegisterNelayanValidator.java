@@ -15,16 +15,16 @@ public class RegisterNelayanValidator extends BaseValidator<RegisterNelayanReque
     }
 
     public void validate(RegisterNelayanRequestDto request) throws ApplicationException {
-        notNull(request.getIdRole(), "id role");
-        notBlankorNull(request.getNamaLengkap(), "nama lengkap");
-        isMax(request.getNamaLengkap(), "nama lengkap", 255);
-        notBlankorNull(request.getGender(), "gender");
-        notNull(request.getTanggalLahir(), "tanggal lahir");
-        notBlankorNull(request.getAlamat(), "alamat");
-        notBlankorNull(request.getKecamatan(), "kecamatan");
-        notBlankorNull(request.getKelurahanDesa(), "kelurahan/desa");
-        notBlankorNull(request.getNoTelepon(), "no telepon");
-        notBlankorNull(request.getUsername(), "usename");
-        notBlankorNull(request.getPassword(), "password");
+        notNull(request.getIdRole(), "Id role");
+        notBlankorNull(request.getNamaLengkap(), "Nama lengkap");
+        isMax(request.getNamaLengkap(), "Nama lengkap", 255);
+        notBlankorNull(request.getGender(), "Gender");
+        notNull(request.getTanggalLahir(), "Tanggal lahir");
+        notBlankorNull(request.getAlamat(), "Alamat");
+        notBlankorNull(request.getKecamatan(), "Kecamatan");
+        notBlankorNull(request.getKelurahanDesa(), "Kelurahan / desa");
+        notBlankorNull(request.getNoTelepon(), "No telepon");
+        notBlankorNull(request.getUsername(), "Username");
+        notBlankorNull(request.getPassword(), "Password");
     }
 }

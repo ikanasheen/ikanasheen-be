@@ -16,15 +16,15 @@ public class SosialisasiValidator extends BaseValidator<Sosialisasi> {
 
     public void validate(Sosialisasi request, ValidatorTypeEnum type) throws ApplicationException {
         if (!type.equals(ValidatorTypeEnum.CREATE) && !type.equals(ValidatorTypeEnum.RETRIEVE)) {
-            notBlankorNull(request.getIdSosialisasi(), "id sosialisasi");
+            notBlankorNull(request.getIdSosialisasi(), "Id sosialisasi");
             return;
         }
-        notBlankorNull(request.getJudul(), "judul");
-        isMax(request.getJudul(), "judul", 255);
-        notBlankorNull(request.getJenisKonten(), "jenis konten");
-        notBlankorNull(request.getKonten(), "konten");
-        notBlankorNull(request.getStatus(), "status");
-        notBlankorNull(request.getPenulis(), "penulis");
-        isMax(request.getPenulis(), "penulis", 255);
+        notBlankorNull(request.getJudul(), "Judul");
+        isMax(request.getJudul(), "Judul", 255);
+        notBlankorNull(request.getJenisKonten(), "Jenis konten");
+        notBlankorNull(request.getKonten(), "Konten");
+        notBlankorNull(request.getStatus(), "Status");
+        notBlankorNull(request.getPenulis(), "Penulis");
+        isMax(request.getPenulis(), "Penulis", 255);
     }
 }

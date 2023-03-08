@@ -14,7 +14,7 @@ public class LoginValidator extends BaseValidator<LoginRequestDto> {
     }
 
     public void validate(LoginRequestDto request) throws ApplicationException {
-        notBlankorNull(request.getUsername(), "username");
-        notBlankorNull(request.getUsername(), "password");
+        notBlankorNull(request.getUsername(), "Username");
+        notBlankorNull(request.getUsername(), "Password");
     }
 }

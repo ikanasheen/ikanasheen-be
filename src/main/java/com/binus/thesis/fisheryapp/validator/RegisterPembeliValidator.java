@@ -14,11 +14,11 @@ public class RegisterPembeliValidator extends BaseValidator<RegisterPembeliReque
     }
 
     public void validate(RegisterPembeliRequestDto request) throws ApplicationException {
-        notNull(request.getIdRole(), "id role");
-        notBlankorNull(request.getNamaLengkap(), "nama lengkap");
-        notBlankorNull(request.getAlamat(), "alamat");
-        notBlankorNull(request.getNoTelepon(), "no telepon");
-        notBlankorNull(request.getUsername(), "usename");
-        notBlankorNull(request.getPassword(), "password");
+        notNull(request.getIdRole(), "Id role");
+        notBlankorNull(request.getNamaLengkap(), "Nama lengkap");
+        notBlankorNull(request.getAlamat(), "Alamat");
+        notBlankorNull(request.getNoTelepon(), "Ao telepon");
+        notBlankorNull(request.getUsername(), "Username");
+        notBlankorNull(request.getPassword(), "Password");
     }
 }
