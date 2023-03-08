@@ -30,7 +30,6 @@ public class UserSpecification extends BaseSpecification {
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
                         builder.like(builder.lower(root.get("idUser")), searchLike),
-                        builder.like(builder.lower(root.get("idRole")), searchLike),
                         builder.like(builder.lower(root.get("username")), searchLike),
                         builder.like(builder.lower(root.get("password")), searchLike),
                         builder.like(builder.lower(root.get("status")), searchLike)
