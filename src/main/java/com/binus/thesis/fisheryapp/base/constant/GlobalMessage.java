@@ -24,6 +24,7 @@ public @interface GlobalMessage {
         public static final String INVALID_PASSWORD = "Password yang Anda masukkan salah!";
         public static final String MISMATCH_PASSWORD = "Password lama anda tidak sesuai!";
         public static final String USER_ALREADY_EXISTS = "Username " + paramVariable.get(0) + " sudah digunakan!";
+        public static final String USER_INACTIVE = "Login gagal! User tidak aktif!";
         public static final String DATA_ALREADY_EXISTS = "Data " + paramVariable.get(0) + " sudah ada!";
         public static final String DATA_NOT_FOUND = "Data " + paramVariable.get(0) + " dengan ID " + paramVariable.get(1) + " tidak ditemukan!";
     }

@@ -31,8 +31,8 @@ public class LoginController {
     public BaseResponse<User> login(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
         BaseResponse<User> response = new BaseResponse<>();
         try {
-            User userLogin = userService.login(request.getParameter().getData());
             loginValidator.validate(request.getParameter());
+            User userLogin = userService.login(request.getParameter().getData());
             response.setResult(userLogin);
             response.setStatus(Status.SUCCESS("Login Success"));
         } catch (ApplicationException exception) {
