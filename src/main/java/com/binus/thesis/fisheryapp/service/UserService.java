@@ -8,6 +8,7 @@ import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
 import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
+import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.UserRepository;
@@ -44,6 +45,11 @@ public class UserService {
         if (user == null) {
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PASSWORD));
         }
+
+        if (user.getStatus().equals(StatusUserEnum.INACTIVE.toString())) {
+            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.USER_INACTIVE));
+        }
+
         return user;
     }
 
