@@ -6,7 +6,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestLogin;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.service.UserService;
 import com.binus.thesis.fisheryapp.validator.LoginValidator;
@@ -28,7 +28,7 @@ public class LoginController {
     private final LoginValidator loginValidator;
 
     @PostMapping
-    public BaseResponse<User> login(@Valid @RequestBody BaseRequest<BaseParameter<LoginRequestDto>> request) {
+    public BaseResponse<User> login(@Valid @RequestBody BaseRequest<BaseParameter<RequestLogin>> request) {
         BaseResponse<User> response = new BaseResponse<>();
         try {
             loginValidator.validate(request.getParameter());

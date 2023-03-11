@@ -2,11 +2,8 @@ package com.binus.thesis.fisheryapp.dto.request;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
-
 @Data
-public class LoginRequestDto{
+public class RequestLogin {
 
     private String username;
 

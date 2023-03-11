@@ -1,11 +1,11 @@
 package com.binus.thesis.fisheryapp.transform;
 
-import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestChangePassword;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterNelayan;
+import com.binus.thesis.fisheryapp.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterPembeli;
 import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
 import org.mapstruct.*;
@@ -24,7 +24,7 @@ public interface UserTransform {
     @Mapping(target = "idRole", source = "requestDto.idRole")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "role", source = "role")
-    User regNelayanReqtoUser(RegisterNelayanRequestDto requestDto, String idUser, StatusUserEnum status, Role role);
+    User regNelayanReqtoUser(RequestRegisterNelayan requestDto, String idUser, StatusUserEnum status, Role role);
 
     @Named("regPembeliReqtoUser")
     @Mapping(target = "idUser", source = "idUser")
@@ -33,7 +33,7 @@ public interface UserTransform {
     @Mapping(target = "idRole", source = "requestDto.idRole")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "role", source = "role")
-    User regPembeliReqtoUser(RegisterPembeliRequestDto requestDto, String idUser, StatusUserEnum status, Role role);
+    User regPembeliReqtoUser(RequestRegisterPembeli requestDto, String idUser, StatusUserEnum status, Role role);
 
     @Named("buildResponseUser")
     @Mapping(target = "role", source = "role", qualifiedByName = "buildResponseRole")
@@ -47,9 +47,9 @@ public interface UserTransform {
     @Mapping(target = "idUser", source = "request.idUser")
     @Mapping(target = "username", expression = "java(request.getUsername() == null || request.getUsername().isEmpty() ? userRepo.getUsername() : request.getUsername())")
     @Mapping(target = "status", expression = "java(request.getStatus() == null || request.getStatus().isEmpty() ? userRepo.getStatus() : request.getStatus())")
-    User updateUsertoEntity(@MappingTarget User userRepo, UpdateUserRequestDto request);
+    User updateUsertoEntity(@MappingTarget User userRepo, RequestUpdateUser request);
 
     @Named("changePasswordtoEntity")
     @Mapping(target = "password", source = "request.password")
-    User changePasswordtoEntity(@MappingTarget User userRepo, ChangePasswordRequestDto request);
+    User changePasswordtoEntity(@MappingTarget User userRepo, RequestChangePassword request);
 }

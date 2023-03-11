@@ -5,7 +5,7 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterPembeli;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
@@ -32,7 +32,7 @@ public class PembeliService {
     private final RoleService roleService;
     private final UserService userService;
 
-    public Pembeli register(RegisterPembeliRequestDto request) {
+    public Pembeli register(RequestRegisterPembeli request) {
         User checkUser = checkUser(request.getUsername());
 
         if (checkUser != null) {
@@ -49,7 +49,7 @@ public class PembeliService {
         userService.save(user);
 
         String idPembeli = GeneratorUtils.generateId(idUser, new Date(), 0);
-        Pembeli pembeli = pembeliTransform.regPembelitoPembeli(request, idPembeli, user);
+        Pembeli pembeli = pembeliTransform.regPembeliReqtoPembeli(request, idPembeli, user);
         pembeli = repository.save(pembeli);
 
         return pembeli;
@@ -57,6 +57,10 @@ public class PembeliService {
 
     public User checkUser(String username) {
         return userService.findByUsername(username);
+    }
+
+    public Pembeli findByIdUser(String idUser) {
+        return repository.findByIdUser(idUser);
     }
 
     public List<Pembeli> list() {

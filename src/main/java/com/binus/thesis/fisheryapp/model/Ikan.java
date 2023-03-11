@@ -18,4 +18,10 @@ public class Ikan {
 
     @Column(name = "deskripsi")
     private String deskripsi;
+
+    @Column(name = "ukuran")
+    private String ukuran;
+
+    @Column(name = "harga_dasar")
+    private int hargaDasar;
 }

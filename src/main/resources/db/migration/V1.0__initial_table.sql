@@ -63,33 +63,28 @@ CREATE TABLE IF NOT EXISTS ikan(
     id_ikan VARCHAR(25) NOT NULL,
     nama_ikan VARCHAR(255) NOT NULL,
     deskripsi VARCHAR(255) NOT NULL,
+    ukuran VARCHAR(255),
+    harga_dasar int DEFAULT 0,
     CONSTRAINT pkey_ikan PRIMARY KEY (id_ikan)
 );
 
 CREATE TABLE IF NOT EXISTS transaksi(
     id_transaksi VARCHAR(25) NOT NULL,
     id_pembeli VARCHAR(25) NOT NULL,
+    id_nelayan VARCHAR(25),
     id_ikan VARCHAR(25) NOT NULL,
     jumlah int NOT NULL,
-    harga_diajukan int NOT NULL,
-    harga_nego int,
-    harga_akhir int,
+    harga_awal int DEFAULT 0,
+    harga_nego int DEFAULT 0,
+    harga_akhir int DEFAULT 0,
     tanggal_dibutuhkan DATE NOT NULL,
     alamat VARCHAR(255) NOT NULL,
-    catatan VARCHAR(255) NOT NULL,
+    catatan VARCHAR(255),
     status VARCHAR(255) NOT NULL,
     CONSTRAINT pkey_transaksi PRIMARY KEY (id_transaksi),
     CONSTRAINT fk_pembeli_transaksi FOREIGN KEY (id_pembeli) REFERENCES pembeli(id_pembeli),
+    CONSTRAINT fk_nelayan_transaksi FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan),
     CONSTRAINT fk_ikan_transaksi FOREIGN KEY (id_ikan) REFERENCES ikan(id_ikan)
-);
-
-CREATE TABLE IF NOT EXISTS transaksi_nelayan(
-    id_transaksi_nelayan VARCHAR(25) NOT NULL,
-    id_nelayan VARCHAR(25) NOT NULL,
-    id_transaksi VARCHAR(25) NOT NULL,
-    CONSTRAINT pkey_transaksi_nelayan PRIMARY KEY (id_transaksi_nelayan),
-    CONSTRAINT fk_nelayan_transaksi_nelayan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan),
-    CONSTRAINT fk_transaksi_transaksi_nelayan FOREIGN KEY (id_transaksi) REFERENCES transaksi(id_transaksi)
 );
 
 CREATE TABLE IF NOT EXISTS sosialisasi(

@@ -1,6 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterNelayan;
 import com.binus.thesis.fisheryapp.dto.response.ResponseNelayan;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.User;
@@ -25,7 +25,7 @@ public interface NelayanTransform {
     @Mapping(target = "noTelepon", source = "requestDto.noTelepon")
     @Mapping(target = "email", source = "requestDto.email")
     @Mapping(target = "user", source = "user")
-    Nelayan regNelayantoNelayan(RegisterNelayanRequestDto requestDto, String idNelayan, User user);
+    Nelayan regNelayantoNelayan(RequestRegisterNelayan requestDto, String idNelayan, User user);
 
     @Named("updateNelayantoEntity")
     @Mapping(target = "idNelayan", source = "idNelayan")

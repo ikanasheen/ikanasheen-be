@@ -1,11 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
-import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.model.Ikan;
-import com.binus.thesis.fisheryapp.model.Role;
-import com.binus.thesis.fisheryapp.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,5 +17,7 @@ public interface IkanTransform {
     @Mapping(target = "idIkan", source = "idIkan")
     @Mapping(target = "namaIkan", expression = "java(ikan.getNamaIkan() == null || ikan.getNamaIkan().isEmpty() ? ikanRepo.getNamaIkan() : ikan.getNamaIkan())")
     @Mapping(target = "deskripsi", expression = "java(ikan.getDeskripsi() == null || ikan.getDeskripsi().isEmpty() ? ikanRepo.getDeskripsi() : ikan.getDeskripsi())")
+    @Mapping(target = "ukuran", expression = "java(ikan.getUkuran() == null || ikan.getUkuran().isEmpty() ? ikanRepo.getUkuran() : ikan.getUkuran())")
+    @Mapping(target = "hargaDasar", source = "hargaDasar")
     Ikan updateIkantoEntity(@MappingTarget Ikan ikanRepo, Ikan ikan);
 }

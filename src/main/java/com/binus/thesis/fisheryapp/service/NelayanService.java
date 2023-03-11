@@ -7,7 +7,7 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.dto.response.ResponseNelayan;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterNelayan;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
@@ -41,7 +41,7 @@ public class NelayanService {
 
     private final NelayanSpecification specification;
 
-    public Nelayan register(RegisterNelayanRequestDto request) {
+    public Nelayan register(RequestRegisterNelayan request) {
         User checkUser = checkUser(request.getUsername());
         if (checkUser != null) {
             throw new ApplicationException(Status.DATA_ALREADY_EXIST(

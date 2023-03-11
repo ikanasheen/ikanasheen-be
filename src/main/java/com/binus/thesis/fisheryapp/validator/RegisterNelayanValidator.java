@@ -3,18 +3,17 @@ package com.binus.thesis.fisheryapp.validator;
 import com.binus.thesis.fisheryapp.base.dto.BaseParameter;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.validator.BaseValidator;
-import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterNelayan;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegisterNelayanValidator extends BaseValidator<RegisterNelayanRequestDto> {
+public class RegisterNelayanValidator extends BaseValidator<RequestRegisterNelayan> {
 
-    public void validate(BaseParameter<RegisterNelayanRequestDto> parameter) {
+    public void validate(BaseParameter<RequestRegisterNelayan> parameter) {
         validate(parameter.getData());
     }
 
-    public void validate(RegisterNelayanRequestDto request) throws ApplicationException {
+    public void validate(RequestRegisterNelayan request) throws ApplicationException {
         notNull(request.getIdRole(), "Id role");
         notBlankorNull(request.getNamaLengkap(), "Nama lengkap");
         isMax(request.getNamaLengkap(), "Nama lengkap", 255);

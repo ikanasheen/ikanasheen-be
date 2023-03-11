@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PembeliRepository extends JpaRepository<Pembeli, Integer> {
+
+    Pembeli findByIdUser(String idUser);
 }

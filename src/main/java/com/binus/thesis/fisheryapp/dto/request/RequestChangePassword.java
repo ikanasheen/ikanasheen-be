@@ -3,7 +3,7 @@ package com.binus.thesis.fisheryapp.dto.request;
 import lombok.Data;
 
 @Data
-public class ChangePasswordRequestDto {
+public class RequestChangePassword {
 
     private String idUser;
 

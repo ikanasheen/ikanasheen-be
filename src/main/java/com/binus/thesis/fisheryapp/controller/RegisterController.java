@@ -7,8 +7,8 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.RegisterNelayanRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.RegisterPembeliRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterNelayan;
+import com.binus.thesis.fisheryapp.dto.request.RequestRegisterPembeli;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import com.binus.thesis.fisheryapp.service.NelayanService;
@@ -34,7 +34,7 @@ public class RegisterController {
     private final RegisterPembeliValidator regPembeliValidator;
 
     @PutMapping("/nelayan")
-    public BaseResponse<Nelayan> registerNelayan(@Valid @RequestBody BaseRequest<BaseParameter<RegisterNelayanRequestDto>> request) {
+    public BaseResponse<Nelayan> registerNelayan(@Valid @RequestBody BaseRequest<BaseParameter<RequestRegisterNelayan>> request) {
         BaseResponse<Nelayan> response = new BaseResponse<>();
         try {
             Nelayan nelayan = nelayanService.register(request.getParameter().getData());
@@ -51,7 +51,7 @@ public class RegisterController {
     }
 
     @PutMapping("/pembeli")
-    public BaseResponse<Pembeli> registerPembeli(@Valid @RequestBody BaseRequest<BaseParameter<RegisterPembeliRequestDto>> request) {
+    public BaseResponse<Pembeli> registerPembeli(@Valid @RequestBody BaseRequest<BaseParameter<RequestRegisterPembeli>> request) {
         BaseResponse<Pembeli> response = new BaseResponse<>();
         try {
             Pembeli pembeli = pembeliService.register(request.getParameter().getData());

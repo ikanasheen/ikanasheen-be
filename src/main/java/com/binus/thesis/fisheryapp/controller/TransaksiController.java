@@ -7,10 +7,13 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
+import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
+import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.enums.ValidatorTypeEnum;
-import com.binus.thesis.fisheryapp.model.Sosialisasi;
-import com.binus.thesis.fisheryapp.service.SosialisasiService;
-import com.binus.thesis.fisheryapp.validator.SosialisasiValidator;
+import com.binus.thesis.fisheryapp.model.Transaksi;
+import com.binus.thesis.fisheryapp.service.TransaksiService;
+import com.binus.thesis.fisheryapp.validator.TransaksiValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,23 +23,22 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(EndpointAPI.SOSIALISASI)
+@RequestMapping(EndpointAPI.TRANSAKSI)
 @RequiredArgsConstructor
 @Slf4j
-public class SosialisasiController {
+public class TransaksiController {
 
-    private final SosialisasiService sosialisasiService;
+    private final TransaksiService transaksiService;
 
-    private final SosialisasiValidator validator;
+    private final TransaksiValidator validator;
 
     @PutMapping()
-    public BaseResponse<Sosialisasi> create(@Valid @RequestBody BaseRequest<BaseParameter<Sosialisasi>> request) {
-        BaseResponse<Sosialisasi> response = new BaseResponse<>();
-        BaseParameter<Sosialisasi> parameter = request.getParameter();
+    public BaseResponse<Transaksi> create(@Valid @RequestBody BaseRequest<BaseParameter<RequestCreateTransaksi>> request) {
+        BaseResponse<Transaksi> response = new BaseResponse<>();
+        BaseParameter<RequestCreateTransaksi> parameter = request.getParameter();
         try {
-            validator.validate(parameter, ValidatorTypeEnum.CREATE);
-            Sosialisasi sosialisasi = sosialisasiService.create(request.getParameter().getData());
-            response.setResult(sosialisasi);
+            Transaksi transaksi = transaksiService.create(request.getParameter().getData());
+            response.setResult(transaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CREATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -48,13 +50,12 @@ public class SosialisasiController {
     }
 
     @PatchMapping()
-    public BaseResponse<Sosialisasi> update(@Valid @RequestBody BaseRequest<BaseParameter<Sosialisasi>> request) {
-        BaseResponse<Sosialisasi> response = new BaseResponse<>();
-        BaseParameter<Sosialisasi> parameter = request.getParameter();
+    public BaseResponse<Transaksi> update(@Valid @RequestBody BaseRequest<BaseParameter<RequestUpdateTransaksi>> request) {
+        BaseResponse<Transaksi> response = new BaseResponse<>();
+        BaseParameter<RequestUpdateTransaksi> parameter = request.getParameter();
         try {
-            validator.validate(parameter, ValidatorTypeEnum.UPDATE);
-            Sosialisasi sosialisasi = sosialisasiService.update(request.getParameter().getData());
-            response.setResult(sosialisasi);
+            Transaksi transaksi = transaksiService.update(request.getParameter().getData());
+            response.setResult(transaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -65,11 +66,11 @@ public class SosialisasiController {
         return response;
     }
 
-    @DeleteMapping("/{idSosialisasi}")
-    public BaseResponse<Sosialisasi> delete(@Valid @PathVariable(value = "idSosialisasi") String idSosialisasi) {
-        BaseResponse<Sosialisasi> response = new BaseResponse<>();
+    @DeleteMapping("/{idTransaksi}")
+    public BaseResponse<Transaksi> delete(@Valid @PathVariable(value = "idTransaksi") String idTransaksi) {
+        BaseResponse<Transaksi> response = new BaseResponse<>();
         try {
-            sosialisasiService.delete(idSosialisasi);
+            transaksiService.delete(idTransaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_DELETE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -80,12 +81,12 @@ public class SosialisasiController {
         return response;
     }
 
-    @GetMapping("/{idSosialisasi}")
-    public BaseResponse<Sosialisasi> detail(@Valid @PathVariable(value = "idSosialisasi") String idSosialisasi) {
-        BaseResponse<Sosialisasi> response = new BaseResponse<>();
+    @GetMapping("/{idTransaksi}")
+    public BaseResponse<ResponseTransaksi> detail(@Valid @PathVariable(value = "idTransaksi") String idTransaksi) {
+        BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
         try {
-            Sosialisasi sosialisasi = sosialisasiService.detail(idSosialisasi);
-            response.setResult(sosialisasi);
+            ResponseTransaksi transaksi = transaksiService.detail(idTransaksi);
+            response.setResult(transaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -96,11 +97,11 @@ public class SosialisasiController {
         return response;
     }
 
-    @PostMapping("")
-    public BaseResponse<List<Sosialisasi>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<Sosialisasi>> request) {
-        BaseResponse<List<Sosialisasi>> response = new BaseResponse<>();
+    @PostMapping
+    public BaseResponse<List<ResponseTransaksi>> retrieve(@Valid @RequestBody BaseRequest<BaseParameter<Transaksi>> request) {
+        BaseResponse<List<ResponseTransaksi>> response = new BaseResponse<>();
         try {
-            response = sosialisasiService.retrieve(request);
+            response = transaksiService.retrieve(request);
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

@@ -4,12 +4,11 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
-import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.LoginRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestChangePassword;
+import com.binus.thesis.fisheryapp.dto.request.RequestUpdateUser;
+import com.binus.thesis.fisheryapp.dto.request.RequestLogin;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
-import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.repository.UserRepository;
 import com.binus.thesis.fisheryapp.service.specification.UserSpecification;
@@ -35,7 +34,7 @@ public class UserService {
     private final PageTransform pageTransform;
     private final UserTransform transform;
 
-    public User login(LoginRequestDto requestDto) {
+    public User login(RequestLogin requestDto) {
         User userByUsername = repository.findByUsername(requestDto.getUsername());
         if (userByUsername == null) {
             throw new ApplicationException(Status.DATA_NOT_FOUND(GlobalMessage.Error.USER_NOT_REGISTERED));
@@ -65,14 +64,14 @@ public class UserService {
         return repository.save(user);
     }
 
-    public User update(UpdateUserRequestDto request) {
+    public User update(RequestUpdateUser request) {
         User userRepo = getUser(request.getIdUser());
         return repository.save(
                 transform.updateUsertoEntity(userRepo, request)
         );
     }
 
-    public User changePassword(ChangePasswordRequestDto request) {
+    public User changePassword(RequestChangePassword request) {
         User userRepo = getUser(request.getIdUser());
         if (!request.getOldPassword().equals(userRepo.getPassword())) {
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.MISMATCH_PASSWORD));

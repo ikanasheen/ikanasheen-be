@@ -2,22 +2,20 @@ package com.binus.thesis.fisheryapp.service.specification;
 
 import com.binus.thesis.fisheryapp.base.component.BaseSpecification;
 import com.binus.thesis.fisheryapp.base.dto.BaseParameter;
-import com.binus.thesis.fisheryapp.model.Ikan;
+import com.binus.thesis.fisheryapp.model.Transaksi;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Component
-public class IkanSpecification extends BaseSpecification {
+public class TransaksiSpecification extends BaseSpecification {
 
-    public Specification<Ikan> predicate(BaseParameter<Ikan> parameter){
+    public Specification<Transaksi> predicate(BaseParameter<Transaksi> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
         Map<String, String> paramFilter = parameter.getFilter();
@@ -31,11 +29,16 @@ public class IkanSpecification extends BaseSpecification {
                 String criteria = entry.getValue();
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
-                        builder.like(builder.lower(root.get("idIkan")), searchLike),
-                        builder.like(builder.lower(root.get("namaIkan")), searchLike),
-                        builder.like(builder.lower(root.get("deskripsi")), searchLike),
-                        builder.like(builder.lower(root.get("ukuran")), searchLike),
-                        builder.like(builder.lower(root.get("hargaDasar")), searchLike)
+                        builder.like(builder.lower(root.get("idTransaksi")), searchLike),
+                        builder.like(builder.lower(root.get("hargaAwal")), searchLike),
+                        builder.like(builder.lower(root.get("hargaNego")), searchLike),
+                        builder.like(builder.lower(root.get("hargaAkhir")), searchLike),
+                        builder.like(builder.lower(root.get("alamat")), searchLike),
+                        builder.like(builder.lower(root.get("status")), searchLike),
+                        builder.like(builder.lower(root.get("ikan").get("namaIkan")), searchLike),
+                        builder.like(builder.lower(root.get("ikan").get("ukuran")), searchLike),
+                        builder.like(builder.lower(root.get("nelayan").get("namaLengkap")), searchLike),
+                        builder.like(builder.lower(root.get("pembeli").get("namaLengkap")), searchLike)
                 );
                 predicates.add(predicate);
             }

@@ -4,8 +4,8 @@ import com.binus.thesis.fisheryapp.base.constant.EndpointAPI;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.ChangePasswordRequestDto;
-import com.binus.thesis.fisheryapp.dto.request.UpdateUserRequestDto;
+import com.binus.thesis.fisheryapp.dto.request.RequestChangePassword;
+import com.binus.thesis.fisheryapp.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.model.User;
 import com.binus.thesis.fisheryapp.service.UserService;
@@ -43,9 +43,9 @@ public class UserController {
     }
 
     @PatchMapping()
-    public BaseResponse<User> update(@Valid @RequestBody BaseRequest<BaseParameter<UpdateUserRequestDto>> request) {
+    public BaseResponse<User> update(@Valid @RequestBody BaseRequest<BaseParameter<RequestUpdateUser>> request) {
         BaseResponse<User> response = new BaseResponse<>();
-        BaseParameter<UpdateUserRequestDto> parameter = request.getParameter();
+        BaseParameter<RequestUpdateUser> parameter = request.getParameter();
         try {
             User user = userService.update(parameter.getData());
             response.setResult(user);
@@ -60,9 +60,9 @@ public class UserController {
     }
 
     @PostMapping("/changepassword")
-    public BaseResponse<User> changePassword(@Valid @RequestBody BaseRequest<BaseParameter<ChangePasswordRequestDto>> request) {
+    public BaseResponse<User> changePassword(@Valid @RequestBody BaseRequest<BaseParameter<RequestChangePassword>> request) {
         BaseResponse<User> response = new BaseResponse<>();
-        BaseParameter<ChangePasswordRequestDto> parameter = request.getParameter();
+        BaseParameter<RequestChangePassword> parameter = request.getParameter();
         try {
             User user = userService.changePassword(parameter.getData());
             response.setResult(user);
