@@ -1,9 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
-import com.binus.thesis.fisheryapp.dto.request.RequestApproveNegoTransaksi;
-import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
-import com.binus.thesis.fisheryapp.dto.request.RequestProsesTransaksi;
-import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
+import com.binus.thesis.fisheryapp.dto.request.*;
 import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.*;
 import org.mapstruct.*;
@@ -73,4 +70,10 @@ public interface TransaksiTransform {
     @Mapping(target = "status", expression = "java(request.getIsApprove().equals(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
     @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request);
+
+    @Named("completeTransaksitoEntity")
+    default Transaksi completeTransaksitoEntity(Transaksi transaksi) {
+        transaksi.setStatus("SELESAI");
+        return transaksi;
+    }
 }
