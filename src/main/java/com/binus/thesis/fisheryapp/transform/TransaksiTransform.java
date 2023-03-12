@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.transform;
 
+import com.binus.thesis.fisheryapp.dto.request.RequestApproveNegoTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestProsesTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
@@ -65,4 +66,11 @@ public interface TransaksiTransform {
     @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getHargaAwal())")
     @Mapping(target = "status", expression = "java(request.getIsNego().equals(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
     Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan);
+
+    @Named("approvalNegotoEntity")
+    @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
+    @Mapping(target = "status", expression = "java(request.getIsApprove().equals(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
+    @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
+    Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request);
 }
