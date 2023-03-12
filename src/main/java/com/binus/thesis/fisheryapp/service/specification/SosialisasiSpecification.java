@@ -21,7 +21,7 @@ public class SosialisasiSpecification extends BaseSpecification {
     public Specification<Sosialisasi> predicate(BaseParameter<Sosialisasi> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
-        Map<String, String> paramFilter = parameter.getFilter();
+        Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

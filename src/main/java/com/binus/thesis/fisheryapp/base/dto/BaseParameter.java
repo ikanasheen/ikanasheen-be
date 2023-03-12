@@ -19,7 +19,7 @@ public class BaseParameter<T> implements BaseInterface {
     protected Map<String, String> criteria;
 
     @JsonProperty("filter")
-    protected Map<String, String> filter;
+    protected Map<String, Object> filter;
 
     @JsonProperty("data")
     protected T data;

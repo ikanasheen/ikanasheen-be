@@ -18,7 +18,7 @@ public class UserSpecification extends BaseSpecification {
     public Specification<User> predicate(BaseParameter<User> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
-        Map<String, String> paramFilter = parameter.getFilter();
+        Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

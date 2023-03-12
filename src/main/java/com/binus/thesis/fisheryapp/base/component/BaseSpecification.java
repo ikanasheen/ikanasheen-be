@@ -69,11 +69,11 @@ public class BaseSpecification {
         return orderList;
     }
 
-    public List<Predicate> generateFilter(Map<String, String> filter, CriteriaBuilder builder, Root root){
+    public List<Predicate> generateFilter(Map<String, Object> filter, CriteriaBuilder builder, Root root){
         List<Predicate> predicates = new ArrayList<>();
         if (filter != null && !filter.isEmpty()) {
-            for (Map.Entry<String, String> entry : filter.entrySet()) {
-                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), entry.getValue()));
+            for (Map.Entry<String, Object> entry : filter.entrySet()) {
+                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), String.valueOf(entry.getValue())));
             }
         }
 

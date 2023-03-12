@@ -6,9 +6,12 @@ import com.binus.thesis.fisheryapp.model.Transaksi;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,7 @@ public class TransaksiSpecification extends BaseSpecification {
     public Specification<Transaksi> predicate(BaseParameter<Transaksi> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
-        Map<String, String> paramFilter = parameter.getFilter();
+        Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -43,7 +46,7 @@ public class TransaksiSpecification extends BaseSpecification {
                 predicates.add(predicate);
             }
 
-            predicates.addAll(generateFilter(paramFilter, builder, root));
+            predicates.addAll(generateFilterTransaksi(paramFilter, builder, root));
 
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
@@ -55,9 +58,65 @@ public class TransaksiSpecification extends BaseSpecification {
         });
     }
 
+    public List<Predicate> generateFilterTransaksi(Map<String, Object> filter, CriteriaBuilder builder, Root root){
+        List<Predicate> predicates = new ArrayList<>();
+        if (filter != null && !filter.isEmpty()) {
+            for (Map.Entry<String, Object> entry : filter.entrySet()) {
+                if (entry.getKey().equals("idUserPembeli")) {
+                    predicates.add(builder.like(builder.lower(root.get("pembeli").get("idUser")), String.valueOf(entry.getValue())));
+                } else if (entry.getKey().equals("idUserNelayan")) {
+                    predicates.add(builder.like(builder.lower(root.get("nelayan").get("idUser")), String.valueOf(entry.getValue())));
+                } else if (entry.getKey().equals("namaPembeli")) {
+                    predicates.add(builder.like(builder.lower(root.get("pembeli").get("namaLengkap")), String.valueOf(entry.getValue())));
+                } else if (entry.getKey().equals("namaNelayan")) {
+                    predicates.add(builder.like(builder.lower(root.get("nelayan").get("namaLengkap")), String.valueOf(entry.getValue())));
+                }else if (entry.getKey().equals("status")) {
+                    List<String> filterStatus = (List<String>) entry.getValue();
+                    predicates.add(root.get("status").in(filterStatus));
+                } else if (entry.getKey().equals("namaIkan")) {
+                    predicates.add(builder.like(builder.lower(root.get("ikan").get("namaIkan")), String.valueOf(entry.getValue())));
+                } else if (entry.getKey().equals("ukuran")) {
+                    predicates.add(builder.like(builder.lower(root.get("ikan").get("ukuran")), String.valueOf(entry.getValue())));
+                } else {
+                    predicates.add(builder.like(builder.lower(root.get(entry.getKey())), String.valueOf(entry.getValue())));
+                }
+            }
+        }
+
+        return predicates;
+    }
+
     private List<String> getSortList(Map<String, String> sort){
         List<String> sortList = new ArrayList<>();
         for (Map.Entry<String, String> entry : sort.entrySet()) {
+            if (entry.getKey().equals("namaPembeli")) {
+                sortList.add("pembeli");
+                sortList.add("namaLengkap");
+                sortList.add(entry.getValue());
+                continue;
+            }
+
+            if (entry.getKey().equals("namaNelayan")) {
+                sortList.add("nelayan");
+                sortList.add("namaLengkap");
+                sortList.add(entry.getValue());
+                continue;
+            }
+
+            if (entry.getKey().equals("namaIkan")) {
+                sortList.add("ikan");
+                sortList.add("namaIkan");
+                sortList.add(entry.getValue());
+                continue;
+            }
+
+            if (entry.getKey().equals("ukuran")) {
+                sortList.add("ikan");
+                sortList.add("ukuran");
+                sortList.add(entry.getValue());
+                continue;
+            }
+
             sortList.add(entry.getKey());
             sortList.add(entry.getValue());
         }

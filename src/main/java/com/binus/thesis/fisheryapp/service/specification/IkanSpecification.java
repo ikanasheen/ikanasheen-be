@@ -20,7 +20,7 @@ public class IkanSpecification extends BaseSpecification {
     public Specification<Ikan> predicate(BaseParameter<Ikan> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
-        Map<String, String> paramFilter = parameter.getFilter();
+        Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

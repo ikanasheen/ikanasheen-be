@@ -18,7 +18,7 @@ public class NelayanSpecification extends BaseSpecification {
     public Specification<Nelayan> predicate(BaseParameter<Nelayan> parameter){
         Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
-        Map<String, String> paramFilter = parameter.getFilter();
+        Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -55,15 +55,15 @@ public class NelayanSpecification extends BaseSpecification {
         });
     }
 
-    public List<Predicate> generateFilterNelayan(Map<String, String> filter, CriteriaBuilder builder, Root root){
+    public List<Predicate> generateFilterNelayan(Map<String, Object> filter, CriteriaBuilder builder, Root root){
         List<Predicate> predicates = new ArrayList<>();
         if (filter != null && !filter.isEmpty()) {
-            for (Map.Entry<String, String> entry : filter.entrySet()) {
+            for (Map.Entry<String, Object> entry : filter.entrySet()) {
                 if (entry.getKey().equals("status")) {
-                    predicates.add(builder.like(builder.lower(root.get("user").get(entry.getKey())), entry.getValue()));
+                    predicates.add(builder.like(builder.lower(root.get("user").get(entry.getKey())), String.valueOf(entry.getValue())));
                     continue;
                 }
-                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), entry.getValue()));
+                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), String.valueOf(entry.getValue())));
             }
         }
 
