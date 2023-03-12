@@ -45,9 +45,8 @@ public class TransaksiService {
         String idTransaksi = GeneratorUtils.generateId("TRX", new Date(), 4);
         Pembeli pembeli = pembeliService.findByIdUser(request.getIdUserPembeli());
         Ikan ikan = ikanService.detail(request.getIdIkan());
-        int akumulasiHarga = ikan.getHargaDasar() * request.getJumlah();
         return repository.save(
-                transform.createTransaksitoEntity(request, idTransaksi, pembeli, akumulasiHarga)
+                transform.createTransaksitoEntity(request, idTransaksi, pembeli, ikan)
         );
     }
 
@@ -55,9 +54,8 @@ public class TransaksiService {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         Pembeli pembeli = pembeliService.findByIdUser(request.getIdUserPembeli());
         Ikan ikan = ikanService.detail(request.getIdIkan());
-        int akumulasiHarga = ikan.getHargaDasar() * request.getJumlah();
         return repository.save(
-                transform.updateTransaksitoEntity(request, pembeli, akumulasiHarga)
+                transform.updateTransaksitoEntity(request, pembeli, ikan)
         );
     }
 

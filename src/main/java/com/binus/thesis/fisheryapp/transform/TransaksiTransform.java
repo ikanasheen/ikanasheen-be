@@ -41,35 +41,35 @@ public interface TransaksiTransform {
     @Mapping(target = "idPembeli", source = "pembeli.idPembeli")
     @Mapping(target = "idIkan", source = "request.idIkan")
     @Mapping(target = "jumlah", source = "request.jumlah")
-    @Mapping(target = "hargaAwal", source = "hargaAwal")
+    @Mapping(target = "hargaAwal", source = "ikan.hargaDasar")
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
     @Mapping(target = "alamat", source = "request.alamat")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
     @Mapping(target = "catatan", expression = "java(!request.getCatatan().isEmpty() ? request.getCatatan() : null)")
-    Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, int hargaAwal);
+    Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, Ikan ikan);
 
     @Named("updateTransaksitoEntity")
     @Mapping(target = "idTransaksi", source = "request.idTransaksi")
     @Mapping(target = "idPembeli", source = "pembeli.idPembeli")
     @Mapping(target = "idIkan", source = "request.idIkan")
     @Mapping(target = "jumlah", source = "request.jumlah")
-    @Mapping(target = "hargaAwal", source = "hargaAwal")
+    @Mapping(target = "hargaAwal", source = "ikan.hargaDasar")
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
     @Mapping(target = "alamat", source = "request.alamat")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
     @Mapping(target = "catatan", expression = "java(!request.getCatatan().isEmpty() ? request.getCatatan() : null)")
-    Transaksi updateTransaksitoEntity(RequestUpdateTransaksi request, Pembeli pembeli, int hargaAwal);
+    Transaksi updateTransaksitoEntity(RequestUpdateTransaksi request, Pembeli pembeli, Ikan ikan);
 
     @Named("prosesTransaksitoEntity")
     @Mapping(target = "idNelayan", source = "nelayan.idNelayan")
     @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equals(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getHargaAwal())")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getIkan().getHargaDasar() * transaksi.getJumlah())")
     @Mapping(target = "status", expression = "java(request.getIsNego().equals(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
     Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan);
 
     @Named("approvalNegotoEntity")
     @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
     @Mapping(target = "status", expression = "java(request.getIsApprove().equals(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
     @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request);
