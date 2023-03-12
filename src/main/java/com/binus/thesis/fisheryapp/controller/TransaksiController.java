@@ -8,6 +8,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
+import com.binus.thesis.fisheryapp.dto.request.RequestProsesTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
 import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.enums.ValidatorTypeEnum;
@@ -54,7 +55,7 @@ public class TransaksiController {
         BaseResponse<Transaksi> response = new BaseResponse<>();
         BaseParameter<RequestUpdateTransaksi> parameter = request.getParameter();
         try {
-            Transaksi transaksi = transaksiService.update(request.getParameter().getData());
+            Transaksi transaksi = transaksiService.update(parameter.getData());
             response.setResult(transaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
@@ -102,6 +103,22 @@ public class TransaksiController {
         BaseResponse<List<ResponseTransaksi>> response = new BaseResponse<>();
         try {
             response = transaksiService.retrieve(request);
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+    @PostMapping("/proses")
+    public BaseResponse<ResponseTransaksi> prosesTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestProsesTransaksi>> request) {
+        BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
+        try {
+            ResponseTransaksi transaksi = transaksiService.prosesTransaksi(request.getParameter().getData());
+            response.setResult(transaksi);
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

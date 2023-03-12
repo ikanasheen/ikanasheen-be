@@ -118,4 +118,8 @@ public class NelayanService {
 
         return nelayanRepo.get();
     }
+
+    public Nelayan findByIdUser(String idUser) {
+        return repository.findByIdUser(idUser);
+    }
 }

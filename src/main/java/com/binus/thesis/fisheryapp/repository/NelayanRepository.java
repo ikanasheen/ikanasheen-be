@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NelayanRepository extends JpaRepository<Nelayan, String>, JpaSpecificationExecutor<Nelayan> {
+
+    Nelayan findByIdUser(String idUser);
 }

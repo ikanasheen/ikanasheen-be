@@ -6,9 +6,11 @@ import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
+import com.binus.thesis.fisheryapp.dto.request.RequestProsesTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
 import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.Ikan;
+import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import com.binus.thesis.fisheryapp.model.Transaksi;
 import com.binus.thesis.fisheryapp.repository.TransaksiRepository;
@@ -38,6 +40,7 @@ public class TransaksiService {
     private final TransaksiTransform transform;
 
     private final IkanService ikanService;
+    private final NelayanService nelayanService;
     private final PembeliService pembeliService;
 
 
@@ -92,6 +95,16 @@ public class TransaksiService {
         response.setResult(transform.toResponseTransaksiList(data.getContent()));
 
         return response;
+    }
+
+    public ResponseTransaksi prosesTransaksi(RequestProsesTransaksi request) {
+        Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
+        Nelayan nelayan = nelayanService.findByIdUser(request.getIdUserNelayan());
+        return transform.toResponseTransaksi(
+                repository.save(
+                        transform.prosesTransaksitoEntity(transaksiRepo, request, nelayan)
+                )
+        );
     }
 
     public Transaksi getTransaksi(String idTransaksi) {

@@ -1,13 +1,11 @@
 package com.binus.thesis.fisheryapp.transform;
 
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateTransaksi;
+import com.binus.thesis.fisheryapp.dto.request.RequestProsesTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestUpdateTransaksi;
 import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.*;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -60,4 +58,11 @@ public interface TransaksiTransform {
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
     @Mapping(target = "catatan", expression = "java(!request.getCatatan().isEmpty() ? request.getCatatan() : null)")
     Transaksi updateTransaksitoEntity(RequestUpdateTransaksi request, Pembeli pembeli, int hargaAwal);
+
+    @Named("prosesTransaksitoEntity")
+    @Mapping(target = "idNelayan", source = "nelayan.idNelayan")
+    @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equals(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getHargaAwal())")
+    @Mapping(target = "status", expression = "java(request.getIsNego().equals(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
+    Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan);
 }
