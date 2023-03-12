@@ -20,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -114,11 +113,20 @@ public class TransaksiService {
         );
     }
 
-    public ResponseTransaksi completeTransaksi(RequestCompleteTransaksi request) {
+    public ResponseTransaksi completeTransaksi(RequestCompleteCancelTransaksi request) {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.completeTransaksitoEntity(transaksiRepo)
+                        transform.completeCancelTransaksitoEntity(transaksiRepo, "COMPLETE")
+                )
+        );
+    }
+
+    public ResponseTransaksi cancelTransaksi(RequestCompleteCancelTransaksi request) {
+        Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
+        return transform.toResponseTransaksi(
+                repository.saveAndFlush(
+                        transform.completeCancelTransaksitoEntity(transaksiRepo, "CANCEL")
                 )
         );
     }

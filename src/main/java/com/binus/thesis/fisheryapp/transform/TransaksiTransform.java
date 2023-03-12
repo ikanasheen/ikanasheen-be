@@ -1,5 +1,8 @@
 package com.binus.thesis.fisheryapp.transform;
 
+import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.dto.Status;
+import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.dto.request.*;
 import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.*;
@@ -71,9 +74,18 @@ public interface TransaksiTransform {
     @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request);
 
-    @Named("completeTransaksitoEntity")
-    default Transaksi completeTransaksitoEntity(Transaksi transaksi) {
-        transaksi.setStatus("SELESAI");
+    @Named("completeCancelTransaksitoEntity")
+    default Transaksi completeCancelTransaksitoEntity(Transaksi transaksi, String action) {
+        if (action.equals("COMPLETE")) {
+            transaksi.setStatus("SELESAI");
+        } else {
+            if (!transaksi.getStatus().equals("DIAJUKAN")) {
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_CANCEL
+                        .replaceAll(GlobalMessage.Error.paramVariable.get(0), transaksi.getStatus().toLowerCase())
+                ));
+            }
+            transaksi.setStatus("DIBATALKAN");
+        }
         return transaksi;
     }
 }
