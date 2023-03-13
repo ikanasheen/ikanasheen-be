@@ -17,6 +17,7 @@ public interface TransaksiTransform {
 
     @Named("toResponseTransaksi")
     @Mapping(target = "idTransaksi", source = "transaksi.idTransaksi")
+    @Mapping(target = "idIkan", source = "transaksi.ikan.idIkan")
     @Mapping(target = "namaIkan", source = "transaksi.ikan.namaIkan")
     @Mapping(target = "ukuran", source = "transaksi.ikan.ukuran")
     @Mapping(target = "jumlah", source = "transaksi.jumlah")

@@ -12,6 +12,8 @@ public class ResponseTransaksi {
 
     private String idTransaksi;
 
+    private String idIkan;
+
     private String namaIkan;
 
     private String ukuran;
