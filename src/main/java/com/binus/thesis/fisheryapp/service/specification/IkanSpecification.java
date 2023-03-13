@@ -7,11 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Component
@@ -34,12 +31,10 @@ public class IkanSpecification extends BaseSpecification {
                         builder.like(builder.lower(root.get("idIkan")), searchLike),
                         builder.like(builder.lower(root.get("namaIkan")), searchLike),
                         builder.like(builder.lower(root.get("deskripsi")), searchLike),
-                        builder.like(builder.lower(root.get("ukuran")), searchLike),
-                        builder.like(builder.lower(root.get("hargaDasar")), searchLike)
+                        builder.like(builder.lower(root.get("ukuran")), searchLike)
                 );
                 predicates.add(predicate);
             }
-
             predicates.addAll(generateFilter(paramFilter, builder, root));
 
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));

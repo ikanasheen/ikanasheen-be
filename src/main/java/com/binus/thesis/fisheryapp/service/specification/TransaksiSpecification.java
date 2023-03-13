@@ -33,9 +33,9 @@ public class TransaksiSpecification extends BaseSpecification {
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
                         builder.like(builder.lower(root.get("idTransaksi")), searchLike),
-                        builder.like(builder.lower(root.get("hargaAwal")), searchLike),
-                        builder.like(builder.lower(root.get("hargaNego")), searchLike),
-                        builder.like(builder.lower(root.get("hargaAkhir")), searchLike),
+//                        builder.like(builder.lower(root.get("hargaAwal")), searchLike),
+//                        builder.like(builder.lower(root.get("hargaNego")), searchLike),
+//                        builder.like(builder.lower(root.get("hargaAkhir")), searchLike),
                         builder.like(builder.lower(root.get("alamat")), searchLike),
                         builder.like(builder.lower(root.get("status")), searchLike),
                         builder.like(builder.lower(root.get("ikan").get("namaIkan")), searchLike),
