@@ -47,6 +47,12 @@ public class Transaksi {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "tanggal_diproses")
+    private LocalDate tanggalDiproses;
+
+    @Column(name = "tanggal_selesai")
+    private LocalDate tanggalSelesai;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)
     private Pembeli pembeli;

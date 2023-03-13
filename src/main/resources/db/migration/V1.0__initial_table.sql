@@ -81,6 +81,8 @@ CREATE TABLE IF NOT EXISTS transaksi(
     alamat VARCHAR(255) NOT NULL,
     catatan VARCHAR(255),
     status VARCHAR(255) NOT NULL,
+    tanggal_diproses DATE,
+    tanggal_selesai DATE,
     CONSTRAINT pkey_transaksi PRIMARY KEY (id_transaksi),
     CONSTRAINT fk_pembeli_transaksi FOREIGN KEY (id_pembeli) REFERENCES pembeli(id_pembeli),
     CONSTRAINT fk_nelayan_transaksi FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan),

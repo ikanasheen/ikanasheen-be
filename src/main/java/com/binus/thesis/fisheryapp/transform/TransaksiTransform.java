@@ -8,6 +8,7 @@ import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.*;
 import org.mapstruct.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
@@ -29,6 +30,8 @@ public interface TransaksiTransform {
     @Mapping(target = "namaNelayan", source = "transaksi.nelayan.namaLengkap")
     @Mapping(target = "namaPembeli", source = "transaksi.pembeli.namaLengkap")
     @Mapping(target = "alamatPembeli", source = "transaksi.alamat")
+    @Mapping(target = "tanggalDiproses", source = "transaksi.tanggalDiproses")
+    @Mapping(target = "tanggalSelesai", source = "transaksi.tanggalSelesai")
     ResponseTransaksi toResponseTransaksi(
             Transaksi transaksi
     );
@@ -66,19 +69,22 @@ public interface TransaksiTransform {
     @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equals(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
     @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getIkan().getHargaDasar() * transaksi.getJumlah())")
     @Mapping(target = "status", expression = "java(request.getIsNego().equals(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
-    Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan);
+    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsNego().equals(\"Ya\") ? null : dateNow)")
+    Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan, LocalDate dateNow);
 
     @Named("approvalNegotoEntity")
     @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
     @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
     @Mapping(target = "status", expression = "java(request.getIsApprove().equals(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
     @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
-    Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request);
+    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsApprove().equals(\"Ya\") ? dateNow : null)")
+    Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request, LocalDate dateNow);
 
     @Named("completeCancelTransaksitoEntity")
     default Transaksi completeCancelTransaksitoEntity(Transaksi transaksi, String action) {
         if (action.equals("COMPLETE")) {
             transaksi.setStatus("SELESAI");
+            transaksi.setTanggalSelesai(LocalDate.now());
         } else {
             if (!transaksi.getStatus().equals("DIAJUKAN")) {
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_CANCEL

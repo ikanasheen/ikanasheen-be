@@ -37,4 +37,8 @@ public class ResponseTransaksi {
     private String namaNelayan;
 
     private String namaPembeli;
+
+    private LocalDate tanggalDiproses;
+
+    private LocalDate tanggalSelesai;
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -97,7 +98,7 @@ public class TransaksiService {
         Nelayan nelayan = nelayanService.findByIdUser(request.getIdUserNelayan());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.prosesTransaksitoEntity(transaksiRepo, request, nelayan)
+                        transform.prosesTransaksitoEntity(transaksiRepo, request, nelayan, LocalDate.now())
                 )
         );
     }
@@ -106,7 +107,7 @@ public class TransaksiService {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.approvalNegotoEntity(transaksiRepo, request)
+                        transform.approvalNegotoEntity(transaksiRepo, request, LocalDate.now())
                 )
         );
     }
