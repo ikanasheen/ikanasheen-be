@@ -42,9 +42,14 @@ public @interface GlobalMessage {
                 "#Variable5");
 
         public static final String SUCCESS_CREATE_ACCOUNT = "Akun berhasil dibuat";
-        public static final String SUCESS_GET_DATA = "Berhasil mengambil data";
+        public static final String SUCCESS_GET_DATA = "Berhasil mengambil data";
         public static final String SUCCESS_CREATE_DATA = "Data berhasil dibuat";
         public static final String SUCCESS_UPDATE_DATA = "Data berhasil diubah";
         public static final String SUCCESS_DELETE_DATA = "Data berhasil dihapus";
+        public static final String SUCCESS_CREATE_TRX = "Transaksi berhasil dibuat";
+        public static final String SUCCESS_UPDATE_TRX = "Transaksi berhasil diubah";
+        public static final String SUCCESS_DELETE_TRX = "Transaksi berhasil dihapus";
+        public static final String SUCCESS_CANCEL_TRX = "Transaksi berhasil dibatalkan";
+        public static final String SUCCESS_COMPLETE_TRX = "Transaksi berhasil diselesaikan";
     }
 }

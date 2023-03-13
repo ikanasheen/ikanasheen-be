@@ -69,7 +69,7 @@ public class NelayanController {
         try {
             ResponseNelayan nelayan = nelayanService.detail(idNelayan);
             response.setResult(nelayan);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

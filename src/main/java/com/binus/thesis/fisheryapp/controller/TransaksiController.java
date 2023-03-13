@@ -37,7 +37,7 @@ public class TransaksiController {
         try {
             Transaksi transaksi = transaksiService.create(request.getParameter().getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CREATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CREATE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -54,7 +54,7 @@ public class TransaksiController {
         try {
             Transaksi transaksi = transaksiService.update(parameter.getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -69,7 +69,7 @@ public class TransaksiController {
         BaseResponse<Transaksi> response = new BaseResponse<>();
         try {
             transaksiService.delete(idTransaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_DELETE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_DELETE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -85,7 +85,7 @@ public class TransaksiController {
         try {
             ResponseTransaksi transaksi = transaksiService.detail(idTransaksi);
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -115,7 +115,7 @@ public class TransaksiController {
         try {
             ResponseTransaksi transaksi = transaksiService.prosesTransaksi(request.getParameter().getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -131,7 +131,7 @@ public class TransaksiController {
         try {
             ResponseTransaksi transaksi = transaksiService.approvalNego(request.getParameter().getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -147,7 +147,7 @@ public class TransaksiController {
         try {
             ResponseTransaksi transaksi = transaksiService.completeTransaksi(request.getParameter().getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_COMPLETE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -163,7 +163,7 @@ public class TransaksiController {
         try {
             ResponseTransaksi transaksi = transaksiService.cancelTransaksi(request.getParameter().getData());
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CANCEL_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

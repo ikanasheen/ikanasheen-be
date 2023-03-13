@@ -6,14 +6,12 @@ import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.model.Ikan;
-import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.repository.IkanRepository;
 import com.binus.thesis.fisheryapp.service.specification.IkanSpecification;
 import com.binus.thesis.fisheryapp.transform.IkanTransform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -72,7 +70,7 @@ public class IkanService {
                 data.getTotalElements()
         );
 
-        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
         response.setResult(data.getContent());
 

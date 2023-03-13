@@ -100,7 +100,7 @@ public class NelayanService {
                 data.getTotalElements()
         );
 
-        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
         response.setResult(transform.buildResponseNelayanList(data.getContent()));
 

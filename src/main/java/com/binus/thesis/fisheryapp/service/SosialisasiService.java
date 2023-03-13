@@ -5,7 +5,6 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
-import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Sosialisasi;
 import com.binus.thesis.fisheryapp.repository.SosialisasiRepository;
 import com.binus.thesis.fisheryapp.service.specification.SosialisasiSpecification;
@@ -78,7 +77,7 @@ public class SosialisasiService {
                 data.getTotalElements()
         );
 
-        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+        response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
         response.setResult(data.getContent());
 

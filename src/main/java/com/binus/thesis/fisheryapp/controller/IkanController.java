@@ -86,7 +86,7 @@ public class IkanController {
         try {
             Ikan ikan = ikanService.detail(idIkan);
             response.setResult(ikan);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCESS_GET_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
