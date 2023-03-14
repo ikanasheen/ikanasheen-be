@@ -24,6 +24,8 @@ public class ResponseTransaksi {
 
     private int hargaNego;
 
+    private int hargaAkumulasiNego;
+
     private int hargaAkhir;
 
     private LocalDate tanggalDibutuhkan;

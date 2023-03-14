@@ -32,6 +32,7 @@ public interface TransaksiTransform {
     @Mapping(target = "alamatPembeli", source = "transaksi.alamat")
     @Mapping(target = "tanggalDiproses", source = "transaksi.tanggalDiproses")
     @Mapping(target = "tanggalSelesai", source = "transaksi.tanggalSelesai")
+    @Mapping(target = "hargaAkumulasiNego", expression = "java(transaksi.getHargaNego() != 0 ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
     ResponseTransaksi toResponseTransaksi(
             Transaksi transaksi
     );
