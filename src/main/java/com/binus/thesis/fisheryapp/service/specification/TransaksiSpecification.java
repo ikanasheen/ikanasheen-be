@@ -78,7 +78,7 @@ public class TransaksiSpecification extends BaseSpecification {
                 } else if (entry.getKey().equals("ukuran")) {
                     predicates.add(builder.like(builder.lower(root.get("ikan").get("ukuran")), String.valueOf(entry.getValue())));
                 } else {
-                    predicates.add(builder.like(builder.lower(root.get(entry.getKey())), String.valueOf(entry.getValue())));
+                    predicates.add(root.get(entry.getKey()).in(String.valueOf(entry.getValue())));
                 }
             }
         }
