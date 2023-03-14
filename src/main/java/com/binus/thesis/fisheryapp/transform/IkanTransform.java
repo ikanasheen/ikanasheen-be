@@ -17,7 +17,6 @@ public interface IkanTransform {
     @Mapping(target = "idIkan", source = "idIkan")
     @Mapping(target = "namaIkan", expression = "java(ikan.getNamaIkan() == null || ikan.getNamaIkan().isEmpty() ? ikanRepo.getNamaIkan() : ikan.getNamaIkan())")
     @Mapping(target = "deskripsi", expression = "java(ikan.getDeskripsi() == null || ikan.getDeskripsi().isEmpty() ? ikanRepo.getDeskripsi() : ikan.getDeskripsi())")
-    @Mapping(target = "ukuran", expression = "java(ikan.getUkuran() == null || ikan.getUkuran().isEmpty() ? ikanRepo.getUkuran() : ikan.getUkuran())")
     @Mapping(target = "hargaDasar", source = "hargaDasar")
     Ikan updateIkantoEntity(@MappingTarget Ikan ikanRepo, Ikan ikan);
 }
