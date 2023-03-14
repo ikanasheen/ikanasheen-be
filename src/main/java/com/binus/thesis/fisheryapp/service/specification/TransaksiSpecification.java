@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,30 +26,29 @@ public class TransaksiSpecification extends BaseSpecification {
 
             Predicate predicate;
 
-            if (paramCriteria != null && !paramCriteria.isEmpty()){
+            if (paramCriteria != null && paramCriteria.size() > 0){
                 Map.Entry<String, String> entry = paramCriteria.entrySet().iterator().next();
                 String criteria = entry.getValue();
                 String searchLike = String.format("%%%s%%", criteria.toLowerCase());
                 predicate = builder.or(
                         builder.like(builder.lower(root.get("idTransaksi")), searchLike),
-//                        builder.like(builder.lower(root.get("hargaAwal")), searchLike),
-//                        builder.like(builder.lower(root.get("hargaNego")), searchLike),
-//                        builder.like(builder.lower(root.get("hargaAkhir")), searchLike),
-                        builder.like(builder.lower(root.get("alamat")), searchLike),
-                        builder.like(builder.lower(root.get("status")), searchLike),
+                        builder.like(builder.lower(root.get("idPembeli")), searchLike),
+                        builder.like(builder.lower(root.get("idNelayan")), searchLike),
+                        builder.like(builder.lower(root.get("pembeli").get("namaLengkap")), searchLike),
                         builder.like(builder.lower(root.get("ikan").get("namaIkan")), searchLike),
                         builder.like(builder.lower(root.get("ikan").get("ukuran")), searchLike),
-                        builder.like(builder.lower(root.get("nelayan").get("namaLengkap")), searchLike),
-                        builder.like(builder.lower(root.get("pembeli").get("namaLengkap")), searchLike)
+                        builder.like(builder.lower(root.get("alamat")), searchLike),
+                        builder.like(builder.lower(root.get("catatan")), searchLike)
                 );
                 predicates.add(predicate);
             }
 
-            predicates.addAll(generateFilterTransaksi(paramFilter, builder, root));
-
+            if (paramFilter != null && paramFilter.size() > 0) {
+                predicates.addAll(generateFilterTransaksi(paramFilter, builder, root));
+            }
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
-            if(paramSort != null && !paramSort.isEmpty()) {
+            if(paramSort != null && paramSort.size() > 0) {
                 ((CriteriaQuery) query).orderBy(generateSort(getSortList(paramSort), builder, root));
             }
 
@@ -60,7 +58,7 @@ public class TransaksiSpecification extends BaseSpecification {
 
     public List<Predicate> generateFilterTransaksi(Map<String, Object> filter, CriteriaBuilder builder, Root root){
         List<Predicate> predicates = new ArrayList<>();
-        if (filter != null && !filter.isEmpty()) {
+
             for (Map.Entry<String, Object> entry : filter.entrySet()) {
                 if (entry.getKey().equals("idUserPembeli")) {
                     predicates.add(builder.like(builder.lower(root.get("pembeli").get("idUser")), String.valueOf(entry.getValue())));
@@ -81,7 +79,6 @@ public class TransaksiSpecification extends BaseSpecification {
                     predicates.add(root.get(entry.getKey()).in(String.valueOf(entry.getValue())));
                 }
             }
-        }
 
         return predicates;
     }
@@ -113,6 +110,12 @@ public class TransaksiSpecification extends BaseSpecification {
             if (entry.getKey().equals("ukuran")) {
                 sortList.add("ikan");
                 sortList.add("ukuran");
+                sortList.add(entry.getValue());
+                continue;
+            }
+
+            if (entry.getKey().equals("alamatPembeli")) {
+                sortList.add("alamat");
                 sortList.add(entry.getValue());
                 continue;
             }
