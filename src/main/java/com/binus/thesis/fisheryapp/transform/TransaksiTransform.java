@@ -67,18 +67,18 @@ public interface TransaksiTransform {
 
     @Named("prosesTransaksitoEntity")
     @Mapping(target = "idNelayan", source = "nelayan.idNelayan")
-    @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equals(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equals(\"Ya\") ? 0 : transaksi.getIkan().getHargaDasar() * transaksi.getJumlah())")
-    @Mapping(target = "status", expression = "java(request.getIsNego().equals(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
-    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsNego().equals(\"Ya\") ? null : dateNow)")
+    @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? 0 : transaksi.getIkan().getHargaDasar() * transaksi.getJumlah())")
+    @Mapping(target = "status", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
+    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? null : dateNow)")
     Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan, LocalDate dateNow);
 
     @Named("approvalNegotoEntity")
-    @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() : 0)")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
-    @Mapping(target = "status", expression = "java(request.getIsApprove().equals(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
-    @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equals(\"Ya\") ? transaksi.getIdNelayan() : null)")
-    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsApprove().equals(\"Ya\") ? dateNow : null)")
+    @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego() : 0)")
+    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
+    @Mapping(target = "status", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
+    @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getIdNelayan() : null)")
+    @Mapping(target = "tanggalDiproses", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? dateNow : null)")
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request, LocalDate dateNow);
 
     @Named("completeCancelTransaksitoEntity")
