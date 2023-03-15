@@ -3,6 +3,7 @@ package com.binus.thesis.fisheryapp.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -24,16 +25,16 @@ public class Transaksi {
     private String idIkan;
 
     @Column(name = "jumlah")
-    private int jumlah;
+    private BigDecimal jumlah;
 
     @Column(name = "harga_awal")
-    private int hargaAwal;
+    private BigDecimal hargaAwal;
 
     @Column(name = "harga_nego")
-    private int hargaNego;
+    private BigDecimal hargaNego;
 
     @Column(name = "harga_akhir")
-    private int hargaAkhir;
+    private BigDecimal hargaAkhir;
 
     @Column(name = "tanggal_dibutuhkan")
     private LocalDate tanggalDibutuhkan;

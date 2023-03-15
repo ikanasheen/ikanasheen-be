@@ -8,11 +8,13 @@ import com.binus.thesis.fisheryapp.dto.response.ResponseTransaksi;
 import com.binus.thesis.fisheryapp.model.*;
 import org.mapstruct.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
-        PembeliTransform.class
+        PembeliTransform.class,
+        ConvertTransform.class
 })
 public interface TransaksiTransform {
 
@@ -32,7 +34,7 @@ public interface TransaksiTransform {
     @Mapping(target = "alamatPembeli", source = "transaksi.alamat")
     @Mapping(target = "tanggalDiproses", source = "transaksi.tanggalDiproses")
     @Mapping(target = "tanggalSelesai", source = "transaksi.tanggalSelesai")
-    @Mapping(target = "hargaAkumulasiNego", expression = "java(transaksi.getHargaNego() != 0 ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
+    @Mapping(target = "hargaAkumulasiNego", expression = "java(stringToBigDecimal(!transaksi.getHargaNego().equals(0) ? transaksi.getHargaNego().multiply(transaksi.getJumlah()).toString() : \"0\"))")
     ResponseTransaksi toResponseTransaksi(
             Transaksi transaksi
     );
@@ -67,15 +69,15 @@ public interface TransaksiTransform {
 
     @Named("prosesTransaksitoEntity")
     @Mapping(target = "idNelayan", source = "nelayan.idNelayan")
-    @Mapping(target = "hargaNego", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? request.getHargaNego() : transaksi.getHargaNego())")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? 0 : transaksi.getIkan().getHargaDasar() * transaksi.getJumlah())")
+    @Mapping(target = "hargaNego", expression = "java(stringToBigDecimal(request.getIsNego().equalsIgnoreCase(\"Ya\") ? request.getHargaNego().toString() : transaksi.getHargaNego().toString()))")
+    @Mapping(target = "hargaAkhir", expression = "java(stringToBigDecimal(request.getIsNego().equalsIgnoreCase(\"Ya\") ? \"0\" : transaksi.getIkan().getHargaDasar().multiply(transaksi.getJumlah()).toString()))")
     @Mapping(target = "status", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? \"NEGO\" : \"DIPROSES\")")
     @Mapping(target = "tanggalDiproses", expression = "java(request.getIsNego().equalsIgnoreCase(\"Ya\") ? null : dateNow)")
     Transaksi prosesTransaksitoEntity(@MappingTarget Transaksi transaksi, RequestProsesTransaksi request, Nelayan nelayan, LocalDate dateNow);
 
     @Named("approvalNegotoEntity")
-    @Mapping(target = "hargaNego", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego() : 0)")
-    @Mapping(target = "hargaAkhir", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego() * transaksi.getJumlah() : 0)")
+    @Mapping(target = "hargaNego", expression = "java(stringToBigDecimal(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego().toString() : \"0\"))")
+    @Mapping(target = "hargaAkhir", expression = "java(stringToBigDecimal(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getHargaNego().multiply(transaksi.getJumlah()).toString() : \"0\"))")
     @Mapping(target = "status", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? \"DIPROSES\" : \"DIAJUKAN\")")
     @Mapping(target = "idNelayan", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? transaksi.getIdNelayan() : null)")
     @Mapping(target = "tanggalDiproses", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? dateNow : null)")
@@ -95,5 +97,10 @@ public interface TransaksiTransform {
             transaksi.setStatus("DIBATALKAN");
         }
         return transaksi;
+    }
+
+    @Named("stringToBigDecimal")
+    default BigDecimal stringToBigDecimal(String amount){
+        return new BigDecimal(amount);
     }
 }

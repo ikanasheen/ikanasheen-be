@@ -3,6 +3,7 @@ package com.binus.thesis.fisheryapp.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -23,5 +24,5 @@ public class Ikan {
     private String ukuran;
 
     @Column(name = "harga_dasar")
-    private int hargaDasar;
+    private BigDecimal hargaDasar;
 }

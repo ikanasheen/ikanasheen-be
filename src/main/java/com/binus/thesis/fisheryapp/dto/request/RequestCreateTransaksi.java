@@ -4,6 +4,7 @@ import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -11,7 +12,7 @@ public class RequestCreateTransaksi {
 
     private String idIkan;
 
-    private int jumlah;
+    private BigDecimal jumlah;
 
     private LocalDate tanggalDibutuhkan;
 
