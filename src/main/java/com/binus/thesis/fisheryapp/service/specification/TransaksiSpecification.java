@@ -36,6 +36,7 @@ public class TransaksiSpecification extends BaseSpecification {
                         builder.like(builder.lower(root.get("idNelayan")), searchLike),
                         builder.like(builder.lower(root.get("pembeli").get("namaLengkap")), searchLike),
                         builder.like(builder.lower(root.get("tanggalDibutuhkan")), searchLike),
+                        builder.like(builder.lower(root.get("jumlah")), searchLike),
                         builder.like(builder.lower(root.get("hargaAwal")), searchLike),
                         builder.like(builder.lower(root.get("hargaNego")), searchLike),
                         builder.like(builder.lower(root.get("hargaAkhir")), searchLike),
