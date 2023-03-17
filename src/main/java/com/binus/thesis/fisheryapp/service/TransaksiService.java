@@ -98,7 +98,7 @@ public class TransaksiService {
         Nelayan nelayan = nelayanService.findByIdUser(request.getIdUserNelayan());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.prosesTransaksitoEntity(transaksiRepo, request, nelayan, LocalDate.now())
+                        transform.prosesTransaksitoEntity(transaksiRepo, request, nelayan, LocalDate.now().toString())
                 )
         );
     }
@@ -107,7 +107,7 @@ public class TransaksiService {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.approvalNegotoEntity(transaksiRepo, request, LocalDate.now())
+                        transform.approvalNegotoEntity(transaksiRepo, request, LocalDate.now().toString())
                 )
         );
     }

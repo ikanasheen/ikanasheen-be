@@ -24,6 +24,6 @@ public interface SosialisasiTransform {
     @Mapping(target = "konten", expression = "java(sosialisasi.getKonten() == null || sosialisasi.getKonten().isEmpty() ? sosialisasiRepo.getKonten() : sosialisasi.getKonten())")
     @Mapping(target = "status", expression = "java(sosialisasi.getStatus() == null ? sosialisasiRepo.getStatus() : sosialisasi.getStatus())")
     @Mapping(target = "tanggalDibuat", expression = "java(sosialisasi.getTanggalDibuat() == null ? sosialisasiRepo.getTanggalDibuat() : sosialisasi.getTanggalDibuat())")
-    @Mapping(target = "tanggalDiubah", expression = "java(LocalDate.now())")
+    @Mapping(target = "tanggalDiubah", expression = "java(LocalDate.now().toString())")
     Sosialisasi updateSosialisasitoEntity(@MappingTarget Sosialisasi sosialisasiRepo, Sosialisasi sosialisasi);
 }

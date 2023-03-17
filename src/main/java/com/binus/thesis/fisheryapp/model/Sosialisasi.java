@@ -30,8 +30,8 @@ public class Sosialisasi {
     private String penulis;
 
     @Column(name = "tanggal_dibuat")
-    private LocalDate tanggalDibuat;
+    private String tanggalDibuat;
 
     @Column(name = "tanggal_diubah")
-    private LocalDate tanggalDiubah;
+    private String tanggalDiubah;
 }

@@ -36,6 +36,7 @@ public class NelayanSpecification extends BaseSpecification {
                         builder.like(builder.lower(root.get("alamat")), searchLike),
                         builder.like(builder.lower(root.get("kecamatan")), searchLike),
                         builder.like(builder.lower(root.get("kelurahanDesa")), searchLike),
+                        builder.like(builder.lower(root.get("tanggalLahir")), searchLike),
                         builder.like(builder.lower(root.get("noTelepon")), searchLike),
                         builder.like(builder.lower(root.get("email")), searchLike),
                         builder.like(builder.lower(root.get("user").get("status")), searchLike)

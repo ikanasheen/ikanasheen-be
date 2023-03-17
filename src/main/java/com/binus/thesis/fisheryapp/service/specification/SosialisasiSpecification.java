@@ -37,7 +37,9 @@ public class SosialisasiSpecification extends BaseSpecification {
                         builder.like(builder.lower(root.get("konten")), searchLike),
                         builder.like(builder.lower(root.get("jenisKonten")), searchLike),
                         builder.like(builder.lower(root.get("penulis")), searchLike),
-                        builder.like(builder.lower(root.get("status")), searchLike)
+                        builder.like(builder.lower(root.get("status")), searchLike),
+                        builder.like(builder.lower(root.get("tanggalDibuat")), searchLike),
+                        builder.like(builder.lower(root.get("tanggalDiubah")), searchLike)
                 );
                 predicates.add(predicate);
             }

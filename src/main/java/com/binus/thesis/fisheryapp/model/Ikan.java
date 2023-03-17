@@ -24,5 +24,5 @@ public class Ikan {
     private String ukuran;
 
     @Column(name = "harga_dasar")
-    private BigDecimal hargaDasar;
+    private String hargaDasar;
 }

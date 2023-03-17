@@ -3,8 +3,6 @@ package com.binus.thesis.fisheryapp.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -25,19 +23,19 @@ public class Transaksi {
     private String idIkan;
 
     @Column(name = "jumlah")
-    private BigDecimal jumlah;
+    private String jumlah;
 
     @Column(name = "harga_awal")
-    private BigDecimal hargaAwal;
+    private String hargaAwal;
 
     @Column(name = "harga_nego")
-    private BigDecimal hargaNego;
+    private String hargaNego;
 
     @Column(name = "harga_akhir")
-    private BigDecimal hargaAkhir;
+    private String hargaAkhir;
 
     @Column(name = "tanggal_dibutuhkan")
-    private LocalDate tanggalDibutuhkan;
+    private String tanggalDibutuhkan;
 
     @Column(name = "alamat")
     private String alamat;
@@ -49,10 +47,10 @@ public class Transaksi {
     private String status;
 
     @Column(name = "tanggal_diproses")
-    private LocalDate tanggalDiproses;
+    private String tanggalDiproses;
 
     @Column(name = "tanggal_selesai")
-    private LocalDate tanggalSelesai;
+    private String tanggalSelesai;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)

@@ -5,7 +5,6 @@ import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -19,15 +18,15 @@ public class ResponseTransaksi {
 
     private String ukuran;
 
-    private BigDecimal jumlah;
+    private String jumlah;
 
-    private BigDecimal hargaAwal;
+    private String hargaAwal;
 
-    private BigDecimal hargaNego;
+    private String hargaNego;
 
-    private BigDecimal hargaAkumulasiNego;
+    private String hargaAkumulasiNego;
 
-    private BigDecimal hargaAkhir;
+    private String hargaAkhir;
 
     private LocalDate tanggalDibutuhkan;
 

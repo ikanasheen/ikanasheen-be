@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -27,7 +26,7 @@ public class Nelayan {
     private String gender;
 
     @Column(name = "tanggal_lahir")
-    private LocalDate tanggalLahir;
+    private String tanggalLahir;
 
     @Column(name = "alamat")
     private String alamat;

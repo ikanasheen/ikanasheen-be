@@ -14,5 +14,5 @@ public class RequestProsesTransaksi {
 
     private String isNego;
 
-    private BigDecimal hargaNego;
+    private String hargaNego;
 }
