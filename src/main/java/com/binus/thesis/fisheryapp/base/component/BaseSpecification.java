@@ -73,7 +73,8 @@ public class BaseSpecification {
         List<Predicate> predicates = new ArrayList<>();
         if (filter != null && !filter.isEmpty()) {
             for (Map.Entry<String, Object> entry : filter.entrySet()) {
-                predicates.add(builder.like(builder.lower(root.get(entry.getKey())), String.valueOf(entry.getValue())));
+                List<String> filterStatus = (List<String>) entry.getValue();
+                predicates.add(root.get(entry.getKey()).in(filterStatus));
             }
         }
 
