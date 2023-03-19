@@ -15,28 +15,14 @@ import java.util.Map;
 public class IkanSpecification extends BaseSpecification {
 
     public Specification<Ikan> predicate(BaseParameter<Ikan> parameter){
-        Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
         Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            Predicate predicate;
-
-            if (paramCriteria != null && !paramCriteria.isEmpty()){
-                Map.Entry<String, String> entry = paramCriteria.entrySet().iterator().next();
-                String criteria = entry.getValue();
-                String searchLike = String.format("%%%s%%", criteria.toLowerCase());
-                predicate = builder.or(
-                        builder.like(builder.lower(root.get("idIkan")), searchLike),
-                        builder.like(builder.lower(root.get("namaIkan")), searchLike),
-                        builder.like(builder.lower(root.get("deskripsi")), searchLike),
-                        builder.like(builder.lower(root.get("ukuran")), searchLike)
-                );
-                predicates.add(predicate);
+            if (paramFilter != null && paramFilter.size() > 0) {
+                predicates.addAll(generateFilter(paramFilter, builder, root));
             }
-            predicates.addAll(generateFilter(paramFilter, builder, root));
-
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
             if(paramSort != null && !paramSort.isEmpty()) {

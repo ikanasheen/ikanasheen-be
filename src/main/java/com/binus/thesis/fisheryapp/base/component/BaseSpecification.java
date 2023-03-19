@@ -1,22 +1,15 @@
 package com.binus.thesis.fisheryapp.base.component;
 
-import com.binus.thesis.fisheryapp.base.constant.GlobalConstant;
-import com.binus.thesis.fisheryapp.base.dto.RequestSorting;
-import com.google.common.base.CaseFormat;
+import com.binus.thesis.fisheryapp.base.dto.BetweenParameter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -75,6 +68,32 @@ public class BaseSpecification {
             for (Map.Entry<String, Object> entry : filter.entrySet()) {
                 List<String> filterStatus = (List<String>) entry.getValue();
                 predicates.add(root.get(entry.getKey()).in(filterStatus));
+            }
+        }
+
+        return predicates;
+    }
+
+    public List<Predicate> generateBetween(Map<String, BetweenParameter> between, CriteriaBuilder builder, Root root){
+        List<Predicate> predicates = new ArrayList<>();
+        if (between != null) {
+            for (Map.Entry<String, BetweenParameter> entry : between.entrySet()) {
+                String from = null;
+                String to = null;
+                if (entry.getValue().getFrom() != null) {
+                    from = entry.getValue().getFrom();
+                    if (entry.getValue().getTo() != null) {
+                        to = entry.getValue().getTo();
+                        predicates.add(builder.between(root.get(entry.getKey()), from, to));
+                    } else {
+                        predicates.add(builder.greaterThanOrEqualTo(root.get(entry.getKey()), from));
+                    }
+                } else {
+                    if (entry.getValue().getTo() != null) {
+                        to = entry.getValue().getTo();
+                        predicates.add(builder.lessThanOrEqualTo(root.get(entry.getKey()), to));
+                    }
+                }
             }
         }
 

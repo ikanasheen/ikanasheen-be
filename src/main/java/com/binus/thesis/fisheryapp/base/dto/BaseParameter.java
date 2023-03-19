@@ -15,8 +15,8 @@ public class BaseParameter<T> implements BaseInterface {
     @JsonProperty("sort")
     protected Map<String, String> sort;
 
-    @JsonProperty("criteria")
-    protected Map<String, String> criteria;
+    @JsonProperty("between")
+    protected Map<String, BetweenParameter> between;
 
     @JsonProperty("filter")
     protected Map<String, Object> filter;

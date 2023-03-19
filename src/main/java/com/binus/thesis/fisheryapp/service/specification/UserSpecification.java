@@ -16,28 +16,14 @@ import java.util.Map;
 public class UserSpecification extends BaseSpecification {
 
     public Specification<User> predicate(BaseParameter<User> parameter){
-        Map<String, String> paramCriteria = parameter.getCriteria();
         Map<String, String> paramSort = parameter.getSort();
         Map<String, Object> paramFilter = parameter.getFilter();
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            Predicate predicate;
-
-            if (paramCriteria != null && !paramCriteria.isEmpty()){
-                Map.Entry<String, String> entry = paramCriteria.entrySet().iterator().next();
-                String criteria = entry.getValue();
-                String searchLike = String.format("%%%s%%", criteria.toLowerCase());
-                predicate = builder.or(
-                        builder.like(builder.lower(root.get("idUser")), searchLike),
-                        builder.like(builder.lower(root.get("username")), searchLike),
-                        builder.like(builder.lower(root.get("status")), searchLike)
-                );
-                predicates.add(predicate);
+            if (paramFilter != null && paramFilter.size() > 0) {
+                predicates.addAll(generateFilter(paramFilter, builder, root));
             }
-
-            predicates.addAll(generateFilter(paramFilter, builder, root));
-
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 
             if(paramSort != null && !paramSort.isEmpty()) {
