@@ -1,7 +1,5 @@
 package com.binus.thesis.fisheryapp.dto.request;
 
-import com.binus.thesis.fisheryapp.model.Nelayan;
-import com.binus.thesis.fisheryapp.model.Pembeli;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -16,7 +14,7 @@ public class RequestCreateTransaksi {
 
     private LocalDate tanggalDibutuhkan;
 
-    private String alamat;
+    private String alamatPembeli;
 
     private String catatan;
 

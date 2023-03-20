@@ -16,7 +16,7 @@ public class RequestUpdateTransaksi {
 
     private LocalDate tanggalDibutuhkan;
 
-    private String alamat;
+    private String alamatPembeli;
 
     private String catatan;
 
