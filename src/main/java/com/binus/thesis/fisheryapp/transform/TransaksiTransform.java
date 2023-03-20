@@ -30,6 +30,9 @@ public interface TransaksiTransform {
     @Mapping(target = "tanggalDibutuhkan", source = "transaksi.tanggalDibutuhkan")
     @Mapping(target = "status", source = "transaksi.status")
     @Mapping(target = "namaNelayan", source = "transaksi.nelayan.namaLengkap")
+    @Mapping(target = "alamatNelayan", source = "transaksi.nelayan.alamat")
+    @Mapping(target = "kelurahanDesaNelayan", source = "transaksi.nelayan.kelurahanDesa")
+    @Mapping(target = "kecamatanNelayan", source = "transaksi.nelayan.kecamatan")
     @Mapping(target = "namaPembeli", source = "transaksi.pembeli.namaLengkap")
     @Mapping(target = "alamatPembeli", source = "transaksi.alamat")
     @Mapping(target = "tanggalDiproses", source = "transaksi.tanggalDiproses")
@@ -99,11 +102,6 @@ public interface TransaksiTransform {
             transaksi.setStatus("DIBATALKAN");
         }
         return transaksi;
-    }
-
-    @Named("stringToBigDecimal")
-    default BigDecimal stringToBigDecimal(String amount){
-        return new BigDecimal(amount);
     }
 
     @Named("amountCalculation")

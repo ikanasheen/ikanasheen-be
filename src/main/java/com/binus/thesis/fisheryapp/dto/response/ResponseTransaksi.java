@@ -38,6 +38,12 @@ public class ResponseTransaksi {
 
     private String namaNelayan;
 
+    private String alamatNelayan;
+
+    private String kelurahanDesaNelayan;
+
+    private String kecamatanNelayan;
+
     private String namaPembeli;
 
     private LocalDate tanggalDiproses;
