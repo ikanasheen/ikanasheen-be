@@ -57,7 +57,7 @@ public interface TransaksiTransform {
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
     @Mapping(target = "alamat", source = "request.alamat")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
-    @Mapping(target = "catatan", expression = "java(!request.getCatatan().isEmpty() ? request.getCatatan() : null)")
+    @Mapping(target = "catatan", expression = "java(request.getCatatan() != null && !request.getCatatan().isEmpty() ? request.getCatatan() : null)")
     Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, Ikan ikan);
 
     @Named("updateTransaksitoEntity")
@@ -69,7 +69,7 @@ public interface TransaksiTransform {
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
     @Mapping(target = "alamat", source = "request.alamat")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
-    @Mapping(target = "catatan", expression = "java(!request.getCatatan().isEmpty() ? request.getCatatan() : null)")
+    @Mapping(target = "catatan", expression = "java(request.getCatatan() != null && !request.getCatatan().isEmpty() ? request.getCatatan() : null)")
     Transaksi updateTransaksitoEntity(RequestUpdateTransaksi request, Pembeli pembeli, Ikan ikan);
 
     @Named("prosesTransaksitoEntity")
