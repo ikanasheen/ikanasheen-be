@@ -128,7 +128,16 @@ public class UserService {
         response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
 
-        response.setResult(transform.buildResponseUserList(data.getContent()));
+        List<ResponseUser> responseUser = transform.buildResponseUserList(data.getContent());
+        for (ResponseUser respUser : responseUser) {
+            for (User user : data.getContent()) {
+                if (respUser.getIdUser().equals(user.getIdUser())) {
+                    respUser.setNama(getNama(user));
+                }
+            }
+        }
+
+        response.setResult(responseUser);
 
         return response;
     }
