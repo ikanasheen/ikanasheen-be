@@ -15,5 +15,7 @@ public class ResponseUser {
 
     private String status;
 
+    private String nama;
+
     private ResponseRole role;
 }

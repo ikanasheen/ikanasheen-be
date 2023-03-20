@@ -9,7 +9,12 @@ import com.binus.thesis.fisheryapp.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.dto.request.RequestLogin;
 import com.binus.thesis.fisheryapp.dto.response.ResponseUser;
 import com.binus.thesis.fisheryapp.enums.StatusUserEnum;
+import com.binus.thesis.fisheryapp.model.Nelayan;
+import com.binus.thesis.fisheryapp.model.Pembeli;
+import com.binus.thesis.fisheryapp.model.Role;
 import com.binus.thesis.fisheryapp.model.User;
+import com.binus.thesis.fisheryapp.repository.NelayanRepository;
+import com.binus.thesis.fisheryapp.repository.PembeliRepository;
 import com.binus.thesis.fisheryapp.repository.UserRepository;
 import com.binus.thesis.fisheryapp.service.specification.UserSpecification;
 import com.binus.thesis.fisheryapp.transform.UserTransform;
@@ -26,6 +31,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private final PembeliRepository pembeliRepository;
+    private final NelayanRepository nelayanRepository;
 
     private final UserRepository repository;
 
@@ -34,7 +41,7 @@ public class UserService {
     private final PageTransform pageTransform;
     private final UserTransform transform;
 
-    public User login(RequestLogin requestDto) {
+    public ResponseUser login(RequestLogin requestDto) {
         User userByUsername = repository.findByUsername(requestDto.getUsername());
         if (userByUsername == null) {
             throw new ApplicationException(Status.DATA_NOT_FOUND(GlobalMessage.Error.USER_NOT_REGISTERED));
@@ -49,7 +56,9 @@ public class UserService {
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.USER_INACTIVE));
         }
 
-        return user;
+        ResponseUser response = transform.buildResponseUser(user);
+        response.setNama(getNama(user));
+        return response;
     }
 
     public User findByUsername(String username) {
@@ -60,25 +69,34 @@ public class UserService {
         return repository.save(user);
     }
 
-    public User create(User user) {
-        return repository.save(user);
+    public ResponseUser create(User user) {
+        User userSave = repository.save(user);
+        ResponseUser response = transform.buildResponseUser(userSave);
+        response.setNama(getNama(userSave));
+        return response;
     }
 
-    public User update(RequestUpdateUser request) {
+    public ResponseUser update(RequestUpdateUser request) {
         User userRepo = getUser(request.getIdUser());
-        return repository.save(
+        User userUpdate = repository.save(
                 transform.updateUsertoEntity(userRepo, request)
         );
+        ResponseUser response = transform.buildResponseUser(userUpdate);
+        response.setNama(getNama(userUpdate));
+        return response;
     }
 
-    public User changePassword(RequestChangePassword request) {
+    public ResponseUser changePassword(RequestChangePassword request) {
         User userRepo = getUser(request.getIdUser());
         if (!request.getOldPassword().equals(userRepo.getPassword())) {
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.MISMATCH_PASSWORD));
         }
-        return repository.save(
+        User userUpdate = repository.save(
                 transform.changePasswordtoEntity(userRepo, request)
         );
+        ResponseUser response = transform.buildResponseUser(userUpdate);
+        response.setNama(getNama(userUpdate));
+        return response;
     }
 
     public void delete(String username) {
@@ -86,8 +104,11 @@ public class UserService {
         repository.deleteById(user.getIdUser());
     }
 
-    public User detail(String idUser) {
-        return getUser(idUser);
+    public ResponseUser detail(String idUser) {
+        User user = getUser(idUser);
+        ResponseUser response = transform.buildResponseUser(user);
+        response.setNama(getNama(user));
+        return response;
     }
 
     public BaseResponse<List<ResponseUser>> retrieve(BaseRequest<BaseParameter<User>> request) {
@@ -106,6 +127,7 @@ public class UserService {
 
         response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
+
         response.setResult(transform.buildResponseUserList(data.getContent()));
 
         return response;
@@ -121,5 +143,21 @@ public class UserService {
         }
 
         return userRepo.get();
+    }
+
+    public String getNama(User user) {
+        String nama = "";
+        if (user.getIdRole() == 1) {
+            nama = "Admin";
+        } else if (user.getIdRole() == 2) {
+            nama = "Dinas Perikanan";
+        } else if (user.getIdRole() == 3) {
+            Nelayan nelayan = nelayanRepository.findByIdUser(user.getIdUser());
+            nama = nelayan.getNamaLengkap();
+        } else if (user.getIdRole() == 4) {
+            Pembeli pembeli = pembeliRepository.findByIdUser(user.getIdUser());
+            nama = pembeli.getNamaLengkap();
+        }
+        return nama;
     }
 }

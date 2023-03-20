@@ -26,12 +26,11 @@ public class UserController {
     private final UserService userService;
 
     @PutMapping()
-    public BaseResponse<User> create(@Valid @RequestBody BaseRequest<BaseParameter<User>> request) {
-        BaseResponse<User> response = new BaseResponse<>();
+    public BaseResponse<ResponseUser> create(@Valid @RequestBody BaseRequest<BaseParameter<User>> request) {
+        BaseResponse<ResponseUser> response = new BaseResponse<>();
         BaseParameter<User> parameter = request.getParameter();
         try {
-            User user = userService.create(parameter.getData());
-            response.setResult(user);
+            response.setResult(userService.create(parameter.getData()));
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CREATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -43,12 +42,11 @@ public class UserController {
     }
 
     @PatchMapping()
-    public BaseResponse<User> update(@Valid @RequestBody BaseRequest<BaseParameter<RequestUpdateUser>> request) {
-        BaseResponse<User> response = new BaseResponse<>();
+    public BaseResponse<ResponseUser> update(@Valid @RequestBody BaseRequest<BaseParameter<RequestUpdateUser>> request) {
+        BaseResponse<ResponseUser> response = new BaseResponse<>();
         BaseParameter<RequestUpdateUser> parameter = request.getParameter();
         try {
-            User user = userService.update(parameter.getData());
-            response.setResult(user);
+            response.setResult(userService.update(parameter.getData()));
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -60,12 +58,11 @@ public class UserController {
     }
 
     @PostMapping("/changepassword")
-    public BaseResponse<User> changePassword(@Valid @RequestBody BaseRequest<BaseParameter<RequestChangePassword>> request) {
-        BaseResponse<User> response = new BaseResponse<>();
+    public BaseResponse<ResponseUser> changePassword(@Valid @RequestBody BaseRequest<BaseParameter<RequestChangePassword>> request) {
+        BaseResponse<ResponseUser> response = new BaseResponse<>();
         BaseParameter<RequestChangePassword> parameter = request.getParameter();
         try {
-            User user = userService.changePassword(parameter.getData());
-            response.setResult(user);
+            response.setResult(userService.changePassword(parameter.getData()));
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
@@ -92,11 +89,10 @@ public class UserController {
     }
 
     @GetMapping("/{idUser}")
-    public BaseResponse<User> detail(@Valid @PathVariable(value = "idUser") String idUser) {
-        BaseResponse<User> response = new BaseResponse<>();
+    public BaseResponse<ResponseUser> detail(@Valid @PathVariable(value = "idUser") String idUser) {
+        BaseResponse<ResponseUser> response = new BaseResponse<>();
         try {
-            User user = userService.detail(idUser);
-            response.setResult(user);
+            response.setResult(userService.detail(idUser));
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
