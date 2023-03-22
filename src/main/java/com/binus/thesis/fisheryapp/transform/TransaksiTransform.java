@@ -14,14 +14,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
         PembeliTransform.class,
-        ConvertTransform.class,
-        IkanTransform.class
+        ConvertTransform.class
 })
 public interface TransaksiTransform {
 
     @Named("toResponseTransaksi")
     @Mapping(target = "idTransaksi", source = "transaksi.idTransaksi")
-    @Mapping(target = "ikan", source = "transaksi.ikan", qualifiedByName = "toResponseIkan")
+    @Mapping(target = "idIkan", source = "transaksi.ikan.idIkan")
+    @Mapping(target = "namaIkan", source = "transaksi.ikan.namaIkan")
+    @Mapping(target = "ukuran", source = "transaksi.ikan.ukuran")
     @Mapping(target = "jumlah", source = "transaksi.jumlah")
     @Mapping(target = "hargaAwal", source = "transaksi.hargaAwal")
     @Mapping(target = "hargaNego", source = "transaksi.hargaNego")

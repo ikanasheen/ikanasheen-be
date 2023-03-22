@@ -1,6 +1,5 @@
 package com.binus.thesis.fisheryapp.transform;
 
-import com.binus.thesis.fisheryapp.dto.response.ResponseIkan;
 import com.binus.thesis.fisheryapp.model.Ikan;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,7 +19,4 @@ public interface IkanTransform {
     @Mapping(target = "deskripsi", expression = "java(ikan.getDeskripsi() == null || ikan.getDeskripsi().isEmpty() ? ikanRepo.getDeskripsi() : ikan.getDeskripsi())")
     @Mapping(target = "hargaDasar", source = "hargaDasar")
     Ikan updateIkantoEntity(@MappingTarget Ikan ikanRepo, Ikan ikan);
-
-    @Named("toResponseIkan")
-    ResponseIkan toResponseIkan(Ikan ikan);
 }

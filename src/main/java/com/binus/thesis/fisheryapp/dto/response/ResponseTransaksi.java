@@ -12,7 +12,11 @@ public class ResponseTransaksi {
 
     private String idTransaksi;
 
-    private ResponseIkan ikan;
+    private String idIkan;
+
+    private String namaIkan;
+
+    private String ukuran;
 
     private String jumlah;
 
