@@ -29,6 +29,7 @@ public interface TransaksiTransform {
     @Mapping(target = "hargaAkhir", source = "transaksi.hargaAkhir")
     @Mapping(target = "tanggalDibutuhkan", source = "transaksi.tanggalDibutuhkan")
     @Mapping(target = "status", source = "transaksi.status")
+    @Mapping(target = "opsiPengiriman", source = "transaksi.opsiPengiriman")
     @Mapping(target = "namaNelayan", source = "transaksi.nelayan.namaLengkap")
     @Mapping(target = "alamatNelayan", source = "transaksi.nelayan.alamat")
     @Mapping(target = "kelurahanDesaNelayan", source = "transaksi.nelayan.kelurahanDesa")
@@ -56,6 +57,7 @@ public interface TransaksiTransform {
     @Mapping(target = "hargaAkhir", expression = "java(\"0\")")
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
     @Mapping(target = "alamat", source = "request.alamatPembeli")
+    @Mapping(target = "opsiPengiriman", source = "request.opsiPengiriman")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
     @Mapping(target = "catatan", expression = "java(request.getCatatan() != null && !request.getCatatan().isEmpty() ? request.getCatatan() : null)")
     Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, Ikan ikan);

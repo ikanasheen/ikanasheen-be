@@ -36,6 +36,8 @@ public class ResponseTransaksi {
 
     private String status;
 
+    private String opsiPengiriman;
+
     private String namaNelayan;
 
     private String alamatNelayan;

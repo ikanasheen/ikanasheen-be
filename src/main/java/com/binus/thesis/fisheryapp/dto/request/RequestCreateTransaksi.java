@@ -19,4 +19,6 @@ public class RequestCreateTransaksi {
     private String catatan;
 
     private String idUserPembeli;
+
+    private String opsiPengiriman;
 }

@@ -52,6 +52,9 @@ public class Transaksi {
     @Column(name = "tanggal_selesai")
     private String tanggalSelesai;
 
+    @Column(name = "opsi_pengiriman")
+    private String opsiPengiriman;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)
     private Pembeli pembeli;
