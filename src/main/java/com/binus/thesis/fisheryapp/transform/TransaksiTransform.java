@@ -110,6 +110,9 @@ public interface TransaksiTransform {
             }
             transaksi.setStatus("DIKIRIM");
             transaksi.setTanggalDikirim(LocalDate.now().toString());
+            if (catatanPengiriman != null && !catatanPengiriman.isEmpty()){
+                transaksi.setCatatanPengiriman(catatanPengiriman);
+            }
         } else {
             if (!transaksi.getStatus().equals("DIPROSES")) {
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROCCESS
@@ -117,7 +120,6 @@ public interface TransaksiTransform {
                 ));
             }
             transaksi.setStatus("SIAP_DIAMBIL");
-            transaksi.setCatatanPengiriman(catatanPengiriman);
             transaksi.setTanggalSiapDiambil(LocalDate.now().toString());
         }
         return transaksi;
