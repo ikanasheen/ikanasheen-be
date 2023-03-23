@@ -38,7 +38,7 @@ public class Transaksi {
     private String tanggalDibutuhkan;
 
     @Column(name = "alamat")
-    private String alamat;
+    private String alamatPembeli;
 
     @Column(name = "catatan")
     private String catatan;
