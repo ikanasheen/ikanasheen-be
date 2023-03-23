@@ -55,6 +55,15 @@ public class Transaksi {
     @Column(name = "opsi_pengiriman")
     private String opsiPengiriman;
 
+    @Column(name = "catatan_pengiriman")
+    private String catatanPengiriman;
+
+    @Column(name = "tanggal_dikirim")
+    private String tanggalDikirim;
+
+    @Column(name = "tanggal_siap_diambil")
+    private String tanggalSiapDiambil;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pembeli", referencedColumnName = "id_pembeli", insertable = false, updatable = false)
     private Pembeli pembeli;

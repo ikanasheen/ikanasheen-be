@@ -142,7 +142,7 @@ public class TransaksiController {
     }
 
     @PostMapping("/complete")
-    public BaseResponse<ResponseTransaksi> completeTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelTransaksi>> request) {
+    public BaseResponse<ResponseTransaksi> completeTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelProsesPengirimanTransaksi>> request) {
         BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
         try {
             ResponseTransaksi transaksi = transaksiService.completeTransaksi(request.getParameter().getData());
@@ -158,12 +158,44 @@ public class TransaksiController {
     }
 
     @PostMapping("/cancel")
-    public BaseResponse<ResponseTransaksi> cancelTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelTransaksi>> request) {
+    public BaseResponse<ResponseTransaksi> cancelTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelProsesPengirimanTransaksi>> request) {
         BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
         try {
             ResponseTransaksi transaksi = transaksiService.cancelTransaksi(request.getParameter().getData());
             response.setResult(transaksi);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CANCEL_TRX));
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+    @PostMapping("/prosesDikirim")
+    public BaseResponse<ResponseTransaksi> proseDikirimTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelProsesPengirimanTransaksi>> request) {
+        BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
+        try {
+            ResponseTransaksi transaksi = transaksiService.prosesDikirimTransaksi(request.getParameter().getData());
+            response.setResult(transaksi);
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+    @PostMapping("/prosesSiapDiambil")
+    public BaseResponse<ResponseTransaksi> proseSiapDiambilTransaksi(@Valid @RequestBody BaseRequest<BaseParameter<RequestCompleteCancelProsesPengirimanTransaksi>> request) {
+        BaseResponse<ResponseTransaksi> response = new BaseResponse<>();
+        try {
+            ResponseTransaksi transaksi = transaksiService.prosesSiapDiambilTransaksi(request.getParameter().getData());
+            response.setResult(transaksi);
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

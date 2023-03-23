@@ -28,6 +28,7 @@ public @interface GlobalMessage {
         public static final String DATA_ALREADY_EXISTS = "Data " + paramVariable.get(0) + " sudah ada!";
         public static final String DATA_NOT_FOUND = "Data " + paramVariable.get(0) + " dengan ID " + paramVariable.get(1) + " tidak ditemukan!";
         public static final String CANT_CANCEL = "Tidak dapat membatalkan transaksi dengan status " + paramVariable.get(0);
+        public static final String CANT_PROCCESS = "Tidak dapat mengubah transaksi dengan status " + paramVariable.get(0);
     }
 
     class Resp {

@@ -5,6 +5,7 @@ import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.Pembeli;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Data
@@ -38,6 +39,8 @@ public class ResponseTransaksi {
 
     private String opsiPengiriman;
 
+    private String catatanPengiriman;
+
     private String namaNelayan;
 
     private String alamatNelayan;
@@ -51,4 +54,8 @@ public class ResponseTransaksi {
     private LocalDate tanggalDiproses;
 
     private LocalDate tanggalSelesai;
+
+    private String tanggalDikirim;
+
+    private String tanggalSiapDiambil;
 }

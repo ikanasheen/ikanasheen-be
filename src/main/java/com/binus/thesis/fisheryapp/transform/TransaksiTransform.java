@@ -90,18 +90,34 @@ public interface TransaksiTransform {
     @Mapping(target = "tanggalDiproses", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? dateNow : null)")
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request, String dateNow);
 
-    @Named("completeCancelTransaksitoEntity")
-    default Transaksi completeCancelTransaksitoEntity(Transaksi transaksi, String action) {
+    @Named("completeCancelProsesPengirimanTransaksitoEntity")
+    default Transaksi completeCancelProsesPengirimanTransaksitoEntity(Transaksi transaksi, String action) {
         if (action.equals("COMPLETE")) {
             transaksi.setStatus("SELESAI");
             transaksi.setTanggalSelesai(LocalDate.now().toString());
-        } else {
+        } else if (action.equals("CANCEL")){
             if (!transaksi.getStatus().equals("DIAJUKAN")) {
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_CANCEL
                         .replaceAll(GlobalMessage.Error.paramVariable.get(0), transaksi.getStatus().toLowerCase())
                 ));
             }
             transaksi.setStatus("DIBATALKAN");
+        } else if (action.equals("KIRIM")) {
+            if (!transaksi.getStatus().equals("DIPROSES")) {
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROCCESS
+                        .replaceAll(GlobalMessage.Error.paramVariable.get(0), transaksi.getStatus().toLowerCase())
+                ));
+            }
+            transaksi.setStatus("DIKIRIM");
+            transaksi.setTanggalDikirim(LocalDate.now().toString());
+        } else {
+            if (!transaksi.getStatus().equals("DIPROSES")) {
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROCCESS
+                        .replaceAll(GlobalMessage.Error.paramVariable.get(0), transaksi.getStatus().toLowerCase())
+                ));
+            }
+            transaksi.setStatus("SIAP_DIAMBIL");
+            transaksi.setTanggalSiapDiambil(LocalDate.now().toString());
         }
         return transaksi;
     }

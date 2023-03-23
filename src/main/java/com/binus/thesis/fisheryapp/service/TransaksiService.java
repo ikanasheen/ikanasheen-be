@@ -112,20 +112,38 @@ public class TransaksiService {
         );
     }
 
-    public ResponseTransaksi completeTransaksi(RequestCompleteCancelTransaksi request) {
+    public ResponseTransaksi completeTransaksi(RequestCompleteCancelProsesPengirimanTransaksi request) {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.completeCancelTransaksitoEntity(transaksiRepo, "COMPLETE")
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "COMPLETE")
                 )
         );
     }
 
-    public ResponseTransaksi cancelTransaksi(RequestCompleteCancelTransaksi request) {
+    public ResponseTransaksi cancelTransaksi(RequestCompleteCancelProsesPengirimanTransaksi request) {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.completeCancelTransaksitoEntity(transaksiRepo, "CANCEL")
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "CANCEL")
+                )
+        );
+    }
+
+    public ResponseTransaksi prosesDikirimTransaksi(RequestCompleteCancelProsesPengirimanTransaksi request) {
+        Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
+        return transform.toResponseTransaksi(
+                repository.saveAndFlush(
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "KIRIM")
+                )
+        );
+    }
+
+    public ResponseTransaksi prosesSiapDiambilTransaksi(RequestCompleteCancelProsesPengirimanTransaksi request) {
+        Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
+        return transform.toResponseTransaksi(
+                repository.saveAndFlush(
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "SIAP_DIAMBIL")
                 )
         );
     }
