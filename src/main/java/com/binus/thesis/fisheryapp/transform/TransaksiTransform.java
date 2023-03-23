@@ -91,7 +91,7 @@ public interface TransaksiTransform {
     Transaksi approvalNegotoEntity(@MappingTarget Transaksi transaksi, RequestApproveNegoTransaksi request, String dateNow);
 
     @Named("completeCancelProsesPengirimanTransaksitoEntity")
-    default Transaksi completeCancelProsesPengirimanTransaksitoEntity(Transaksi transaksi, String action) {
+    default Transaksi completeCancelProsesPengirimanTransaksitoEntity(Transaksi transaksi, String action, String catatanPengiriman) {
         if (action.equals("COMPLETE")) {
             transaksi.setStatus("SELESAI");
             transaksi.setTanggalSelesai(LocalDate.now().toString());
@@ -117,6 +117,7 @@ public interface TransaksiTransform {
                 ));
             }
             transaksi.setStatus("SIAP_DIAMBIL");
+            transaksi.setCatatanPengiriman(catatanPengiriman);
             transaksi.setTanggalSiapDiambil(LocalDate.now().toString());
         }
         return transaksi;
