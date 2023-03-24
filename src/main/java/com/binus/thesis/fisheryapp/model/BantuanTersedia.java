@@ -20,11 +20,11 @@ public class BantuanTersedia {
     private String jenisBantuan;
 
     @Column(name = "kuota")
-    private int kuota;
+    private String kuota;
 
     @Column(name = "format_proposal")
     private String formatProposal;
 
-    @Column(name = "status_bantuan")
+    @Column(name = "status")
     private String statusBantuan;
 }
