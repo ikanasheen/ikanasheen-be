@@ -112,6 +112,8 @@ public class ProposalBantuanService {
                 Arrays.asList("DIAJUKAN", "DISETUJUI")
         );
         if (!proposal.isEmpty())
-            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROPOSE));
+            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROPOSE
+                    .replaceAll(GlobalMessage.Error.paramVariable.get(0), proposal.get(0).getStatusProposal())
+            ));
     }
 }

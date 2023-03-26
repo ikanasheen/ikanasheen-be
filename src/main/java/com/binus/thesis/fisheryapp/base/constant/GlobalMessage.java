@@ -30,7 +30,7 @@ public @interface GlobalMessage {
         public static final String CANT_CANCEL = "Tidak dapat membatalkan transaksi dengan status " + paramVariable.get(0);
         public static final String CANT_PROCCESS = "Tidak dapat mengubah transaksi dengan status " + paramVariable.get(0);
 
-        public static final String CANT_PROPOSE = "Pengajuan proposal melebihi batas maksimum";
+        public static final String CANT_PROPOSE = "Proposal bantuan sudah pernah diajukan, dengan status: " + paramVariable.get(0);
     }
 
     class Resp {
