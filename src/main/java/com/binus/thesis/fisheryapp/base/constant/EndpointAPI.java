@@ -11,4 +11,5 @@ public @interface EndpointAPI {
     String NELAYAN = "/nelayan";
     String TRANSAKSI = "/transaksi";
     String BANTUAN = "/bantuan";
+    String PROPOSAL_BANTUAN = "/proposal";
 }

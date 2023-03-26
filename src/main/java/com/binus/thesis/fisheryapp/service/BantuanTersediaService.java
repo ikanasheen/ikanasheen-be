@@ -33,10 +33,10 @@ public class BantuanTersediaService {
     private final PageTransform pageTransform;
 
     public BantuanTersedia create(BantuanTersedia bantuan) {
-        String jenis = bantuan.getJenisBantuan().split(" ")[0];
-        String idBantuanTersedia = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);
+        String jenis = bantuan.getJenisBantuan().split(" ")[0].substring(0,3);
+        String idBantuan = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);
         return repository.save(
-                transform.createBantuantoEntity(bantuan, idBantuanTersedia)
+                transform.createBantuantoEntity(bantuan, idBantuan)
         );
     }
 
@@ -47,13 +47,13 @@ public class BantuanTersediaService {
         );
     }
 
-    public void delete(String idBantuanTersedia) {
-        getBantuanTersedia(idBantuanTersedia);
-        repository.deleteById(idBantuanTersedia);
+    public void delete(String idBantuan) {
+        getBantuanTersedia(idBantuan);
+        repository.deleteById(idBantuan);
     }
 
-    public BantuanTersedia detail(String idBantuanTersedia) {
-        return getBantuanTersedia(idBantuanTersedia);
+    public BantuanTersedia detail(String idBantuan) {
+        return getBantuanTersedia(idBantuan);
     }
 
     public BaseResponse<List<BantuanTersedia>> retrieve(BaseRequest<BaseParameter<BantuanTersedia>> request) {
@@ -79,15 +79,21 @@ public class BantuanTersediaService {
         return response;
     }
 
-    public BantuanTersedia getBantuanTersedia(String idBantuanTersedia) {
-        Optional<BantuanTersedia> bantuanRepo = repository.findById(idBantuanTersedia);
+    public BantuanTersedia getBantuanTersedia(String idBantuan) {
+        Optional<BantuanTersedia> bantuanRepo = repository.findById(idBantuan);
         if (bantuanRepo.isEmpty()) {
             throw new ApplicationException(Status.DATA_NOT_FOUND(GlobalMessage.Error.DATA_NOT_FOUND
                     .replaceAll(GlobalMessage.Error.paramVariable.get(0), "bantuan")
-                    .replaceAll(GlobalMessage.Error.paramVariable.get(1), idBantuanTersedia))
+                    .replaceAll(GlobalMessage.Error.paramVariable.get(1), idBantuan))
             );
         }
 
         return bantuanRepo.get();
+    }
+
+    public BantuanTersedia updateKuota(String idBantuan) {
+        BantuanTersedia bantuan = getBantuanTersedia(idBantuan);
+        int kuota = Integer.parseInt(bantuan.getKuota()) - 1;
+        return repository.save(transform.updateKuota(bantuan, String.valueOf(kuota)));
     }
 }

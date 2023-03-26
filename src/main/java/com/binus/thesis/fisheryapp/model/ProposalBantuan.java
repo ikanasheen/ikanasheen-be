@@ -20,14 +20,14 @@ public class ProposalBantuan {
     @Column(name = "id_bantuan")
     private String idBantuan;
 
-    @Column(name = "tanggal_pengajuan")
-    private LocalDate tanggalPengajuan;
+    @Column(name = "tanggal_diajukan")
+    private String tanggalDiajukan;
 
     @Column(name = "tanggal_disetujui")
-    private LocalDate tanggalDisetujui;
+    private String tanggalDisetujui;
 
     @Column(name = "tanggal_ditolak")
-    private LocalDate tanggalDitolak;
+    private String tanggalDitolak;
 
     @Column(name = "file")
     private String file;
