@@ -25,5 +25,6 @@ public interface BantuanTersediaTransform {
 
     @Named("updateKuota")
     @Mapping(target = "kuota", source = "kuota")
-    BantuanTersedia updateKuota(@MappingTarget BantuanTersedia bantuan, String kuota);
+    @Mapping(target = "statusBantuan", source = "status")
+    BantuanTersedia updateKuota(@MappingTarget BantuanTersedia bantuan, String kuota, String status);
 }

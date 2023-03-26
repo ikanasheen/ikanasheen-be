@@ -46,7 +46,7 @@ public class ProposalBantuanService {
         checkProposal(nelayan.getIdNelayan(), req.getIdBantuan());
         String idProposalBantuan = GeneratorUtils.generateId("PROP"+req.getIdBantuan().substring(0,3), new Date(), 3);
         ProposalBantuan proposal = repository.save(
-                transform.createProposaltoEntity(req, idProposalBantuan, nelayan.getIdNelayan(), getTodayDate())
+                transform.createProposaltoEntity(req, idProposalBantuan, nelayan.getIdNelayan(), GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
         );
         return transform.buildResponseProposal(proposal);
     }
@@ -63,7 +63,7 @@ public class ProposalBantuanService {
     public ResponseProposalBantuan approval(RequestApproveProposal req) {
         ProposalBantuan proposal = getProposalBantuan(req.getIdProposalBantuan());
         ProposalBantuan savedProposal = repository.saveAndFlush(
-                transform.approvalProposaltoEntity(proposal, req.getIsApprove(), getTodayDate())
+                transform.approvalProposaltoEntity(proposal, req.getIsApprove(), GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
         );
         if (req.getIsApprove().equalsIgnoreCase("Ya"))
             bantuanService.updateKuota(savedProposal.getIdBantuan());
@@ -113,11 +113,5 @@ public class ProposalBantuanService {
         );
         if (!proposal.isEmpty())
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_PROPOSE));
-    }
-
-    public String getTodayDate() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return now.format(formatter);
     }
 }

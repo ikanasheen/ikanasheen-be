@@ -3,6 +3,8 @@ package com.binus.thesis.fisheryapp.base.utils;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 
@@ -32,4 +34,8 @@ public class GeneratorUtils {
         return prefix + dateFormat + randomkey;
     }
 
+    public static String generateTimeStamp(LocalDateTime datetime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return datetime.format(formatter);
+    }
 }

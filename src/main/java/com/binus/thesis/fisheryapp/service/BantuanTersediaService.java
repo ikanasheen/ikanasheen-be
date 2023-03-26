@@ -94,6 +94,12 @@ public class BantuanTersediaService {
     public BantuanTersedia updateKuota(String idBantuan) {
         BantuanTersedia bantuan = getBantuanTersedia(idBantuan);
         int kuota = Integer.parseInt(bantuan.getKuota()) - 1;
-        return repository.save(transform.updateKuota(bantuan, String.valueOf(kuota)));
+        String status = "ACTIVE";
+        if (kuota < 1) {
+            status = "UNAVAILABLE";
+        }
+        return repository.save(
+                transform.updateKuota(bantuan, String.valueOf(kuota), status)
+        );
     }
 }
