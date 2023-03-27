@@ -8,6 +8,7 @@ import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.dto.request.RequestApproveProposal;
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateProposal;
 import com.binus.thesis.fisheryapp.dto.response.ResponseProposalBantuan;
+import com.binus.thesis.fisheryapp.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.model.Nelayan;
 import com.binus.thesis.fisheryapp.model.ProposalBantuan;
 import com.binus.thesis.fisheryapp.repository.ProposalBantuanRepository;
@@ -59,11 +60,15 @@ public class ProposalBantuanService {
 
     public ResponseProposalBantuan approval(RequestApproveProposal req) {
         ProposalBantuan proposal = getProposalBantuan(req.getIdProposalBantuan());
+        BantuanTersedia bantuan = bantuanService.getBantuanTersedia(proposal.getIdBantuan());
+        if (bantuan.getKuotaTersisa().equalsIgnoreCase("0")) {
+            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.KUOTA_EXCEED));
+        }
         ProposalBantuan savedProposal = repository.saveAndFlush(
                 transform.approvalProposaltoEntity(proposal, req.getIsApprove(), GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
         );
         if (req.getIsApprove().equalsIgnoreCase("Ya"))
-            bantuanService.updateKuotaTersisa(savedProposal.getIdBantuan());
+            bantuanService.updateKuotaTersisa(bantuan);
         return transform.buildResponseProposal(savedProposal);
     }
 

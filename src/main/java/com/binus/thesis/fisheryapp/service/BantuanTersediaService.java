@@ -91,8 +91,7 @@ public class BantuanTersediaService {
         return bantuanRepo.get();
     }
 
-    public BantuanTersedia updateKuotaTersisa(String idBantuan) {
-        BantuanTersedia bantuan = getBantuanTersedia(idBantuan);
+    public BantuanTersedia updateKuotaTersisa(BantuanTersedia bantuan) {
         int kuota = Integer.parseInt(bantuan.getKuotaTersisa()) - 1;
         String status = "ACTIVE";
         if (kuota < 1) {

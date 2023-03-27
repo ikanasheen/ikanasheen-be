@@ -22,6 +22,7 @@ public interface BantuanTersediaTransform {
     @Mapping(target = "formatProposal", expression = "java(bantuan.getFormatProposal() == null || bantuan.getFormatProposal().isEmpty() ? bantuanRepo.getFormatProposal() : bantuan.getFormatProposal())")
     @Mapping(target = "statusBantuan", expression = "java(bantuan.getStatusBantuan() == null || bantuan.getStatusBantuan().isEmpty() ? bantuanRepo.getStatusBantuan() : bantuan.getStatusBantuan())")
     @Mapping(target = "kuota", expression = "java(bantuan.getKuota() == null ? bantuanRepo.getKuota() : bantuan.getKuota())")
+    @Mapping(target = "kuotaTersisa", expression = "java(bantuan.getKuota() == null ? bantuanRepo.getKuota() : bantuan.getKuota())")
     BantuanTersedia updateBantuantoEntity(@MappingTarget BantuanTersedia bantuanRepo, BantuanTersedia bantuan);
 
     @Named("updateKuotaTersisa")
