@@ -29,7 +29,7 @@ public class TransaksiSpecification extends BaseSpecification {
                 predicates.addAll(generateFilterTransaksi(paramFilter, builder, root));
             }
             if (paramBetween != null && paramBetween.size() > 0) {
-                predicates.addAll(generateBetween(paramBetween, builder, root));
+                predicates.addAll(generateBetweenDate(paramBetween, builder, root));
             }
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));
 

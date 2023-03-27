@@ -3,15 +3,12 @@ package com.binus.thesis.fisheryapp.service.specification;
 import com.binus.thesis.fisheryapp.base.component.BaseSpecification;
 import com.binus.thesis.fisheryapp.base.dto.BaseParameter;
 import com.binus.thesis.fisheryapp.base.dto.BetweenParameter;
-import com.binus.thesis.fisheryapp.model.Ikan;
 import com.binus.thesis.fisheryapp.model.Sosialisasi;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +27,7 @@ public class SosialisasiSpecification extends BaseSpecification {
                 predicates.addAll(generateFilter(paramFilter, builder, root));
             }
             if (paramBetween != null && paramBetween.size() > 0) {
-                predicates.addAll(generateBetween(paramBetween, builder, root));
+                predicates.addAll(generateBetweenDate(paramBetween, builder, root));
             }
 
             ((CriteriaQuery) query).where(builder.and(predicates.toArray(new Predicate[0])));

@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Component
@@ -74,7 +73,7 @@ public class BaseSpecification {
         return predicates;
     }
 
-    public List<Predicate> generateBetween(Map<String, BetweenParameter> between, CriteriaBuilder builder, Root root){
+    public List<Predicate> generateBetweenDate(Map<String, BetweenParameter> between, CriteriaBuilder builder, Root root){
         List<Predicate> predicates = new ArrayList<>();
         if (between != null) {
             for (Map.Entry<String, BetweenParameter> entry : between.entrySet()) {
@@ -91,6 +90,32 @@ public class BaseSpecification {
                 } else {
                     if (entry.getValue().getTo() != null) {
                         to = entry.getValue().getTo();
+                        predicates.add(builder.lessThanOrEqualTo(root.get(entry.getKey()), to));
+                    }
+                }
+            }
+        }
+
+        return predicates;
+    }
+
+    public List<Predicate> generateBetweenDateTime(Map<String, BetweenParameter> between, CriteriaBuilder builder, Root root){
+        List<Predicate> predicates = new ArrayList<>();
+        if (between != null) {
+            for (Map.Entry<String, BetweenParameter> entry : between.entrySet()) {
+                String from = null;
+                String to = null;
+                if (entry.getValue().getFrom() != null) {
+                    from = entry.getValue().getFrom() + " 00:00:00";
+                    if (entry.getValue().getTo() != null) {
+                        to = entry.getValue().getTo() + " 23:59:59";
+                        predicates.add(builder.between(root.get(entry.getKey()), from, to));
+                    } else {
+                        predicates.add(builder.greaterThanOrEqualTo(root.get(entry.getKey()), from));
+                    }
+                } else {
+                    if (entry.getValue().getTo() != null) {
+                        to = entry.getValue().getTo() + " 23:59:59";
                         predicates.add(builder.lessThanOrEqualTo(root.get(entry.getKey()), to));
                     }
                 }
