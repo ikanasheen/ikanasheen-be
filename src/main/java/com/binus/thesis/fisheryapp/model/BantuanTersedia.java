@@ -22,6 +22,9 @@ public class BantuanTersedia {
     @Column(name = "kuota")
     private String kuota;
 
+    @Column(name = "kuota_tersisa")
+    private String kuotaTersisa;
+
     @Column(name = "format_proposal")
     private String formatProposal;
 

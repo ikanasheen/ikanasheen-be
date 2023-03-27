@@ -19,10 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -66,7 +63,7 @@ public class ProposalBantuanService {
                 transform.approvalProposaltoEntity(proposal, req.getIsApprove(), GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
         );
         if (req.getIsApprove().equalsIgnoreCase("Ya"))
-            bantuanService.updateKuota(savedProposal.getIdBantuan());
+            bantuanService.updateKuotaTersisa(savedProposal.getIdBantuan());
         return transform.buildResponseProposal(savedProposal);
     }
 

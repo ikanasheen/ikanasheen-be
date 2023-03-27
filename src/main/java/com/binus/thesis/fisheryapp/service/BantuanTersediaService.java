@@ -36,7 +36,7 @@ public class BantuanTersediaService {
         String jenis = bantuan.getJenisBantuan().split(" ")[0].substring(0,3);
         String idBantuan = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);
         return repository.save(
-                transform.createBantuantoEntity(bantuan, idBantuan)
+                transform.createBantuantoEntity(bantuan, idBantuan, bantuan.getKuota())
         );
     }
 
@@ -91,15 +91,15 @@ public class BantuanTersediaService {
         return bantuanRepo.get();
     }
 
-    public BantuanTersedia updateKuota(String idBantuan) {
+    public BantuanTersedia updateKuotaTersisa(String idBantuan) {
         BantuanTersedia bantuan = getBantuanTersedia(idBantuan);
-        int kuota = Integer.parseInt(bantuan.getKuota()) - 1;
+        int kuota = Integer.parseInt(bantuan.getKuotaTersisa()) - 1;
         String status = "ACTIVE";
         if (kuota < 1) {
             status = "UNAVAILABLE";
         }
         return repository.save(
-                transform.updateKuota(bantuan, String.valueOf(kuota), status)
+                transform.updateKuotaTersisa(bantuan, String.valueOf(kuota), status)
         );
     }
 }

@@ -13,6 +13,8 @@ public class ResponseBantuan {
 
     private String kuota;
 
+    private String kuotaTersisa;
+
     private String formatProposal;
 
     private String statusBantuan;

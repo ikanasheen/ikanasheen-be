@@ -12,7 +12,8 @@ public interface BantuanTersediaTransform {
     @Named("createBantuantoEntity")
     @Mapping(target = "idBantuan", source = "idBantuan")
     @Mapping(target = "statusBantuan", expression = "java(\"ACTIVE\")")
-    BantuanTersedia createBantuantoEntity(@MappingTarget BantuanTersedia bantuan, String idBantuan);
+    @Mapping(target = "kuotaTersisa", source = "kuota")
+    BantuanTersedia createBantuantoEntity(@MappingTarget BantuanTersedia bantuan, String idBantuan, String kuota);
 
     @Named("updateBantuantoEntity")
     @Mapping(target = "idBantuan", source = "idBantuan")
@@ -23,8 +24,8 @@ public interface BantuanTersediaTransform {
     @Mapping(target = "kuota", expression = "java(bantuan.getKuota() == null ? bantuanRepo.getKuota() : bantuan.getKuota())")
     BantuanTersedia updateBantuantoEntity(@MappingTarget BantuanTersedia bantuanRepo, BantuanTersedia bantuan);
 
-    @Named("updateKuota")
-    @Mapping(target = "kuota", source = "kuota")
+    @Named("updateKuotaTersisa")
+    @Mapping(target = "kuotaTersisa", source = "kuotaTersisa")
     @Mapping(target = "statusBantuan", source = "status")
-    BantuanTersedia updateKuota(@MappingTarget BantuanTersedia bantuan, String kuota, String status);
+    BantuanTersedia updateKuotaTersisa(@MappingTarget BantuanTersedia bantuan, String kuotaTersisa, String status);
 }
