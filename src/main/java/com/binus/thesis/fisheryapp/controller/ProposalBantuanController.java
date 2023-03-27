@@ -7,7 +7,6 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.dto.request.RequestApproveNegoTransaksi;
 import com.binus.thesis.fisheryapp.dto.request.RequestApproveProposal;
 import com.binus.thesis.fisheryapp.dto.request.RequestCreateProposal;
 import com.binus.thesis.fisheryapp.dto.response.ResponseProposalBantuan;
@@ -34,9 +33,9 @@ public class ProposalBantuanController {
         BaseResponse<ResponseProposalBantuan> response = new BaseResponse<>();
         BaseParameter<RequestCreateProposal> parameter = request.getParameter();
         try {
-            ResponseProposalBantuan proposalBantuan = proposalBantuanService.create(request.getParameter().getData());
+            ResponseProposalBantuan proposalBantuan = proposalBantuanService.create(parameter.getData());
             response.setResult(proposalBantuan);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_CREATE_DATA));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_SUBMMIT_PROPOSAL));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
@@ -92,12 +91,16 @@ public class ProposalBantuanController {
     }
 
     @PostMapping("/approval")
-    public BaseResponse<ResponseProposalBantuan> approvalNego(@Valid @RequestBody BaseRequest<BaseParameter<RequestApproveProposal>> request) {
+    public BaseResponse<ResponseProposalBantuan> approval(@Valid @RequestBody BaseRequest<BaseParameter<RequestApproveProposal>> request) {
         BaseResponse<ResponseProposalBantuan> response = new BaseResponse<>();
+        RequestApproveProposal data = request.getParameter().getData();
         try {
-            ResponseProposalBantuan transaksi = proposalBantuanService.approval(request.getParameter().getData());
+            ResponseProposalBantuan transaksi = proposalBantuanService.approval(data);
             response.setResult(transaksi);
-            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPDATE_TRX));
+            response.setStatus(Status.SUCCESS(data.getIsApprove().equalsIgnoreCase("Ya")
+                    ? GlobalMessage.Resp.SUCCESS_APPROVE_PROPOSAL
+                    : GlobalMessage.Resp.SUCCESS_REJECT_PROPOSAL
+            ));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {

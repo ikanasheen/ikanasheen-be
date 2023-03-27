@@ -54,5 +54,8 @@ public @interface GlobalMessage {
         public static final String SUCCESS_DELETE_TRX = "Transaksi berhasil dihapus";
         public static final String SUCCESS_CANCEL_TRX = "Transaksi berhasil dibatalkan";
         public static final String SUCCESS_COMPLETE_TRX = "Transaksi berhasil diselesaikan";
+        public static final String SUCCESS_SUBMMIT_PROPOSAL = "Proposal bantuan berhasil diajukan";
+        public static final String SUCCESS_APPROVE_PROPOSAL = "Proposal bantuan berhasil disetujui";
+        public static final String SUCCESS_REJECT_PROPOSAL = "Proposal bantuan berhasil ditolak";
     }
 }
