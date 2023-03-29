@@ -134,7 +134,7 @@ public class TransaksiService {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "KIRIM", null)
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "KIRIM", request.getCatatanPengiriman())
                 )
         );
     }
@@ -143,7 +143,7 @@ public class TransaksiService {
         Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         return transform.toResponseTransaksi(
                 repository.saveAndFlush(
-                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "SIAP_DIAMBIL", request.getCatatanPengiriman())
+                        transform.completeCancelProsesPengirimanTransaksitoEntity(transaksiRepo, "SIAP_DIAMBIL", null)
                 )
         );
     }
