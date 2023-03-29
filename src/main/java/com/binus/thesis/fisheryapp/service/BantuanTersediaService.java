@@ -42,9 +42,9 @@ public class BantuanTersediaService {
 
     public BantuanTersedia update(BantuanTersedia bantuan) {
         BantuanTersedia bantuanRepo = getBantuanTersedia(bantuan.getIdBantuan());
-        return repository.save(
-                transform.updateBantuantoEntity(bantuanRepo, bantuan)
-        );
+        transform.updateKuota(bantuanRepo, bantuan);
+        transform.updateBantuantoEntity(bantuanRepo, bantuan);
+        return repository.save(bantuanRepo);
     }
 
     public void delete(String idBantuan) {
