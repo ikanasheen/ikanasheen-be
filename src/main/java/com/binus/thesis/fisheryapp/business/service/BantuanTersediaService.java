@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -113,12 +115,8 @@ public class BantuanTersediaService {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         try {
-            ftpClient.connect("localhost", 21);
-            ftpClient.login("admin", "123");
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
-            String remoteFile = "/oceanare/bantuan/"+idBantuan+".doc";
+            setFTPClient(ftpClient);
+            String remoteFile = "/oceanare/bantuan/"+idBantuan+".docx";
             ftpClient.retrieveFile(remoteFile, outputStream);
 
             return new ByteArrayInputStream(outputStream.toByteArray());
@@ -138,5 +136,44 @@ public class BantuanTersediaService {
         }
 
         return null;
+    }
+
+    public String upload(MultipartFile multipartFile) {
+        FTPClient ftpClient = new FTPClient();
+
+        try {
+            setFTPClient(ftpClient);
+            int reply = ftpClient.getReplyCode();
+            if (!FTPReply.isPositiveCompletion(reply)) {
+                ftpClient.disconnect();
+            }
+            ftpClient.changeWorkingDirectory("/oceanare/bantuan/");
+            String remoteFileName = multipartFile.getOriginalFilename();
+            ftpClient.storeFile(remoteFileName, multipartFile.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (ftpClient.isConnected()) {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return "SUCCESS";
+    }
+
+    public void setFTPClient(FTPClient ftpClient) {
+        try {
+            ftpClient.connect("localhost", 21);
+            ftpClient.login("admin", "123");
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
