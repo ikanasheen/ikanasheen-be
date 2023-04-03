@@ -11,18 +11,10 @@ import com.binus.thesis.fisheryapp.business.repository.BantuanTersediaRepository
 import com.binus.thesis.fisheryapp.business.service.specification.BantuanTersediaSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -108,72 +100,5 @@ public class BantuanTersediaService {
         return repository.save(
                 transform.updateKuotaTersisa(bantuan, String.valueOf(kuota), status)
         );
-    }
-
-    public InputStream download(String idBantuan) {
-        FTPClient ftpClient = new FTPClient();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        try {
-            setFTPClient(ftpClient);
-            String remoteFile = "/oceanare/bantuan/"+idBantuan+".docx";
-            ftpClient.retrieveFile(remoteFile, outputStream);
-
-            return new ByteArrayInputStream(outputStream.toByteArray());
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                ftpClient.logout();
-                if (ftpClient.isConnected()) {
-                    ftpClient.disconnect();
-                }
-                outputStream.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return null;
-    }
-
-    public String upload(MultipartFile multipartFile) {
-        FTPClient ftpClient = new FTPClient();
-
-        try {
-            setFTPClient(ftpClient);
-            int reply = ftpClient.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
-                ftpClient.disconnect();
-            }
-            ftpClient.changeWorkingDirectory("/oceanare/bantuan/");
-            String remoteFileName = multipartFile.getOriginalFilename();
-            ftpClient.storeFile(remoteFileName, multipartFile.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                if (ftpClient.isConnected()) {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return "SUCCESS";
-    }
-
-    public void setFTPClient(FTPClient ftpClient) {
-        try {
-            ftpClient.connect("localhost", 21);
-            ftpClient.login("admin", "123");
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

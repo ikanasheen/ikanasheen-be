@@ -25,9 +25,13 @@ public class BantuanTersedia {
     @Column(name = "kuota_tersisa")
     private String kuotaTersisa;
 
-    @Column(name = "format_proposal")
-    private String formatProposal;
-
     @Column(name = "status")
     private String statusBantuan;
+
+    @Column(name = "id_dokumen")
+    private String idDokumen;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_dokumen", referencedColumnName = "id_dokumen", insertable = false, updatable = false)
+    private Dokumen dokumen;
 }

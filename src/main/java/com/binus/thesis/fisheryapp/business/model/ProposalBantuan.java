@@ -28,9 +28,6 @@ public class ProposalBantuan {
     @Column(name = "tanggal_ditolak")
     private String tanggalDitolak;
 
-    @Column(name = "file")
-    private String file;
-
     @Column(name = "status")
     private String statusProposal;
 
@@ -41,4 +38,11 @@ public class ProposalBantuan {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_bantuan", referencedColumnName = "id_bantuan", insertable = false, updatable = false)
     private BantuanTersedia bantuan;
+
+    @Column(name = "id_dokumen")
+    private String idDokumen;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_dokumen", referencedColumnName = "id_dokumen", insertable = false, updatable = false)
+    private Dokumen dokumen;
 }

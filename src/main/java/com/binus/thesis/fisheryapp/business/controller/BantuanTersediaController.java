@@ -113,34 +113,4 @@ public class BantuanTersediaController {
         }
         return response;
     }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public BaseResponse<String> upload(@RequestParam("file") MultipartFile file) {
-        BaseResponse<String> response = new BaseResponse<>();
-        try {
-            String upload = bantuanTersediaService.upload(file);
-            response.setStatus(Status.SUCCESS());
-            response.setResult(upload);
-        } catch (ApplicationException exception) {
-            response.setStatus(exception.getStatus());
-        } catch (Exception exception) {
-            log.error(exception.getMessage(), exception);
-            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
-        }
-        return response;
-    }
-
-    @RequestMapping(value = "/download/{idBantuan}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE })
-    public ResponseEntity<InputStreamResource> download(@Valid @PathVariable(value = "idBantuan") String idBantuan) {
-        InputStreamResource file = new InputStreamResource(bantuanTersediaService.download(idBantuan));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType(MediaType.APPLICATION_OCTET_STREAM, Charset.forName("UTF-8")));
-        headers.setContentDispositionFormData("attachment", idBantuan+".docx");
-        headers.add("Content-Transfer-Encoding", "binary");
-
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(file);
-    }
 }

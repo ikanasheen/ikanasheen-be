@@ -59,5 +59,6 @@ public @interface GlobalMessage {
         public static final String SUCCESS_SUBMMIT_PROPOSAL = "Proposal bantuan berhasil diajukan";
         public static final String SUCCESS_APPROVE_PROPOSAL = "Proposal bantuan berhasil disetujui";
         public static final String SUCCESS_REJECT_PROPOSAL = "Proposal bantuan berhasil ditolak";
+        public static final String SUCCESS_UPLOAD_DOKUMEN = "Dokumen berhasil diunggah";
     }
 }

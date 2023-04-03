@@ -22,7 +22,6 @@ public interface BantuanTersediaTransform {
     @Mapping(target = "idBantuan", source = "idBantuan")
     @Mapping(target = "namaBantuan", expression = "java(bantuan.getNamaBantuan() == null || bantuan.getNamaBantuan().isEmpty() ? bantuanRepo.getNamaBantuan() : bantuan.getNamaBantuan())")
     @Mapping(target = "jenisBantuan", expression = "java(bantuan.getJenisBantuan() == null || bantuan.getJenisBantuan().isEmpty() ? bantuanRepo.getJenisBantuan() : bantuan.getJenisBantuan())")
-    @Mapping(target = "formatProposal", expression = "java(bantuan.getFormatProposal() == null || bantuan.getFormatProposal().isEmpty() ? bantuanRepo.getFormatProposal() : bantuan.getFormatProposal())")
     @Mapping(target = "statusBantuan", expression = "java(bantuan.getStatusBantuan() == null || bantuan.getStatusBantuan().isEmpty() ? bantuanRepo.getStatusBantuan() : bantuan.getStatusBantuan())")
     @Mapping(target = "kuota", ignore = true)
     @Mapping(target = "kuotaTersisa", ignore = true)
