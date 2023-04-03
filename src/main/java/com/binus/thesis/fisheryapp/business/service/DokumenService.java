@@ -79,11 +79,11 @@ public class DokumenService {
     public Dokumen upload(MultipartFile multipartFile, String namaService) {
         FTPClient ftpClient = new FTPClient();
         String idDokumen = GeneratorUtils.generateId(
-                "DOK"+namaService.substring(0,3).toUpperCase(Locale.ROOT),
+                "DOK"+namaService.substring(0,3),
                 new Date(),
                 5
         );
-        String filepath = dokumenPath+"/"+namaService+"/";
+        String filepath = dokumenPath+"/"+namaService.toLowerCase(Locale.ROOT)+"/";
         String namaFile = "";
         String url = "";
         try {
@@ -112,7 +112,7 @@ public class DokumenService {
         return repository.save(transform.buildDokumenEntity(
                 idDokumen,
                 namaFile,
-                namaService,
+                namaService.toLowerCase(Locale.ROOT),
                 url
         ));
     }
