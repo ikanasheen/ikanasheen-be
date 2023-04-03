@@ -15,7 +15,7 @@ public class ResponseBantuan {
 
     private String kuotaTersisa;
 
-    private String formatProposal;
-
     private String statusBantuan;
+
+    private ResponseDokumen dokumen;
 }

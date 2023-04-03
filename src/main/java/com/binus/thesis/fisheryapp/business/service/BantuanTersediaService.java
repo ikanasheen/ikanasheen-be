@@ -5,6 +5,7 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.business.transform.BantuanTersediaTransform;
 import com.binus.thesis.fisheryapp.business.repository.BantuanTersediaRepository;
@@ -32,19 +33,22 @@ public class BantuanTersediaService {
     private final BantuanTersediaTransform transform;
     private final PageTransform pageTransform;
 
-    public BantuanTersedia create(BantuanTersedia bantuan) {
+    public ResponseBantuan create(BantuanTersedia bantuan) {
         String jenis = bantuan.getJenisBantuan().split(" ")[0].substring(0,3);
         String idBantuan = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);
-        return repository.save(
-                transform.createBantuantoEntity(bantuan, idBantuan, bantuan.getKuota())
+        BantuanTersedia savedBantuan = repository.saveAndFlush(
+                transform.createBantuantoEntity(bantuan, idBantuan, bantuan.getKuota(), bantuan.getDokumen())
         );
+
+        return transform.buildResponseBantuan(savedBantuan);
     }
 
-    public BantuanTersedia update(BantuanTersedia bantuan) {
+    public ResponseBantuan update(BantuanTersedia bantuan) {
         BantuanTersedia bantuanRepo = getBantuanTersedia(bantuan.getIdBantuan());
         transform.updateKuota(bantuanRepo, bantuan);
         transform.updateBantuantoEntity(bantuanRepo, bantuan);
-        return repository.save(bantuanRepo);
+        BantuanTersedia savedBantuan = repository.saveAndFlush(bantuanRepo);
+        return transform.buildResponseBantuan(savedBantuan);
     }
 
     public void delete(String idBantuan) {
@@ -52,12 +56,12 @@ public class BantuanTersediaService {
         repository.deleteById(idBantuan);
     }
 
-    public BantuanTersedia detail(String idBantuan) {
-        return getBantuanTersedia(idBantuan);
+    public ResponseBantuan detail(String idBantuan) {
+        return transform.buildResponseBantuan(getBantuanTersedia(idBantuan));
     }
 
-    public BaseResponse<List<BantuanTersedia>> retrieve(BaseRequest<BaseParameter<BantuanTersedia>> request) {
-        BaseResponse<List<BantuanTersedia>> response = new BaseResponse<>();
+    public BaseResponse<List<ResponseBantuan>> retrieve(BaseRequest<BaseParameter<BantuanTersedia>> request) {
+        BaseResponse<List<ResponseBantuan>> response = new BaseResponse<>();
         int page = request.getPaging().getPage() - 1;
         int limit = request.getPaging().getLimit();
         Pageable pageable = specification.pageGenerator(page, limit);
@@ -74,7 +78,7 @@ public class BantuanTersediaService {
 
         response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         response.setPaging(paging);
-        response.setResult(data.getContent());
+        response.setResult(transform.buildResponseBantuanList(data.getContent()));
 
         return response;
     }

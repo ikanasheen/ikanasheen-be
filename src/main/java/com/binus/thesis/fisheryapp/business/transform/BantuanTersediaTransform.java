@@ -3,20 +3,35 @@ package com.binus.thesis.fisheryapp.business.transform;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Named;
+import com.binus.thesis.fisheryapp.business.model.Dokumen;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring", uses = DokumenTransform.class)
 public interface BantuanTersediaTransform {
+
+    @Named("buildResponseBantuan")
+    @Mapping(target = "dokumen", source = "bantuan.dokumen", qualifiedByName = "buildResponseDokumen")
+    ResponseBantuan buildResponseBantuan(BantuanTersedia bantuan);
+
+    @Named("buildResponseBantuanList")
+    @IterableMapping(qualifiedByName = "buildResponseBantuan")
+    List<ResponseBantuan> buildResponseBantuanList(List<BantuanTersedia> bantuan);
 
     @Named("createBantuantoEntity")
     @Mapping(target = "idBantuan", source = "idBantuan")
     @Mapping(target = "statusBantuan", expression = "java(\"ACTIVE\")")
     @Mapping(target = "kuotaTersisa", source = "kuota")
-    BantuanTersedia createBantuantoEntity(@MappingTarget BantuanTersedia bantuan, String idBantuan, String kuota);
+    @Mapping(target = "idDokumen", source = "dokumen.idDokumen")
+    BantuanTersedia createBantuantoEntity(
+            @MappingTarget BantuanTersedia bantuan,
+            String idBantuan,
+            String kuota,
+            Dokumen dokumen
+    );
 
     @Named("updateBantuantoEntity")
     @Mapping(target = "idBantuan", source = "idBantuan")
