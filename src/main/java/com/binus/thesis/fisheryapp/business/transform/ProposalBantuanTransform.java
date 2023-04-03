@@ -8,13 +8,15 @@ import org.mapstruct.*;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {
-        BantuanTersediaTransformImpl.class
+        BantuanTersediaTransformImpl.class,
+        DokumenTransform.class
 })
 public interface ProposalBantuanTransform {
 
     @Named("createProposalntoEntity")
     @Mapping(target = "idProposalBantuan", source = "idProposal")
     @Mapping(target = "idBantuan", source = "request.idBantuan")
+    @Mapping(target = "idDokumen", source = "request.dokumen.idDokumen")
     @Mapping(target = "idNelayan", source = "idNelayan")
     @Mapping(target = "tanggalDiajukan", source = "dateNow")
     @Mapping(target = "statusProposal", expression = "java(\"DIAJUKAN\")")
@@ -27,6 +29,7 @@ public interface ProposalBantuanTransform {
     @Mapping(target = "idBantuan", source = "proposal.bantuan.idBantuan")
     @Mapping(target = "namaBantuan", source = "proposal.bantuan.namaBantuan")
     @Mapping(target = "jenisBantuan", source = "proposal.bantuan.jenisBantuan")
+    @Mapping(target = "dokumen", source = "proposal.dokumen", qualifiedByName = "buildResponseDokumen")
     ResponseProposalBantuan buildResponseProposal(ProposalBantuan proposal);
 
     @Named("buildResponseProposalList")

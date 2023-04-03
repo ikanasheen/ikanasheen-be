@@ -13,8 +13,6 @@ public class ResponseProposalBantuan {
 
     private String tanggalDitolak;
 
-    private String file;
-
     private String statusProposal;
 
     private String idNelayan;
@@ -28,4 +26,6 @@ public class ResponseProposalBantuan {
     private String namaBantuan;
 
     private String jenisBantuan;
+
+    private ResponseDokumen dokumen;
 }

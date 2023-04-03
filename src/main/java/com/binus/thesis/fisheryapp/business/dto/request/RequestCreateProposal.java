@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.business.dto.request;
 
+import com.binus.thesis.fisheryapp.business.model.Dokumen;
 import lombok.Data;
 
 @Data
@@ -9,5 +10,5 @@ public class RequestCreateProposal {
 
     private String idBantuan;
 
-    private String file;
+    private Dokumen dokumen;
 }
