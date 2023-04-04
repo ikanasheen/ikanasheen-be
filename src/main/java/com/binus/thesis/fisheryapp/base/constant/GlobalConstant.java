@@ -42,7 +42,7 @@ public interface GlobalConstant extends BaseInterface {
 
     /** FORMAT **/
 
-    String FORMAT_TIMESTAMP = "yyyy-MM-dd HH:mm:ss";
+    String FORMAT_TIMESTAMP = "yyyy-MM-ddTHH:mm:ss.sssZ";
     String FORMAT_DATE = "yyyy-MM-dd";
     String FORMAT_DATE_LONG = "dd MMMM yyyy";
     String TIME_ZONE_AREA = "Asia/Jakarta";

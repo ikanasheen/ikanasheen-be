@@ -39,10 +39,10 @@ public class ProposalBantuan {
     @JoinColumn(name = "id_bantuan", referencedColumnName = "id_bantuan", insertable = false, updatable = false)
     private BantuanTersedia bantuan;
 
-    @Column(name = "id")
+    @Column(name = "id_dokumen")
     private Integer idDokumen;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id_dokumen", referencedColumnName = "id", insertable = false, updatable = false)
     private Dokumen dokumen;
 }

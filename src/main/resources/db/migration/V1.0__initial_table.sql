@@ -101,14 +101,29 @@ CREATE TABLE IF NOT EXISTS sosialisasi(
     CONSTRAINT pkey_sosialisasi PRIMARY KEY (id_sosialisasi)
 );
 
+CREATE TABLE IF NOT EXISTS dokumen(
+    id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    file_extension VARCHAR(255) NOT NULL,
+    file_size VARCHAR(255) NOT NULL,
+    modul VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    created_by VARCHAR(255),
+    created_on TIMESTAMP,
+    CONSTRAINT pkey_dokumen PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS bantuan_tersedia(
     id_bantuan VARCHAR(25) NOT NULL,
     nama_bantuan VARCHAR(255) NOT NULL,
     jenis_bantuan VARCHAR(255) NOT NULL,
     kuota int NOT NULL,
-    format_proposal VARCHAR(255) NOT NULL,
+    id_dokumen int NOT NULL,
     status VARCHAR(255) NOT NULL,
-    CONSTRAINT pkey_bantuan PRIMARY KEY (id_bantuan)
+    CONSTRAINT pkey_bantuan PRIMARY KEY (id_bantuan),
+    CONSTRAINT fk_dokumen_bantuan FOREIGN KEY (id_dokumen) REFERENCES fishery_db.dokumen(id)
 );
 
 CREATE TABLE IF NOT EXISTS proposal_bantuan(
@@ -119,8 +134,9 @@ CREATE TABLE IF NOT EXISTS proposal_bantuan(
     tanggal_disetujui TIMESTAMP,
     tanggal_ditolak TIMESTAMP,
     status VARCHAR(255) NOT NULL,
-    file VARCHAR(255) NOT NULL,
+    id_dokumen int NOT NULL,
     CONSTRAINT pkey_proposal_bantuan PRIMARY KEY (id_proposal_bantuan),
     CONSTRAINT fk_nelayan_proposal_bantuan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan),
-    CONSTRAINT fk_bantuan_proposal_bantuan FOREIGN KEY (id_bantuan) REFERENCES bantuan_tersedia(id_bantuan)
+    CONSTRAINT fk_bantuan_proposal_bantuan FOREIGN KEY (id_bantuan) REFERENCES bantuan_tersedia(id_bantuan),
+    CONSTRAINT fk_dokumen_proposal_bantuan FOREIGN KEY (id_dokumen) REFERENCES fishery_db.dokumen(id)
 );

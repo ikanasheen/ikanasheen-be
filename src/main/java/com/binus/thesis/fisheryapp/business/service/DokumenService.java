@@ -115,7 +115,7 @@ public class DokumenService {
                 Math.toIntExact(repository.count()),
                 fileName,
                 multipartFile.getOriginalFilename(),
-                multipartFile.getContentType(),
+                getFileExtension(multipartFile),
                 String.valueOf(multipartFile.getSize()),
                 namaService,
                 url,
@@ -132,6 +132,16 @@ public class DokumenService {
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static String getFileExtension(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
+            return fileName.substring(dotIndex + 1);
+        } else {
+            return "";
         }
     }
 
