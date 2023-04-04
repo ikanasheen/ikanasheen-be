@@ -16,7 +16,7 @@ public interface ProposalBantuanTransform {
     @Named("createProposalntoEntity")
     @Mapping(target = "idProposalBantuan", source = "idProposal")
     @Mapping(target = "idBantuan", source = "request.idBantuan")
-    @Mapping(target = "idDokumen", source = "request.dokumen.idDokumen")
+    @Mapping(target = "idDokumen", source = "request.dokumen.id")
     @Mapping(target = "idNelayan", source = "idNelayan")
     @Mapping(target = "tanggalDiajukan", source = "dateNow")
     @Mapping(target = "statusProposal", expression = "java(\"DIAJUKAN\")")

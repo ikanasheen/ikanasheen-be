@@ -1,17 +1,23 @@
 CREATE TABLE IF NOT EXISTS dokumen(
-    id_dokumen VARCHAR(25) NOT NULL,
-    nama_dokumen VARCHAR(255) NOT NULL,
-    nama_service VARCHAR(255) NOT NULL,
+    id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    file_extension VARCHAR(255) NOT NULL,
+    file_size VARCHAR(255) NOT NULL,
+    modul VARCHAR(255) NOT NULL,
     url VARCHAR(255) NOT NULL,
-    CONSTRAINT pkey_dokumen PRIMARY KEY (id_dokumen)
+    status VARCHAR(255) NOT NULL,
+    created_by VARCHAR(255),
+    created_on TIMESTAMP,
+    CONSTRAINT pkey_dokumen PRIMARY KEY (id)
 );
 
 ALTER TABLE fishery_db.bantuan_tersedia
 DROP COLUMN format_proposal,
-ADD COLUMN id_dokumen VARCHAR(25) NOT NULL,
-ADD CONSTRAINT fk_dokumen_bantuan_tersedia FOREIGN KEY (id_dokumen) REFERENCES fishery_db.dokumen(id_dokumen);
+ADD COLUMN id int NOT NULL,
+ADD CONSTRAINT fk_dokumen_bantuan_tersedia FOREIGN KEY (id) REFERENCES fishery_db.dokumen(id);
 
 ALTER TABLE fishery_db.proposal_bantuan
 DROP COLUMN file,
-ADD COLUMN id_dokumen VARCHAR(25) NOT NULL,
-ADD CONSTRAINT fk_dokumen_proposal_bantuan FOREIGN KEY (id_dokumen) REFERENCES fishery_db.dokumen(id_dokumen);
+ADD COLUMN id int NOT NULL,
+ADD CONSTRAINT fk_dokumen_proposal_bantuan FOREIGN KEY (id) REFERENCES fishery_db.dokumen(id);

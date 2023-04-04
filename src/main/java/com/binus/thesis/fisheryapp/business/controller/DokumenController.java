@@ -5,6 +5,7 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseDokumen;
 import com.binus.thesis.fisheryapp.business.model.Dokumen;
 import com.binus.thesis.fisheryapp.business.service.DokumenService;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,11 @@ public class DokumenController {
     private final DokumenService service;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public BaseResponse<Dokumen> upload(@RequestParam("dokumen") MultipartFile dokumen,
-                                       @RequestParam("namaService") String namaService) {
-        BaseResponse<Dokumen> response = new BaseResponse<>();
+    public BaseResponse<ResponseDokumen> upload(@RequestParam("dokumen") MultipartFile dokumen,
+                                                @RequestParam("namaService") String namaService) {
+        BaseResponse<ResponseDokumen> response = new BaseResponse<>();
         try {
-            Dokumen dokumenResp = service.upload(dokumen, namaService);
+            ResponseDokumen dokumenResp = service.upload(dokumen, namaService);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPLOAD_DOKUMEN));
             response.setResult(dokumenResp);
         } catch (ApplicationException exception) {
@@ -48,7 +49,7 @@ public class DokumenController {
     }
 
     @RequestMapping(value = "/download/{idDokumen}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE })
-    public ResponseEntity<InputStreamResource> download(@Valid @PathVariable(value = "idDokumen") String idDokumen) {
+    public ResponseEntity<InputStreamResource> download(@Valid @PathVariable(value = "idDokumen") int idDokumen) {
 
         Dokumen dokumen = service.getDokumen(idDokumen);
 
@@ -56,7 +57,7 @@ public class DokumenController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType(MediaType.APPLICATION_OCTET_STREAM, Charset.forName("UTF-8")));
-        headers.setContentDispositionFormData("attachment", dokumen.getNamaDokumen());
+        headers.setContentDispositionFormData("attachment", dokumen.getFileName());
         headers.add("Content-Transfer-Encoding", "binary");
 
         return ResponseEntity.ok()

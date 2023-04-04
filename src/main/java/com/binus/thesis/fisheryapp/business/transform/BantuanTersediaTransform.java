@@ -25,7 +25,7 @@ public interface BantuanTersediaTransform {
     @Mapping(target = "idBantuan", source = "idBantuan")
     @Mapping(target = "statusBantuan", expression = "java(\"ACTIVE\")")
     @Mapping(target = "kuotaTersisa", source = "kuota")
-    @Mapping(target = "idDokumen", source = "dokumen.idDokumen")
+    @Mapping(target = "idDokumen", source = "dokumen.id")
     BantuanTersedia createBantuantoEntity(
             @MappingTarget BantuanTersedia bantuan,
             String idBantuan,

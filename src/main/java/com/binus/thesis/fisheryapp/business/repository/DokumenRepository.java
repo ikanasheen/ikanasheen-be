@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DokumenRepository extends JpaRepository<Dokumen, String> {
+public interface DokumenRepository extends JpaRepository<Dokumen, Integer> {
 }

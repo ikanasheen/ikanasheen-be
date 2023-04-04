@@ -28,10 +28,10 @@ public class BantuanTersedia {
     @Column(name = "status")
     private String statusBantuan;
 
-    @Column(name = "id_dokumen")
-    private String idDokumen;
+    @Column(name = "id")
+    private Integer idDokumen;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_dokumen", referencedColumnName = "id_dokumen", insertable = false, updatable = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Dokumen dokumen;
 }

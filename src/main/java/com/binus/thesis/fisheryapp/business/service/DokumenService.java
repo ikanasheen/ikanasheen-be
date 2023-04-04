@@ -4,6 +4,7 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseDokumen;
 import com.binus.thesis.fisheryapp.business.model.Dokumen;
 import com.binus.thesis.fisheryapp.business.repository.DokumenRepository;
 import com.binus.thesis.fisheryapp.business.transform.DokumenTransform;
@@ -20,6 +21,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Optional;
@@ -76,7 +78,7 @@ public class DokumenService {
         return null;
     }
 
-    public Dokumen upload(MultipartFile multipartFile, String namaService) {
+    public ResponseDokumen upload(MultipartFile multipartFile, String namaService) {
         FTPClient ftpClient = new FTPClient();
         String idDokumen = GeneratorUtils.generateId(
                 "DOK"+namaService.substring(0,3),
@@ -84,7 +86,7 @@ public class DokumenService {
                 5
         );
         String filepath = dokumenPath+"/"+namaService.toLowerCase(Locale.ROOT)+"/";
-        String namaFile = "";
+        String fileName = "";
         String url = "";
         try {
             setFTPClient(ftpClient);
@@ -93,9 +95,9 @@ public class DokumenService {
                 ftpClient.disconnect();
             }
             ftpClient.changeWorkingDirectory(filepath);
-            namaFile = idDokumen+extension;
-            url = filepath+namaFile;
-            ftpClient.storeFile(namaFile, multipartFile.getInputStream());
+            fileName = idDokumen+extension;
+            url = filepath+fileName;
+            ftpClient.storeFile(fileName, multipartFile.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -109,12 +111,17 @@ public class DokumenService {
             }
         }
 
-        return repository.save(transform.buildDokumenEntity(
-                idDokumen,
-                namaFile,
-                namaService.toLowerCase(Locale.ROOT),
-                url
+        Dokumen dokumen = repository.save(transform.buildDokumenEntity(
+                Math.toIntExact(repository.count()),
+                fileName,
+                multipartFile.getOriginalFilename(),
+                multipartFile.getContentType(),
+                String.valueOf(multipartFile.getSize()),
+                namaService,
+                url,
+                LocalDateTime.now()
         ));
+        return transform.buildResponseDokumen(dokumen);
     }
 
     public void setFTPClient(FTPClient ftpClient) {
@@ -128,12 +135,12 @@ public class DokumenService {
         }
     }
 
-    public Dokumen getDokumen(String idDokumen) {
+    public Dokumen getDokumen(int idDokumen) {
         Optional<Dokumen> dokumenRepo = repository.findById(idDokumen);
         if (dokumenRepo.isEmpty()) {
             throw new ApplicationException(Status.DATA_NOT_FOUND(GlobalMessage.Error.DATA_NOT_FOUND
                     .replaceAll(GlobalMessage.Error.paramVariable.get(0), "dokumen")
-                    .replaceAll(GlobalMessage.Error.paramVariable.get(1), idDokumen))
+                    .replaceAll(GlobalMessage.Error.paramVariable.get(1), String.valueOf(idDokumen)))
             );
         }
 
