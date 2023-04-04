@@ -15,6 +15,8 @@ public class ResponseDokumen {
 
     private String fileSize;
 
+    private String modul;
+
     private String url;
 
     private String status;
