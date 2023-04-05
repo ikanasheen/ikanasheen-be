@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class RequestCreateBantuan {
@@ -15,5 +16,5 @@ public class RequestCreateBantuan {
 
     private String kuota;
 
-    private Dokumen dokumen;
+    private List<Dokumen> dokumen;
 }

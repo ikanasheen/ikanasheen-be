@@ -32,7 +32,7 @@ public class DokumenController {
     private final DokumenService service;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public BaseResponse<ResponseDokumen> upload(@RequestParam("dokumen") MultipartFile dokumen,
+    public BaseResponse<ResponseDokumen> upload(@RequestParam("file") MultipartFile dokumen,
                                                 @RequestParam("namaService") String namaService) {
         BaseResponse<ResponseDokumen> response = new BaseResponse<>();
         try {

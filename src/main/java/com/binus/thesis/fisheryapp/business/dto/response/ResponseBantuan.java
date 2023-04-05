@@ -2,6 +2,8 @@ package com.binus.thesis.fisheryapp.business.dto.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ResponseBantuan {
 
@@ -17,5 +19,5 @@ public class ResponseBantuan {
 
     private String statusBantuan;
 
-    private ResponseDokumen dokumen;
+    private List<ResponseDokumen> dokumen;
 }

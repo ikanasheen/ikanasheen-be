@@ -3,6 +3,8 @@ package com.binus.thesis.fisheryapp.business.dto.request;
 import com.binus.thesis.fisheryapp.business.model.Dokumen;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class RequestCreateProposal {
 
@@ -10,5 +12,5 @@ public class RequestCreateProposal {
 
     private String idBantuan;
 
-    private Dokumen dokumen;
+    private List<Dokumen> dokumen;
 }

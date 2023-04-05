@@ -7,6 +7,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.business.service.BantuanTersediaService;
@@ -35,9 +36,9 @@ public class BantuanTersediaController {
     private final BantuanTersediaService bantuanTersediaService;
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
-    public BaseResponse<ResponseBantuan> create(@Valid @RequestBody BaseRequest<BaseParameter<BantuanTersedia>> request) {
+    public BaseResponse<ResponseBantuan> create(@Valid @RequestBody BaseRequest<BaseParameter<RequestCreateBantuan>> request) {
         BaseResponse<ResponseBantuan> response = new BaseResponse<>();
-        BaseParameter<BantuanTersedia> parameter = request.getParameter();
+        BaseParameter<RequestCreateBantuan> parameter = request.getParameter();
         try {
             ResponseBantuan bantuanTersedia = bantuanTersediaService.create(parameter.getData());
             response.setResult(bantuanTersedia);
