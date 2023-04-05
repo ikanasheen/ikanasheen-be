@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,13 +33,15 @@ public class DokumenController {
     private final DokumenService service;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public BaseResponse<ResponseDokumen> upload(@RequestParam("file") MultipartFile dokumen,
+    public BaseResponse<List<ResponseDokumen>> upload(@RequestParam("file") MultipartFile dokumen,
                                                 @RequestParam("namaService") String namaService) {
-        BaseResponse<ResponseDokumen> response = new BaseResponse<>();
+        BaseResponse<List<ResponseDokumen>> response = new BaseResponse<>();
         try {
             ResponseDokumen dokumenResp = service.upload(dokumen, namaService);
+            List<ResponseDokumen> listDokumen = new ArrayList<>();
+            listDokumen.add(dokumenResp);
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_UPLOAD_DOKUMEN));
-            response.setResult(dokumenResp);
+            response.setResult(listDokumen);
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
