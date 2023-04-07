@@ -43,7 +43,7 @@ public class PembeliService {
             ));
         }
 
-        Role role = roleService.findById(request.getIdRole());
+        Role role = roleService.getRole(request.getIdRole());
         String idUser = GeneratorUtils.generateId(String.valueOf(request.getIdRole()), null, 7);
         User user = userTransform.regPembeliReqtoUser(request, idUser, StatusUserEnum.ACTIVE, role);
         userService.save(user);

@@ -51,7 +51,7 @@ public class NelayanService {
             ));
         }
 
-        Role role = roleService.findById(request.getIdRole());
+        Role role = roleService.getRole(request.getIdRole());
         String idUser = GeneratorUtils.generateId(String.valueOf(request.getIdRole()), null, 7);
         User user = userTransform.regNelayanReqtoUser(request, idUser, StatusUserEnum.ACTIVE, role);
         userService.save(user);

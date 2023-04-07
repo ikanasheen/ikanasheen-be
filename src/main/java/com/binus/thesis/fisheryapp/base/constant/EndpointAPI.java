@@ -13,4 +13,5 @@ public @interface EndpointAPI {
     String BANTUAN = "/bantuan";
     String PROPOSAL_BANTUAN = "/proposal";
     String DOKUMEN = "/dokumen";
+    String ROLE = "/role";
 }
