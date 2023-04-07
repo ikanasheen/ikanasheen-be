@@ -4,6 +4,7 @@ import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateBantuan;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.business.model.Dokumen;
@@ -40,13 +41,15 @@ public interface BantuanTersediaTransform {
     );
 
     @Named("updateBantuantoEntity")
-    @Mapping(target = "idBantuan", source = "idBantuan")
-    @Mapping(target = "namaBantuan", expression = "java(bantuan.getNamaBantuan() == null || bantuan.getNamaBantuan().isEmpty() ? bantuanRepo.getNamaBantuan() : bantuan.getNamaBantuan())")
-    @Mapping(target = "jenisBantuan", expression = "java(bantuan.getJenisBantuan() == null || bantuan.getJenisBantuan().isEmpty() ? bantuanRepo.getJenisBantuan() : bantuan.getJenisBantuan())")
-    @Mapping(target = "statusBantuan", expression = "java(bantuan.getStatusBantuan() == null || bantuan.getStatusBantuan().isEmpty() ? bantuanRepo.getStatusBantuan() : bantuan.getStatusBantuan())")
+    @Mapping(target = "idBantuan", source = "request.idBantuan")
+    @Mapping(target = "namaBantuan", expression = "java(request.getNamaBantuan() == null || request.getNamaBantuan().isEmpty() ? bantuanRepo.getNamaBantuan() : request.getNamaBantuan())")
+    @Mapping(target = "jenisBantuan", expression = "java(request.getJenisBantuan() == null || request.getJenisBantuan().isEmpty() ? bantuanRepo.getJenisBantuan() : request.getJenisBantuan())")
+    @Mapping(target = "statusBantuan", expression = "java(request.getStatusBantuan() == null || request.getStatusBantuan().isEmpty() ? bantuanRepo.getStatusBantuan() : request.getStatusBantuan())")
     @Mapping(target = "kuota", ignore = true)
     @Mapping(target = "kuotaTersisa", ignore = true)
-    BantuanTersedia updateBantuantoEntity(@MappingTarget BantuanTersedia bantuanRepo, BantuanTersedia bantuan);
+    @Mapping(target = "idDokumen", source = "dokumen.id")
+    @Mapping(target = "dokumen", source = "dokumen")
+    BantuanTersedia updateBantuantoEntity(@MappingTarget BantuanTersedia bantuanRepo, RequestUpdateBantuan request, Dokumen dokumen);
 
     @Named("updateKuotaTersisa")
     @Mapping(target = "kuotaTersisa", source = "kuotaTersisa")
@@ -54,12 +57,12 @@ public interface BantuanTersediaTransform {
     BantuanTersedia updateKuotaTersisa(@MappingTarget BantuanTersedia bantuan, String kuotaTersisa, String status);
 
     @Named("updateKuota")
-    default BantuanTersedia updateKuota(BantuanTersedia bantuanRepo, BantuanTersedia reqBantuan) {
-        int reqKuota = Integer.parseInt(reqBantuan.getKuota());
+    default BantuanTersedia updateKuota(BantuanTersedia bantuanRepo, RequestUpdateBantuan request) {
+        int reqKuota = Integer.parseInt(request.getKuota());
         int kuotaRepo = Integer.parseInt(bantuanRepo.getKuota());
         int tersisaRepo = Integer.parseInt(bantuanRepo.getKuotaTersisa());
         int selisih = kuotaRepo-tersisaRepo;
-        if (reqBantuan.getKuota() != null && reqKuota != kuotaRepo) {
+        if (request.getKuota() != null && reqKuota != kuotaRepo) {
             if (reqKuota < selisih) {
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.CANT_UPDATE_KUOTA
                         .replaceAll(GlobalMessage.Error.paramVariable.get(0), String.valueOf(selisih))

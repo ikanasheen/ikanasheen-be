@@ -8,6 +8,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateBantuan;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.business.service.BantuanTersediaService;
@@ -53,9 +54,9 @@ public class BantuanTersediaController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.PATCH)
-    public BaseResponse<ResponseBantuan> update(@Valid @RequestBody BaseRequest<BaseParameter<BantuanTersedia>> request) {
+    public BaseResponse<ResponseBantuan> update(@Valid @RequestBody BaseRequest<BaseParameter<RequestUpdateBantuan>> request) {
         BaseResponse<ResponseBantuan> response = new BaseResponse<>();
-        BaseParameter<BantuanTersedia> parameter = request.getParameter();
+        BaseParameter<RequestUpdateBantuan> parameter = request.getParameter();
         try {
             ResponseBantuan bantuan = bantuanTersediaService.update(parameter.getData());
             response.setResult(bantuan);

@@ -6,6 +6,7 @@ import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.base.utils.GeneratorUtils;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateBantuan;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
 import com.binus.thesis.fisheryapp.business.transform.BantuanTersediaTransform;
@@ -49,10 +50,10 @@ public class BantuanTersediaService {
         return transform.buildResponseBantuan(savedBantuan);
     }
 
-    public ResponseBantuan update(BantuanTersedia bantuan) {
-        BantuanTersedia bantuanRepo = getBantuanTersedia(bantuan.getIdBantuan());
-        transform.updateKuota(bantuanRepo, bantuan);
-        transform.updateBantuantoEntity(bantuanRepo, bantuan);
+    public ResponseBantuan update(RequestUpdateBantuan request) {
+        BantuanTersedia bantuanRepo = getBantuanTersedia(request.getIdBantuan());
+        transform.updateKuota(bantuanRepo, request);
+        transform.updateBantuantoEntity(bantuanRepo, request, request.getDokumen().get(0));
         BantuanTersedia savedBantuan = repository.saveAndFlush(bantuanRepo);
         return transform.buildResponseBantuan(savedBantuan);
     }
