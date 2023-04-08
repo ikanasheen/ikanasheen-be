@@ -6,6 +6,7 @@ import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.base.transform.PageTransform;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseUser;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseUserProfile;
 import com.binus.thesis.fisheryapp.business.model.Pembeli;
 import com.binus.thesis.fisheryapp.business.repository.PembeliRepository;
 import com.binus.thesis.fisheryapp.business.service.specification.UserSpecification;
@@ -32,13 +33,15 @@ import java.util.Optional;
 public class UserService {
     private final PembeliRepository pembeliRepository;
     private final NelayanRepository nelayanRepository;
-
     private final UserRepository repository;
 
     private final UserSpecification specification;
 
     private final PageTransform pageTransform;
     private final UserTransform transform;
+
+    private final AdminService adminService;
+    private final DinasService dinasService;
 
     public ResponseUser login(RequestLogin requestDto) {
         User userByUsername = repository.findByUsername(requestDto.getUsername());
@@ -107,6 +110,28 @@ public class UserService {
         User user = getUser(idUser);
         ResponseUser response = transform.buildResponseUser(user);
         response.setNama(getNama(user));
+        return response;
+    }
+
+    public Object profile(String idUser) {
+        User user = getUser(idUser);
+        ResponseUserProfile response;
+        switch (user.getIdRole()) {
+            case 1:
+                response = transform.adminProfile(user, adminService.findByIdUser(idUser));
+                break;
+            case 2:
+                response = transform.dinasProfile(user, dinasService.findByIdUser(idUser));
+                break;
+            case 3:
+                response = transform.nelayanProfile(user, nelayanRepository.findByIdUser(idUser));
+                break;
+            case 4:
+                response = transform.pembeliProfile(user, pembeliRepository.findByIdUser(idUser));
+                break;
+            default:
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.USER_NOT_VALID));
+        }
         return response;
     }
 

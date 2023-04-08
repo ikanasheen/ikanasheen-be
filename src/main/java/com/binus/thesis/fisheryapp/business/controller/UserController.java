@@ -6,6 +6,7 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseUser;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseUserProfile;
 import com.binus.thesis.fisheryapp.business.model.User;
 import com.binus.thesis.fisheryapp.business.service.UserService;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestChangePassword;
@@ -108,6 +109,21 @@ public class UserController {
         BaseResponse<List<ResponseUser>> response = new BaseResponse<>();
         try {
             response = userService.retrieve(request);
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/profile/{idUser}", method = RequestMethod.GET)
+    public BaseResponse<Object> profile(@Valid @PathVariable(value = "idUser") String idUser) {
+        BaseResponse<Object> response = new BaseResponse<>();
+        try {
+            response.setResult(userService.profile(idUser));
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
         } catch (ApplicationException exception) {
             response.setStatus(exception.getStatus());
         } catch (Exception exception) {
