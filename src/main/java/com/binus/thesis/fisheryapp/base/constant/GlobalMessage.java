@@ -32,6 +32,7 @@ public @interface GlobalMessage {
 
         public static final String CANT_PROPOSE = "Proposal bantuan sudah pernah diajukan, dengan status: " + paramVariable.get(0);
         public static final String KUOTA_EXCEED = "Kuota bantuan tidak tersedia, tambahkan kuota atau tolak proposal bantuan!";
+        public static final String KUOTA_UNAVAILABLE = "Kuota bantuan tidak tersedia!";
         public static final String CANT_UPDATE_KUOTA = "Jumlah kuota yang diperbarui tidak boleh kurang dari " + paramVariable.get(0) + "!";
         public static final String USER_NOT_VALID = "User tidak valid";
     }

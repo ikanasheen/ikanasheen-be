@@ -40,6 +40,7 @@ public class ProposalBantuanService {
     private final BantuanTersediaService bantuanService;
 
     public ResponseProposalBantuan create(RequestCreateProposal req) {
+        checkBantuan(req.getIdBantuan());
         Nelayan nelayan = nelayanService.findByIdUser(req.getIdUserNelayan());
         checkProposal(nelayan.getIdNelayan(), req.getIdBantuan());
         String idProposalBantuan = GeneratorUtils.generateId("PROP"+req.getIdBantuan().substring(0,3), new Date(), 3);
@@ -61,11 +62,11 @@ public class ProposalBantuanService {
     public ResponseProposalBantuan approval(RequestApproveProposal req) {
         ProposalBantuan proposal = getProposalBantuan(req.getIdProposalBantuan());
         BantuanTersedia bantuan = bantuanService.getBantuanTersedia(proposal.getIdBantuan());
-        if (bantuan.getKuotaTersisa().equalsIgnoreCase("0")) {
+        if (bantuan.getKuotaTersisa().equalsIgnoreCase("0") && req.getIsApprove().equalsIgnoreCase("Ya")) {
             throw new ApplicationException(Status.INVALID(GlobalMessage.Error.KUOTA_EXCEED));
         }
         ProposalBantuan savedProposal = repository.saveAndFlush(
-                transform.approvalProposaltoEntity(proposal, req.getIsApprove(), GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
+                transform.approvalProposaltoEntity(proposal, req, GeneratorUtils.generateTimeStamp(LocalDateTime.now()))
         );
         if (req.getIsApprove().equalsIgnoreCase("Ya"))
             bantuanService.updateKuotaTersisa(bantuan);
@@ -105,6 +106,13 @@ public class ProposalBantuanService {
         }
 
         return proposalRepo.get();
+    }
+
+    public void checkBantuan(String idBantuan) {
+        BantuanTersedia bantuan = bantuanService.getBantuanTersedia(idBantuan);
+        if (bantuan.getKuotaTersisa().equalsIgnoreCase("0")) {
+            throw new ApplicationException(Status.INVALID(GlobalMessage.Error.KUOTA_UNAVAILABLE));
+        }
     }
 
     public void checkProposal(String idNelayan, String idBantuan) {

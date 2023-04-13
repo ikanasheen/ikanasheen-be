@@ -1,5 +1,6 @@
 package com.binus.thesis.fisheryapp.business.transform;
 
+import com.binus.thesis.fisheryapp.business.dto.request.RequestApproveProposal;
 import com.binus.thesis.fisheryapp.business.model.Dokumen;
 import com.binus.thesis.fisheryapp.business.model.ProposalBantuan;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateProposal;
@@ -49,8 +50,9 @@ public interface ProposalBantuanTransform {
     List<ResponseProposalBantuan> buildResponseProposalList(List<ProposalBantuan> proposal);
 
     @Named("approvalProposaltoEntity")
-    @Mapping(target = "statusProposal", expression = "java(isApprove.equalsIgnoreCase(\"Ya\") ? \"DISETUJUI\" : \"DITOLAK\")")
-    @Mapping(target = "tanggalDisetujui", expression = "java(isApprove.equalsIgnoreCase(\"Ya\") ? dateNow : null)")
-    @Mapping(target = "tanggalDitolak", expression = "java(isApprove.equalsIgnoreCase(\"Ya\") ? null : dateNow)")
-    ProposalBantuan approvalProposaltoEntity(@MappingTarget ProposalBantuan proposal, String isApprove, String dateNow);
+    @Mapping(target = "statusProposal", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? \"DISETUJUI\" : \"DITOLAK\")")
+    @Mapping(target = "catatan", expression = "java(request.getCatatan() != null && !request.getCatatan().isEmpty() ? request.getCatatan() : null)")
+    @Mapping(target = "tanggalDisetujui", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? dateNow : null)")
+    @Mapping(target = "tanggalDitolak", expression = "java(request.getIsApprove().equalsIgnoreCase(\"Ya\") ? null : dateNow)")
+    ProposalBantuan approvalProposaltoEntity(@MappingTarget ProposalBantuan proposal, RequestApproveProposal request, String dateNow);
 }

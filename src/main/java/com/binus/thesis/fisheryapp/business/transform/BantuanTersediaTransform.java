@@ -45,11 +45,33 @@ public interface BantuanTersediaTransform {
     @Mapping(target = "namaBantuan", expression = "java(request.getNamaBantuan() == null || request.getNamaBantuan().isEmpty() ? bantuanRepo.getNamaBantuan() : request.getNamaBantuan())")
     @Mapping(target = "jenisBantuan", expression = "java(request.getJenisBantuan() == null || request.getJenisBantuan().isEmpty() ? bantuanRepo.getJenisBantuan() : request.getJenisBantuan())")
     @Mapping(target = "statusBantuan", expression = "java(request.getStatusBantuan() == null || request.getStatusBantuan().isEmpty() ? bantuanRepo.getStatusBantuan() : request.getStatusBantuan())")
-    @Mapping(target = "kuota", ignore = true)
-    @Mapping(target = "kuotaTersisa", ignore = true)
+    @Mapping(target = "kuota", expression = "java(setKuotaUnavailable(bantuanRepo, request))")
+    @Mapping(target = "kuotaTersisa", expression = "java(setKuotaTersisaUnavailable(bantuanRepo, request))")
     @Mapping(target = "idDokumen", source = "dokumen.id")
     @Mapping(target = "dokumen", source = "dokumen")
     BantuanTersedia updateBantuantoEntity(@MappingTarget BantuanTersedia bantuanRepo, RequestUpdateBantuan request, Dokumen dokumen);
+
+    @Named("setKuotaUnavailable")
+    default String setKuotaUnavailable(BantuanTersedia bantuanRepo, RequestUpdateBantuan request) {
+        String kuota = "";
+        if (request.getStatusBantuan().equalsIgnoreCase("UNAVAILABLE")) {
+            kuota = "0";
+        } else {
+            kuota = bantuanRepo.getKuota();
+        }
+        return kuota;
+    }
+
+    @Named("setKuotaTersisaUnavailable")
+    default String setKuotaTersisaUnavailable(BantuanTersedia bantuanRepo, RequestUpdateBantuan request) {
+        String kuota = "";
+        if (request.getStatusBantuan().equalsIgnoreCase("UNAVAILABLE")) {
+            kuota = "0";
+        } else {
+            kuota = bantuanRepo.getKuotaTersisa();
+        }
+        return kuota;
+    }
 
     @Named("updateKuotaTersisa")
     @Mapping(target = "kuotaTersisa", source = "kuotaTersisa")

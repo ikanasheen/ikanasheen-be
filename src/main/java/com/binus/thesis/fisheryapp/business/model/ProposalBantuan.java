@@ -29,6 +29,9 @@ public class ProposalBantuan {
     @Column(name = "tanggal_ditolak")
     private String tanggalDitolak;
 
+    @Column(name = "catatan")
+    private String catatan;
+
     @Column(name = "status")
     private String statusProposal;
 

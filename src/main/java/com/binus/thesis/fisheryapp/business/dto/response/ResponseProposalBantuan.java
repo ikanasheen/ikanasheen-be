@@ -15,6 +15,8 @@ public class ResponseProposalBantuan {
 
     private String tanggalDitolak;
 
+    private String catatan;
+
     private String statusProposal;
 
     private String idNelayan;
