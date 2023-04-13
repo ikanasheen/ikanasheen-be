@@ -28,6 +28,9 @@ public class Nelayan {
     @Column(name = "alamat")
     private String alamat;
 
+    @Column(name = "kecamatan_id")
+    private String kecamatanId;
+
     @Column(name = "kecamatan")
     private String kecamatan;
 

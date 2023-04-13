@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS nelayan(
     tanggal_lahir DATE NOT NULL,
     alamat VARCHAR(255) NOT NULL,
     kecamatan VARCHAR(255) NOT NULL,
+    kecamatan_id VARCHAR(25) NOT NULL,
     kelurahan_desa VARCHAR(255) NOT NULL,
     no_telepon VARCHAR(25) NOT NULL,
     email VARCHAR(255),
