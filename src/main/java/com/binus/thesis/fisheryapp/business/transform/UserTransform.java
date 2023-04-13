@@ -80,6 +80,7 @@ public interface UserTransform {
     @Mapping(target = "email", source = "nelayan.email")
     @Mapping(target = "namaLengkap", source = "nelayan.namaLengkap")
     @Mapping(target = "alamat", source = "nelayan.alamat")
+    @Mapping(target = "kecamatanId", source = "nelayan.kecamatanId")
     @Mapping(target = "kecamatan", source = "nelayan.kecamatan")
     @Mapping(target = "kelurahanDesa", source = "nelayan.kelurahanDesa")
     ResponseUserProfile nelayanProfile(User user, Nelayan nelayan);

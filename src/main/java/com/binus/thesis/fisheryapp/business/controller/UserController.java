@@ -6,7 +6,6 @@ import com.binus.thesis.fisheryapp.base.dto.*;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateUser;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseUser;
-import com.binus.thesis.fisheryapp.business.dto.response.ResponseUserProfile;
 import com.binus.thesis.fisheryapp.business.model.User;
 import com.binus.thesis.fisheryapp.business.service.UserService;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestChangePassword;

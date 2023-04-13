@@ -21,6 +21,8 @@ public class ResponseUserProfile {
 
     private String alamat;
 
+    private String kecamatanId;
+
     private String kecamatan;
 
     private String kelurahanDesa;
