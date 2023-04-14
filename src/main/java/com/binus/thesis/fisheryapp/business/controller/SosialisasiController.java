@@ -80,7 +80,7 @@ public class SosialisasiController {
         return response;
     }
 
-    @RequestMapping(value = "/{idSosialisasi}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{idSosialisasi}", method = RequestMethod.GET)
     public BaseResponse<Sosialisasi> detail(@Valid @PathVariable(value = "idSosialisasi") String idSosialisasi) {
         BaseResponse<Sosialisasi> response = new BaseResponse<>();
         try {
