@@ -159,4 +159,8 @@ public class TransaksiService {
 
         return transaksiRepo.get();
     }
+
+    public List<Transaksi> findAll() {
+        return repository.findAll();
+    }
 }

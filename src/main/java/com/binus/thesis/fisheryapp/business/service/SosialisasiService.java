@@ -95,4 +95,8 @@ public class SosialisasiService {
 
         return sosialisasiRepo.get();
     }
+
+    public List<Sosialisasi> findAll() {
+        return repository.findAll();
+    }
 }

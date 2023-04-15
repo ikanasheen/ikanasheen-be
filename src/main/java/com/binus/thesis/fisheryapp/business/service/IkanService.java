@@ -88,4 +88,8 @@ public class IkanService {
 
         return ikanRepo.get();
     }
+
+    public long countIkan() {
+        return repository.count();
+    }
 }

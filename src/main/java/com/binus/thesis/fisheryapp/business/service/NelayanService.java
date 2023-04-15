@@ -122,4 +122,8 @@ public class NelayanService {
     public Nelayan findByIdUser(String idUser) {
         return repository.findByIdUser(idUser);
     }
+
+    public List<Nelayan> findAll() {
+        return repository.findAll();
+    }
 }
