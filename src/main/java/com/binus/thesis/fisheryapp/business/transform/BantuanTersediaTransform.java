@@ -79,7 +79,7 @@ public interface BantuanTersediaTransform {
     BantuanTersedia updateKuotaTersisa(@MappingTarget BantuanTersedia bantuan, String kuotaTersisa, String status);
 
     @Named("updateKuota")
-    default BantuanTersedia updateKuota(BantuanTersedia bantuanRepo, RequestUpdateBantuan request, long jumlahDiterima) {
+    default BantuanTersedia updateKuota(BantuanTersedia bantuanRepo, RequestUpdateBantuan request) {
         int reqKuota = Integer.parseInt(request.getKuota());
         int kuotaRepo = Integer.parseInt(bantuanRepo.getKuota());
         int tersisaRepo = Integer.parseInt(bantuanRepo.getKuotaTersisa());
@@ -94,12 +94,6 @@ public interface BantuanTersediaTransform {
             bantuanRepo.setKuota(String.valueOf(reqKuota));
             bantuanRepo.setKuotaTersisa(String.valueOf(reqKuota-selisih));
         }
-
-        if (request.getStatusBantuan().equalsIgnoreCase("UNAVAILABLE")) {
-            bantuanRepo.setKuota(String.valueOf(jumlahDiterima));
-            bantuanRepo.setKuotaTersisa("0");
-        }
-
         return bantuanRepo;
     }
 }

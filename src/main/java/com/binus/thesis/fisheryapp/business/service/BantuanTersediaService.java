@@ -54,11 +54,7 @@ public class BantuanTersediaService {
 
     public ResponseBantuan update(RequestUpdateBantuan request) {
         BantuanTersedia bantuanRepo = getBantuanTersedia(request.getIdBantuan());
-        long jumlahDiterima = proposalBantuanRepository.countByIdBantuanAndStatusProposalIgnoreCase(
-                bantuanRepo.getIdBantuan(),
-                "DISETUJUI"
-        );
-        transform.updateKuota(bantuanRepo, request, jumlahDiterima);
+        transform.updateKuota(bantuanRepo, request);
         transform.updateBantuantoEntity(bantuanRepo, request, request.getDokumen().get(0));
         BantuanTersedia savedBantuan = repository.saveAndFlush(bantuanRepo);
         return transform.buildResponseBantuan(savedBantuan);
