@@ -9,6 +9,7 @@ import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestUpdateBantuan;
 import com.binus.thesis.fisheryapp.business.dto.response.ResponseBantuan;
 import com.binus.thesis.fisheryapp.business.model.BantuanTersedia;
+import com.binus.thesis.fisheryapp.business.repository.ProposalBantuanRepository;
 import com.binus.thesis.fisheryapp.business.transform.BantuanTersediaTransform;
 import com.binus.thesis.fisheryapp.business.repository.BantuanTersediaRepository;
 import com.binus.thesis.fisheryapp.business.service.specification.BantuanTersediaSpecification;
@@ -29,13 +30,12 @@ import java.util.Optional;
 public class BantuanTersediaService {
 
     private final BantuanTersediaRepository repository;
+    private final ProposalBantuanRepository proposalBantuanRepository;
 
     private final BantuanTersediaSpecification specification;
 
     private final BantuanTersediaTransform transform;
     private final PageTransform pageTransform;
-
-    private final ProposalBantuanService proposalBantuanService;
 
     public ResponseBantuan create(RequestCreateBantuan request) {
         String jenis = request.getJenisBantuan().split(" ")[0].substring(0,3);
@@ -54,7 +54,10 @@ public class BantuanTersediaService {
 
     public ResponseBantuan update(RequestUpdateBantuan request) {
         BantuanTersedia bantuanRepo = getBantuanTersedia(request.getIdBantuan());
-        long jumlahDiterima = proposalBantuanService.countProposalAcc(bantuanRepo.getIdBantuan());
+        long jumlahDiterima = proposalBantuanRepository.countByIdBantuanAndStatusProposalIgnoreCase(
+                bantuanRepo.getIdBantuan(),
+                "DISETUJUI"
+        );
         transform.updateKuota(bantuanRepo, request, jumlahDiterima);
         transform.updateBantuantoEntity(bantuanRepo, request, request.getDokumen().get(0));
         BantuanTersedia savedBantuan = repository.saveAndFlush(bantuanRepo);
