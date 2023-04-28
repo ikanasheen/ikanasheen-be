@@ -126,4 +126,8 @@ public class ProposalBantuanService {
                     .replaceAll(GlobalMessage.Error.paramVariable.get(0), proposal.get(0).getStatusProposal())
             ));
     }
+
+    public long countProposalAcc(String idBantuan) {
+        return repository.countByIdBantuanAndStatusProposalIgnoreCase(idBantuan, "DISETUJUI");
+    }
 }

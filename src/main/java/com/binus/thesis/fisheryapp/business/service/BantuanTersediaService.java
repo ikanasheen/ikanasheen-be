@@ -35,6 +35,8 @@ public class BantuanTersediaService {
     private final BantuanTersediaTransform transform;
     private final PageTransform pageTransform;
 
+    private final ProposalBantuanService proposalBantuanService;
+
     public ResponseBantuan create(RequestCreateBantuan request) {
         String jenis = request.getJenisBantuan().split(" ")[0].substring(0,3);
         String idBantuan = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);
@@ -52,7 +54,8 @@ public class BantuanTersediaService {
 
     public ResponseBantuan update(RequestUpdateBantuan request) {
         BantuanTersedia bantuanRepo = getBantuanTersedia(request.getIdBantuan());
-        transform.updateKuota(bantuanRepo, request);
+        long jumlahDiterima = proposalBantuanService.countProposalAcc(bantuanRepo.getIdBantuan());
+        transform.updateKuota(bantuanRepo, request, jumlahDiterima);
         transform.updateBantuantoEntity(bantuanRepo, request, request.getDokumen().get(0));
         BantuanTersedia savedBantuan = repository.saveAndFlush(bantuanRepo);
         return transform.buildResponseBantuan(savedBantuan);

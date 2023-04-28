@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProposalBantuanRepository extends JpaRepository<ProposalBantuan, String>, JpaSpecificationExecutor<ProposalBantuan> {
 
     List<ProposalBantuan> findByNelayanIdNelayanAndBantuanIdBantuanAndStatusProposalIn(String idNelayan, String idBantuan, List<String> status);
+
+    long countByIdBantuanAndStatusProposalIgnoreCase(String idBantuan, String statusProposal);
 }
