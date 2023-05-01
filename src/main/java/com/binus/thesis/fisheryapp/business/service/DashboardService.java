@@ -73,9 +73,8 @@ public class DashboardService {
                 nego = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count();
                 selesai = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 diproses = transaksiNelayan.stream().filter(
-                        transaksi -> transaksi.getStatus().equalsIgnoreCase("DIPROSES")
-                                && transaksi.getStatus().equalsIgnoreCase("DIKIRIM")
-                                && transaksi.getStatus().equalsIgnoreCase("SIAP_DIAMBIL")).count();
+                        transaksi -> !transaksi.getStatus().equalsIgnoreCase("NEGO")
+                                && !transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 break;
             case 4:
                 String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
@@ -85,9 +84,9 @@ public class DashboardService {
                 nego = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count();
                 selesai = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 diproses = transaksiPembeli.stream().filter(
-                        transaksi -> transaksi.getStatus().equalsIgnoreCase("DIPROSES")
-                                && transaksi.getStatus().equalsIgnoreCase("DIKIRIM")
-                                && transaksi.getStatus().equalsIgnoreCase("SIAP_DIAMBIL")).count();
+                        transaksi -> !transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")
+                                && !transaksi.getStatus().equalsIgnoreCase("NEGO")
+                                && !transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 dibatalkan = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIBATALKAN")).count();
                 break;
             default:
