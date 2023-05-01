@@ -57,8 +57,8 @@ public class DashboardService {
         long dibatalkan = 0;
         long selesai = 0;
 
-        switch (request.getRole()) {
-            case "ADMIN":
+        switch (request.getIdRole()) {
+            case 1:
                 jumlah = listTransaksi.size();
                 diajukan = listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")).count();
                 diproses = listTransaksi.stream().filter(
@@ -66,9 +66,9 @@ public class DashboardService {
                                 && !transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 selesai = listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
                 break;
-            case "NELAYAN":
+            case 3:
                 String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
-                List<Transaksi> transaksiNelayan = listTransaksi.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).collect(Collectors.toList());
+                List<Transaksi> transaksiNelayan = listTransaksi.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).collect(Collectors.toList());
                 jumlah = transaksiNelayan.size();
                 nego = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count();
                 selesai = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
@@ -77,7 +77,7 @@ public class DashboardService {
                                 && transaksi.getStatus().equalsIgnoreCase("DIKIRIM")
                                 && transaksi.getStatus().equalsIgnoreCase("SIAP_DIAMBIL")).count();
                 break;
-            case "PEMBELI":
+            case 4:
                 String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
                 List<Transaksi> transaksiPembeli = listTransaksi.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).collect(Collectors.toList());
                 jumlah = transaksiPembeli.size();
@@ -96,8 +96,8 @@ public class DashboardService {
         return dashboardTransform.toResponseDashboardTransaksi(
                 jumlah,
                 diajukan,
-                nego,
                 diproses,
+                nego,
                 dibatalkan,
                 selesai
         );

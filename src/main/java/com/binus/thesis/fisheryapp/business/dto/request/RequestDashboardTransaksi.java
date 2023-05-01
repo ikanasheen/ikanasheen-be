@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class RequestDashboardTransaksi {
 
-    private String role;
+    private int idRole;
 
     private String idUser;
 }
