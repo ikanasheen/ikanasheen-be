@@ -18,6 +18,7 @@ public @interface GlobalMessage {
                 "#Variable4",
                 "#Variable5");
 
+        public static final String INVALID_PARAMETER = "Parameter tidak valid!";
         public static final String FIELD_REQUIRED = paramVariable.get(0) + " tidak boleh kosong!";
         public static final String FIELD_MAX_LENGTH = paramVariable.get(0) + " tidak boleh melebihi " + paramVariable.get(1) + " karakter!";
         public static final String USER_NOT_REGISTERED = "User belum terdaftar!";

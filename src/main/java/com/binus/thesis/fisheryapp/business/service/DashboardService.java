@@ -1,6 +1,10 @@
 package com.binus.thesis.fisheryapp.business.service;
 
 
+import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.dto.Status;
+import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestDashboardTransaksi;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardIkan;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardNelayan;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardSosialisasi;
@@ -14,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,6 +29,7 @@ public class DashboardService {
 
     private final IkanService ikanService;
     private final NelayanService nelayanService;
+    private final PembeliService pembeliService;
     private final SosialisasiService sosialisasiService;
     private final TransaksiService transaksiService;
 
@@ -42,15 +48,58 @@ public class DashboardService {
         );
     }
 
-    public ResponseDashboardTransaksi transaksi() {
+    public ResponseDashboardTransaksi transaksi(RequestDashboardTransaksi request) {
         List<Transaksi> listTransaksi = transaksiService.findAll();
+        long jumlah = 0;
+        long diajukan = 0;
+        long nego = 0;
+        long diproses = 0;
+        long dibatalkan = 0;
+        long selesai = 0;
+
+        switch (request.getRole()) {
+            case "ADMIN":
+                jumlah = listTransaksi.size();
+                diajukan = listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")).count();
+                diproses = listTransaksi.stream().filter(
+                        transaksi -> !transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")
+                                && !transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
+                selesai = listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
+                break;
+            case "NELAYAN":
+                String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
+                List<Transaksi> transaksiNelayan = listTransaksi.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).collect(Collectors.toList());
+                jumlah = transaksiNelayan.size();
+                nego = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count();
+                selesai = transaksiNelayan.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
+                diproses = transaksiNelayan.stream().filter(
+                        transaksi -> transaksi.getStatus().equalsIgnoreCase("DIPROSES")
+                                && transaksi.getStatus().equalsIgnoreCase("DIKIRIM")
+                                && transaksi.getStatus().equalsIgnoreCase("SIAP_DIAMBIL")).count();
+                break;
+            case "PEMBELI":
+                String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
+                List<Transaksi> transaksiPembeli = listTransaksi.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).collect(Collectors.toList());
+                jumlah = transaksiPembeli.size();
+                diajukan = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")).count();
+                nego = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count();
+                selesai = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
+                diproses = transaksiPembeli.stream().filter(
+                        transaksi -> transaksi.getStatus().equalsIgnoreCase("DIPROSES")
+                                && transaksi.getStatus().equalsIgnoreCase("DIKIRIM")
+                                && transaksi.getStatus().equalsIgnoreCase("SIAP_DIAMBIL")).count();
+                dibatalkan = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIBATALKAN")).count();
+                break;
+            default:
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
+        }
         return dashboardTransform.toResponseDashboardTransaksi(
-                (long) listTransaksi.size(),
-                listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")).count(),
-                listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("NEGO")).count(),
-                listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIPROSES")).count(),
-                listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIBATALKAN")).count(),
-                listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("SELESAI")).count()
+                jumlah,
+                diajukan,
+                nego,
+                diproses,
+                dibatalkan,
+                selesai
         );
     }
 

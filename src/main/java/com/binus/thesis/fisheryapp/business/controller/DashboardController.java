@@ -2,13 +2,17 @@ package com.binus.thesis.fisheryapp.business.controller;
 
 import com.binus.thesis.fisheryapp.base.constant.EndpointAPI;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
+import com.binus.thesis.fisheryapp.base.dto.BaseParameter;
+import com.binus.thesis.fisheryapp.base.dto.BaseRequest;
 import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestDashboardTransaksi;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardIkan;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardNelayan;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardSosialisasi;
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardTransaksi;
+import com.binus.thesis.fisheryapp.business.model.Ikan;
 import com.binus.thesis.fisheryapp.business.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,10 +60,10 @@ public class DashboardController {
     }
 
     @RequestMapping(value = "/transaksi", method = RequestMethod.POST)
-    public BaseResponse<ResponseDashboardTransaksi> transaksi() {
+    public BaseResponse<ResponseDashboardTransaksi> transaksi(@RequestBody BaseRequest<BaseParameter<RequestDashboardTransaksi>> request) {
         BaseResponse<ResponseDashboardTransaksi> response = new BaseResponse<>();
         try {
-            ResponseDashboardTransaksi responseDto = dashboardService.transaksi();
+            ResponseDashboardTransaksi responseDto = dashboardService.transaksi(request.getParameter().getData());
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
             response.setResult(responseDto);
         } catch (ApplicationException exception) {
