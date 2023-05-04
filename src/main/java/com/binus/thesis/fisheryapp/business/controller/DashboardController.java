@@ -8,10 +8,7 @@ import com.binus.thesis.fisheryapp.base.dto.BaseResponse;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
 import com.binus.thesis.fisheryapp.business.dto.request.RequestDashboardPerRole;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardIkan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardNelayan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardSosialisasi;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardTransaksi;
+import com.binus.thesis.fisheryapp.business.dto.response.dashboard.*;
 import com.binus.thesis.fisheryapp.business.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,10 +88,10 @@ public class DashboardController {
     }
 
     @RequestMapping(value = "/bantuan", method = RequestMethod.POST)
-    public BaseResponse<ResponseDashboardTransaksi> bantuan(@RequestBody BaseRequest<BaseParameter<RequestDashboardPerRole>> request) {
-        BaseResponse<ResponseDashboardTransaksi> response = new BaseResponse<>();
+    public BaseResponse<ResponseDashboardBantuan> bantuan(@RequestBody BaseRequest<BaseParameter<RequestDashboardPerRole>> request) {
+        BaseResponse<ResponseDashboardBantuan> response = new BaseResponse<>();
         try {
-            ResponseDashboardTransaksi responseDto = dashboardService.transaksi(request.getParameter().getData());
+            ResponseDashboardBantuan responseDto = dashboardService.bantuan(request.getParameter().getData());
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
             response.setResult(responseDto);
         } catch (ApplicationException exception) {
