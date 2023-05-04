@@ -62,11 +62,12 @@ public interface TransaksiTransform {
     @Mapping(target = "hargaNego", expression = "java(\"0\")")
     @Mapping(target = "hargaAkhir", expression = "java(\"0\")")
     @Mapping(target = "tanggalDibutuhkan", source = "request.tanggalDibutuhkan")
+    @Mapping(target = "tanggalDiajukan", source = "dateNow")
     @Mapping(target = "alamatPembeli", source = "request.alamatPembeli")
     @Mapping(target = "opsiPengiriman", source = "request.opsiPengiriman")
     @Mapping(target = "status", expression = "java(\"DIAJUKAN\")")
     @Mapping(target = "catatan", expression = "java(request.getCatatan() != null && !request.getCatatan().isEmpty() ? request.getCatatan() : null)")
-    Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, Ikan ikan);
+    Transaksi createTransaksitoEntity(RequestCreateTransaksi request, String idTransaksi, Pembeli pembeli, Ikan ikan, String dateNow);
 
     @Named("updateTransaksitoEntity")
     @Mapping(target = "idTransaksi", source = "request.idTransaksi")

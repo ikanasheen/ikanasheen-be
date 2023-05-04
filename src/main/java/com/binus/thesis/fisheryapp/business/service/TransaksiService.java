@@ -47,12 +47,11 @@ public class TransaksiService {
         Pembeli pembeli = pembeliService.findByIdUser(request.getIdUserPembeli());
         Ikan ikan = ikanService.detail(request.getIdIkan());
         return repository.save(
-                transform.createTransaksitoEntity(request, idTransaksi, pembeli, ikan)
+                transform.createTransaksitoEntity(request, idTransaksi, pembeli, ikan, LocalDate.now().toString())
         );
     }
 
     public Transaksi update(RequestUpdateTransaksi request) {
-        Transaksi transaksiRepo = getTransaksi(request.getIdTransaksi());
         Pembeli pembeli = pembeliService.findByIdUser(request.getIdUserPembeli());
         Ikan ikan = ikanService.detail(request.getIdIkan());
         return repository.save(
@@ -162,5 +161,25 @@ public class TransaksiService {
 
     public List<Transaksi> findAll() {
         return repository.findAll();
+    }
+
+    public List<Transaksi> findByStatusAndTanggalDiajukan(String tanggalDiajukan) {
+        return repository.findByStatusAndTanggalDiajukan("DIAJUKAN", tanggalDiajukan);
+    }
+
+    public List<Transaksi> findByStatusAndTanggalDiproses(String tanggalDiproses) {
+        return repository.findByStatusAndTanggalDiproses("DIPROSES", tanggalDiproses);
+    }
+
+    public List<Transaksi> findByStatusAndTanggalDikirim(String tanggalDikirim) {
+        return repository.findByStatusAndTanggalDikirim("DIKIRIM", tanggalDikirim);
+    }
+
+    public List<Transaksi> findByStatusAndTanggalSiapDiambil(String tanggalSiapDiambil) {
+        return repository.findByStatusAndTanggalSiapDiambil("SIAP_DIAMBIL", tanggalSiapDiambil);
+    }
+
+    public List<Transaksi> findByStatusAndTanggalSelesai(String tanggalSelesai) {
+        return repository.findByStatusAndTanggalSelesai("SELESAI", tanggalSelesai);
     }
 }

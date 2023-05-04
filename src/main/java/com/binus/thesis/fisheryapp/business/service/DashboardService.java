@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -140,5 +142,54 @@ public class DashboardService {
                 disetujui,
                 ditolak
         );
+    }
+
+    public List<ResponseDashboardTransaksiHarian> transaksiHarian(RequestDashboardPerRole request) {
+        List<ResponseDashboardTransaksiHarian> response = new ArrayList<>();
+        String dateNow = LocalDate.now().toString();
+        List<Transaksi> diajukan = transaksiService.findByStatusAndTanggalDiajukan(dateNow);
+        List<Transaksi> diproses = transaksiService.findByStatusAndTanggalDiproses(dateNow);
+        List<Transaksi> dikirim = transaksiService.findByStatusAndTanggalDikirim(dateNow);
+        List<Transaksi> siapDiambil = transaksiService.findByStatusAndTanggalSiapDiambil(dateNow);
+        List<Transaksi> selesai = transaksiService.findByStatusAndTanggalSelesai(dateNow);
+
+        switch (request.getIdRole()) {
+            case 1:
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN", (long) diajukan.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES", (long) diproses.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM", (long) dikirim.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL", (long) siapDiambil.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI", (long) selesai.size()));
+            case 3:
+                String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN",
+                        diajukan.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES",
+                        diproses.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM",
+                        dikirim.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL",
+                        siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI",
+                        selesai.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                break;
+            case 4:
+                String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN",
+                        diajukan.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES",
+                        diproses.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM",
+                        dikirim.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL",
+                        siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI",
+                        selesai.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                break;
+            default:
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
+        }
+
+        return response;
     }
 }

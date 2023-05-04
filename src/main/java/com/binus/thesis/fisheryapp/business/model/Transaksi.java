@@ -46,6 +46,9 @@ public class Transaksi {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "tanggal_diajukan")
+    private String tanggalDiajukan;
+
     @Column(name = "tanggal_diproses")
     private String tanggalDiproses;
 

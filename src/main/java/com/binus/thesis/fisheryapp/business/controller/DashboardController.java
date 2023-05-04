@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping(EndpointAPI.DASHBOARD)
@@ -92,6 +94,23 @@ public class DashboardController {
         BaseResponse<ResponseDashboardBantuan> response = new BaseResponse<>();
         try {
             ResponseDashboardBantuan responseDto = dashboardService.bantuan(request.getParameter().getData());
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
+            response.setResult(responseDto);
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
+
+
+    @RequestMapping(value = "/transaksi/harian", method = RequestMethod.POST)
+    public BaseResponse<List<ResponseDashboardTransaksiHarian>> transaksiHarian(@RequestBody BaseRequest<BaseParameter<RequestDashboardPerRole>> request) {
+        BaseResponse<List<ResponseDashboardTransaksiHarian>> response = new BaseResponse<>();
+        try {
+            List<ResponseDashboardTransaksiHarian> responseDto = dashboardService.transaksiHarian(request.getParameter().getData());
             response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
             response.setResult(responseDto);
         } catch (ApplicationException exception) {

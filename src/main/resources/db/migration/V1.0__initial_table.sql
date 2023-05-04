@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS transaksi(
     alamat VARCHAR(255) NOT NULL,
     catatan VARCHAR(255),
     status VARCHAR(255) NOT NULL,
+    tanggal_diajukan DATE,
     tanggal_diproses DATE,
     tanggal_selesai DATE,
     opsi_pengiriman VARCHAR(255),
