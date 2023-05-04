@@ -37,6 +37,10 @@ public class BantuanTersediaService {
     private final BantuanTersediaTransform transform;
     private final PageTransform pageTransform;
 
+    public List<BantuanTersedia> findAll() {
+        return repository.findAll();
+    }
+
     public ResponseBantuan create(RequestCreateBantuan request) {
         String jenis = request.getJenisBantuan().split(" ")[0].substring(0,3);
         String idBantuan = GeneratorUtils.generateId(jenis.toUpperCase(Locale.ROOT), new Date(), 4);

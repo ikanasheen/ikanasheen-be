@@ -1,9 +1,6 @@
 package com.binus.thesis.fisheryapp.business.transform;
 
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardIkan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardNelayan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardSosialisasi;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardTransaksi;
+import com.binus.thesis.fisheryapp.business.dto.response.dashboard.*;
 import com.binus.thesis.fisheryapp.business.model.Ikan;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -37,6 +34,20 @@ public interface DashboardTransform {
             Long transaksiNego,
             Long transaksiDibatalkan,
             Long transaksiSelesai
+    );
+
+    @Named("toResponseDashboardBantuan")
+    @Mapping(target = "bantuanTersedia", source = "bantuanTersedia")
+    @Mapping(target = "bantuanDiajukan", source = "bantuanDiajukan")
+    @Mapping(target = "bantuanTerproses", source = "bantuanTerproses")
+    @Mapping(target = "bantuanDisetujui", source = "bantuanDisetujui")
+    @Mapping(target = "bantuanDitolak", source = "bantuanDitolak")
+    ResponseDashboardBantuan toResponseDashboardBantuan(
+            Long bantuanTersedia,
+            Long bantuanDiajukan,
+            Long bantuanTerproses,
+            Long bantuanDisetujui,
+            Long bantuanDitolak
     );
 
     @Named("toResponseDashboardSosialisasi")

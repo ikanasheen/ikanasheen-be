@@ -39,6 +39,10 @@ public class ProposalBantuanService {
 
     private final BantuanTersediaService bantuanService;
 
+    public List<ProposalBantuan> findAll() {
+        return repository.findAll();
+    }
+
     public ResponseProposalBantuan create(RequestCreateProposal req) {
         checkBantuan(req.getIdBantuan());
         Nelayan nelayan = nelayanService.findByIdUser(req.getIdUserNelayan());

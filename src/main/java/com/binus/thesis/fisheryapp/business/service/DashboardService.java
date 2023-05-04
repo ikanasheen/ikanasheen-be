@@ -4,14 +4,9 @@ package com.binus.thesis.fisheryapp.business.service;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
-import com.binus.thesis.fisheryapp.business.dto.request.RequestDashboardTransaksi;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardIkan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardNelayan;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardSosialisasi;
-import com.binus.thesis.fisheryapp.business.dto.response.dashboard.ResponseDashboardTransaksi;
-import com.binus.thesis.fisheryapp.business.model.Nelayan;
-import com.binus.thesis.fisheryapp.business.model.Sosialisasi;
-import com.binus.thesis.fisheryapp.business.model.Transaksi;
+import com.binus.thesis.fisheryapp.business.dto.request.RequestDashboardPerRole;
+import com.binus.thesis.fisheryapp.business.dto.response.dashboard.*;
+import com.binus.thesis.fisheryapp.business.model.*;
 import com.binus.thesis.fisheryapp.business.transform.DashboardTransform;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +22,11 @@ public class DashboardService {
 
     private final DashboardTransform dashboardTransform;
 
+    private final BantuanTersediaService bantuanService;
     private final IkanService ikanService;
     private final NelayanService nelayanService;
     private final PembeliService pembeliService;
+    private final ProposalBantuanService proposalService;
     private final SosialisasiService sosialisasiService;
     private final TransaksiService transaksiService;
 
@@ -48,7 +45,7 @@ public class DashboardService {
         );
     }
 
-    public ResponseDashboardTransaksi transaksi(RequestDashboardTransaksi request) {
+    public ResponseDashboardTransaksi transaksi(RequestDashboardPerRole request) {
         List<Transaksi> listTransaksi = transaksiService.findAll();
         long jumlah = 0;
         long diajukan = 0;
@@ -109,6 +106,39 @@ public class DashboardService {
                 listSosialisasi.stream().filter(sosialisasi -> sosialisasi.getJenisKonten().equalsIgnoreCase("BERITA")).count(),
                 listSosialisasi.stream().filter(sosialisasi -> sosialisasi.getJenisKonten().equalsIgnoreCase("INFORMASI")).count(),
                 listSosialisasi.stream().filter(sosialisasi -> sosialisasi.getJenisKonten().equalsIgnoreCase("PENGEMBANGAN_DIRI")).count()
+        );
+    }
+
+    public ResponseDashboardBantuan bantuan(RequestDashboardPerRole request) {
+        List<BantuanTersedia> listBantuan = bantuanService.findAll();
+        List<ProposalBantuan> listProposal = proposalService.findAll();
+        long tersedia = listBantuan.stream().filter(bantuan -> bantuan.getStatusBantuan().equalsIgnoreCase("ACTIVE")).count();
+        long diajukan;
+        long terproses = 0;
+        long disetujui = 0;
+        long ditolak = 0;
+
+        switch (request.getIdRole()) {
+            case 1:
+                diajukan = listProposal.stream().filter(proposal -> proposal.getStatusProposal().equalsIgnoreCase("DIAJUKAN")).count();
+                terproses = listProposal.stream().filter(proposal -> !proposal.getStatusProposal().equalsIgnoreCase("DIAJUKAN")).count();
+                break;
+            case 3:
+                String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
+                List<ProposalBantuan> proposalNelayan = listProposal.stream().filter(proposal -> proposal.getIdNelayan() != null && proposal.getIdNelayan().equalsIgnoreCase(idNelayan)).collect(Collectors.toList());
+                diajukan = proposalNelayan.stream().filter(proposal -> proposal.getStatusProposal().equalsIgnoreCase("DIAJUKAN")).count();
+                disetujui = proposalNelayan.stream().filter(proposal -> proposal.getStatusProposal().equalsIgnoreCase("DISETUJUI")).count();
+                ditolak = proposalNelayan.stream().filter(proposal -> proposal.getStatusProposal().equalsIgnoreCase("DITOLAK")).count();
+                break;
+            default:
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
+        }
+        return dashboardTransform.toResponseDashboardBantuan(
+                tersedia,
+                diajukan,
+                terproses,
+                disetujui,
+                ditolak
         );
     }
 }
