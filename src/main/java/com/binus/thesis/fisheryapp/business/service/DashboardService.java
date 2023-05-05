@@ -144,8 +144,8 @@ public class DashboardService {
         );
     }
 
-    public List<ResponseDashboardTransaksiHarian> transaksiHarian(RequestDashboardPerRole request) {
-        List<ResponseDashboardTransaksiHarian> response = new ArrayList<>();
+    public List<ResponseDashboardTransaksiDaily> transaksiDaily(RequestDashboardPerRole request) {
+        List<ResponseDashboardTransaksiDaily> response = new ArrayList<>();
         String dateNow = LocalDate.now().toString();
         List<Transaksi> diajukan = transaksiService.findByStatusAndTanggalDiajukan(dateNow);
         List<Transaksi> diproses = transaksiService.findByStatusAndTanggalDiproses(dateNow);
@@ -155,36 +155,105 @@ public class DashboardService {
 
         switch (request.getIdRole()) {
             case 1:
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN", (long) diajukan.size()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES", (long) diproses.size()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM", (long) dikirim.size()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL", (long) siapDiambil.size()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI", (long) selesai.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN", (long) diajukan.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES", (long) diproses.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM", (long) dikirim.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL", (long) siapDiambil.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI", (long) selesai.size()));
+                break;
             case 3:
                 String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN",
                         diajukan.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES",
                         diproses.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM",
                         dikirim.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL",
                         siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI",
                         selesai.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
                 break;
             case 4:
                 String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIAJUKAN",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN",
                         diajukan.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIPROSES",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES",
                         diproses.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("DIKIRIM",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM",
                         dikirim.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SIAP_DIAMBIL",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL",
                         siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiHarian("SELESAI",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI",
                         selesai.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                break;
+            default:
+                throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
+        }
+
+        return response;
+    }
+
+    public List<ResponseDashboardTransaksiWeekly> transaksiWeekly(RequestDashboardPerRole request) {
+        List<ResponseDashboardTransaksiWeekly> response = new ArrayList<>();
+        LocalDate dateNow = LocalDate.now();
+        long diajukan = 0;
+        long diproses = 0;
+        long selesai = 0;
+
+        switch (request.getIdRole()) {
+            case 1:
+                for (long i=6; i>=0; i--) {
+                    String date = dateNow.minusDays(i).toString();
+                    diajukan = transaksiService.findByTanggalDiajukan(date).size();
+                    diproses = transaksiService.findByTanggalDiproses(date).size();
+                    selesai = transaksiService.findByTanggalSelesai(date).size();
+
+                    response.add(dashboardTransform.toResponseDashboardTransaksiWeekly(
+                            date,
+                            diajukan,
+                            diproses,
+                            selesai
+                    ));
+                }
+                break;
+            case 3:
+                String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
+                for (long i=7; i>=0; i--) {
+                    String date = dateNow.minusDays(i).toString();
+                    diajukan = transaksiService.findByTanggalDiajukan(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count();
+                    diproses = transaksiService.findByTanggalDiproses(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count();
+                    selesai = transaksiService.findByTanggalSelesai(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count();
+
+                    response.add(dashboardTransform.toResponseDashboardTransaksiWeekly(
+                            date,
+                            diajukan,
+                            diproses,
+                            selesai
+                    ));
+                }
+                break;
+            case 4:
+                String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
+                for (long i=7; i>=0; i--) {
+                    String date = dateNow.minusDays(i).toString();
+                    diajukan = transaksiService.findByTanggalDiajukan(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+                    diproses = transaksiService.findByTanggalDiproses(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+                    selesai = transaksiService.findByTanggalSelesai(date).stream().filter(
+                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+
+                    response.add(dashboardTransform.toResponseDashboardTransaksiWeekly(
+                            date,
+                            diajukan,
+                            diproses,
+                            selesai
+                    ));
+                }
                 break;
             default:
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));

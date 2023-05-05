@@ -182,4 +182,16 @@ public class TransaksiService {
     public List<Transaksi> findByStatusAndTanggalSelesai(String tanggalSelesai) {
         return repository.findByStatusAndTanggalSelesai("SELESAI", tanggalSelesai);
     }
+
+    public List<Transaksi> findByTanggalDiajukan(String tanggalDiajukan) {
+        return repository.findByTanggalDiajukan(tanggalDiajukan);
+    }
+
+    public List<Transaksi> findByTanggalDiproses(String tanggalDiproses) {
+        return repository.findByTanggalDiproses(tanggalDiproses);
+    }
+
+    public List<Transaksi> findByTanggalSelesai(String tanggalSelesai) {
+        return repository.findByTanggalSelesai(tanggalSelesai);
+    }
 }

@@ -1,11 +1,7 @@
 package com.binus.thesis.fisheryapp.business.transform;
 
 import com.binus.thesis.fisheryapp.business.dto.response.dashboard.*;
-import com.binus.thesis.fisheryapp.business.model.Ikan;
-import com.binus.thesis.fisheryapp.business.model.Transaksi;
 import org.mapstruct.*;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DashboardTransform {
@@ -62,8 +58,20 @@ public interface DashboardTransform {
             Long pengembanganDiri
     );
 
-    @Named("toResponseDashboardTransaksiHarian")
+    @Named("toResponseDashboardTransaksiDaily")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "value", source = "value")
-    ResponseDashboardTransaksiHarian toResponseDashboardTransaksiHarian(String status, Long value);
+    ResponseDashboardTransaksiDaily toResponseDashboardTransaksiDaily(String status, Long value);
+
+    @Named("toResponseDashboardTransaksiWeekly")
+    @Mapping(target = "tanggal", source = "tanggal")
+    @Mapping(target = "transaksiDiajukan", source = "transaksiDiajukan")
+    @Mapping(target = "transaksiDiproses", source = "transaksiDiproses")
+    @Mapping(target = "transaksiSelesai", source = "transaksiSelesai")
+    ResponseDashboardTransaksiWeekly toResponseDashboardTransaksiWeekly(
+            String tanggal,
+            Long transaksiDiajukan,
+            Long transaksiDiproses,
+            Long transaksiSelesai
+    );
 }

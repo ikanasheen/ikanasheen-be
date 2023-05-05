@@ -19,4 +19,10 @@ public interface TransaksiRepository extends JpaRepository<Transaksi, String>, J
     List<Transaksi> findByStatusAndTanggalSiapDiambil(String status, String tanggalSiapDiambil);
 
     List<Transaksi> findByStatusAndTanggalSelesai(String status, String tanggalSelesai);
+
+    List<Transaksi> findByTanggalDiajukan(String tanggalDiajukan);
+
+    List<Transaksi> findByTanggalDiproses(String tanggalDiproses);
+
+    List<Transaksi> findByTanggalSelesai(String tanggalSelesai);
 }
