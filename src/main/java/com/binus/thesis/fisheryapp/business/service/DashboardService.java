@@ -1,6 +1,7 @@
 package com.binus.thesis.fisheryapp.business.service;
 
 
+import com.binus.thesis.fisheryapp.base.constant.GlobalConstant;
 import com.binus.thesis.fisheryapp.base.constant.GlobalMessage;
 import com.binus.thesis.fisheryapp.base.dto.Status;
 import com.binus.thesis.fisheryapp.base.exception.ApplicationException;
@@ -58,6 +59,7 @@ public class DashboardService {
 
         switch (request.getIdRole()) {
             case 1:
+            case 2:
                 jumlah = listTransaksi.size();
                 diajukan = listTransaksi.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")).count();
                 diproses = listTransaksi.stream().filter(
@@ -122,6 +124,7 @@ public class DashboardService {
 
         switch (request.getIdRole()) {
             case 1:
+            case 2:
                 diajukan = listProposal.stream().filter(proposal -> proposal.getStatusProposal().equalsIgnoreCase("DIAJUKAN")).count();
                 terproses = listProposal.stream().filter(proposal -> !proposal.getStatusProposal().equalsIgnoreCase("DIAJUKAN")).count();
                 break;
@@ -155,6 +158,7 @@ public class DashboardService {
 
         switch (request.getIdRole()) {
             case 1:
+            case 2:
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN", (long) diajukan.size()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES", (long) diproses.size()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM", (long) dikirim.size()));
@@ -203,6 +207,7 @@ public class DashboardService {
 
         switch (request.getIdRole()) {
             case 1:
+            case 2:
                 for (long i=6; i>=0; i--) {
                     String date = dateNow.minusDays(i).toString();
                     diajukan = transaksiService.findByTanggalDiajukan(date).size();
@@ -259,6 +264,19 @@ public class DashboardService {
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
         }
 
+        return response;
+    }
+
+    public List<ResponseDashboardTransaksiKecamatan> transaksiKecamatan() {
+        List<ResponseDashboardTransaksiKecamatan> response = new ArrayList<>();
+        String dateNow = LocalDate.now().toString();
+        String[] listkecamatan = GlobalConstant.LIST_KECAMATAN;
+        for (String kecamatan : listkecamatan) {
+            response.add(dashboardTransform.toResponseDashboardTransaksiKecamatan(
+                    kecamatan,
+                    (long) transaksiService.findByNelayanKecamatan(dateNow, kecamatan).size()
+            ));
+        }
         return response;
     }
 }

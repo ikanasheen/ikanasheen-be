@@ -194,4 +194,8 @@ public class TransaksiService {
     public List<Transaksi> findByTanggalSelesai(String tanggalSelesai) {
         return repository.findByTanggalSelesai(tanggalSelesai);
     }
+
+    public List<Transaksi> findByNelayanKecamatan(String tanggalDiproses, String kecamatan) {
+        return repository.findByIdNelayanNotNullAndTanggalDiajukanAndNelayanKecamatan(tanggalDiproses, kecamatan);
+    }
 }

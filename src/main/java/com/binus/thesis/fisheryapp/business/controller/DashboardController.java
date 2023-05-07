@@ -137,4 +137,20 @@ public class DashboardController {
         }
         return response;
     }
+
+    @RequestMapping(value = "/transaksi/kecamatan", method = RequestMethod.POST)
+    public BaseResponse<List<ResponseDashboardTransaksiKecamatan>> transaksiKecamatan() {
+        BaseResponse<List<ResponseDashboardTransaksiKecamatan>> response = new BaseResponse<>();
+        try {
+            List<ResponseDashboardTransaksiKecamatan> responseDto = dashboardService.transaksiKecamatan();
+            response.setStatus(Status.SUCCESS(GlobalMessage.Resp.SUCCESS_GET_DATA));
+            response.setResult(responseDto);
+        } catch (ApplicationException exception) {
+            response.setStatus(exception.getStatus());
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            response.setStatus(new Status(Status.ERROR_CODE, Status.ERROR_DESC, exception.getLocalizedMessage()));
+        }
+        return response;
+    }
 }

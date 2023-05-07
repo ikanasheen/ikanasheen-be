@@ -61,7 +61,10 @@ public interface DashboardTransform {
     @Named("toResponseDashboardTransaksiDaily")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "value", source = "value")
-    ResponseDashboardTransaksiDaily toResponseDashboardTransaksiDaily(String status, Long value);
+    ResponseDashboardTransaksiDaily toResponseDashboardTransaksiDaily(
+            String status,
+            Long value
+    );
 
     @Named("toResponseDashboardTransaksiWeekly")
     @Mapping(target = "tanggal", source = "tanggal")
@@ -73,5 +76,13 @@ public interface DashboardTransform {
             Long transaksiDiajukan,
             Long transaksiDiproses,
             Long transaksiSelesai
+    );
+
+    @Named("toResponseDashboardTransaksiKecamatan")
+    @Mapping(target = "kecamatan", source = "kecamatan")
+    @Mapping(target = "value", source = "value")
+    ResponseDashboardTransaksiKecamatan toResponseDashboardTransaksiKecamatan(
+            String kecamatan,
+            Long value
     );
 }

@@ -25,4 +25,6 @@ public interface TransaksiRepository extends JpaRepository<Transaksi, String>, J
     List<Transaksi> findByTanggalDiproses(String tanggalDiproses);
 
     List<Transaksi> findByTanggalSelesai(String tanggalSelesai);
+
+    List<Transaksi> findByIdNelayanNotNullAndTanggalDiajukanAndNelayanKecamatan(String tanggalDiajukan, String kecamatan);
 }
