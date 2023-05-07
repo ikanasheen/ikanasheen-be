@@ -246,11 +246,11 @@ public class DashboardService {
                 for (long i=7; i>=0; i--) {
                     String date = dateNow.minusDays(i).toString();
                     diajukan = transaksiService.findByTanggalDiajukan(date).stream().filter(
-                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+                            transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count();
                     diproses = transaksiService.findByTanggalDiproses(date).stream().filter(
-                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+                            transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count();
                     selesai = transaksiService.findByTanggalSelesai(date).stream().filter(
-                            transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count();
+                            transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count();
 
                     response.add(dashboardTransform.toResponseDashboardTransaksiWeekly(
                             date,
