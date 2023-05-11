@@ -87,7 +87,8 @@ public class DashboardService {
                 diproses = transaksiPembeli.stream().filter(
                         transaksi -> !transaksi.getStatus().equalsIgnoreCase("DIAJUKAN")
                                 && !transaksi.getStatus().equalsIgnoreCase("NEGO")
-                                && !transaksi.getStatus().equalsIgnoreCase("SELESAI")).count();
+                                && !transaksi.getStatus().equalsIgnoreCase("SELESAI")
+                                && !transaksi.getStatus().equalsIgnoreCase("DIBATALKAN")).count();
                 dibatalkan = transaksiPembeli.stream().filter(transaksi -> transaksi.getStatus().equalsIgnoreCase("DIBATALKAN")).count();
                 break;
             default:
@@ -167,8 +168,7 @@ public class DashboardService {
                 break;
             case 3:
                 String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
-                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN",
-                        diajukan.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN", 0L));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES",
                         diproses.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM",

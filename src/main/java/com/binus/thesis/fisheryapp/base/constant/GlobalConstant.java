@@ -25,4 +25,6 @@ public interface GlobalConstant extends BaseInterface {
     /** FORMAT **/
 
     String FORMAT_TIMESTAMP = "yyyy-MM-ddTHH:mm:ss.sssZ";
+
+    String FORMAT_DATE = "yyyy-MM-dd";
 }

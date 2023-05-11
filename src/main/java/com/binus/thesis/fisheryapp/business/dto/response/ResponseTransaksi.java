@@ -25,7 +25,7 @@ public class ResponseTransaksi {
 
     private String hargaAkhir;
 
-    private LocalDate tanggalDibutuhkan;
+    private String tanggalDibutuhkan;
 
     private String alamatPembeli;
 
@@ -47,9 +47,9 @@ public class ResponseTransaksi {
 
     private String namaPembeli;
 
-    private LocalDate tanggalDiproses;
+    private String tanggalDiproses;
 
-    private LocalDate tanggalSelesai;
+    private String tanggalSelesai;
 
     private String tanggalDikirim;
 
