@@ -163,17 +163,16 @@ public class DashboardService {
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN", (long) diajukan.size()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES", (long) diproses.size()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM", (long) dikirim.size()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL", (long) siapDiambil.size()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP DIAMBIL", (long) siapDiambil.size()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI", (long) selesai.size()));
                 break;
             case 3:
                 String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
-                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN", 0L));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES",
                         diproses.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM",
                         dikirim.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL",
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP DIAMBIL",
                         siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI",
                         selesai.stream().filter(transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count()));
@@ -181,15 +180,15 @@ public class DashboardService {
             case 4:
                 String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIAJUKAN",
-                        diajukan.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                        diajukan.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIPROSES",
-                        diproses.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                        diproses.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("DIKIRIM",
-                        dikirim.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
-                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP_DIAMBIL",
-                        siapDiambil.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                        dikirim.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count()));
+                response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SIAP DIAMBIL",
+                        siapDiambil.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count()));
                 response.add(dashboardTransform.toResponseDashboardTransaksiDaily("SELESAI",
-                        selesai.stream().filter(transaksi -> transaksi.getIdNelayan().equalsIgnoreCase(idPembeli)).count()));
+                        selesai.stream().filter(transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count()));
                 break;
             default:
                 throw new ApplicationException(Status.INVALID(GlobalMessage.Error.INVALID_PARAMETER));
