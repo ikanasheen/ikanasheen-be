@@ -1,6 +1,7 @@
 package com.binus.thesis.fisheryapp.business.transform;
 
 import com.binus.thesis.fisheryapp.business.dto.request.RequestCreateTopik;
+import com.binus.thesis.fisheryapp.business.dto.response.ResponseTopik;
 import com.binus.thesis.fisheryapp.business.model.Topik;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,7 +24,10 @@ public interface TopikTransform {
 
     @Named("updateTopiktoEntity")
     @Mapping(target = "idTopik", source = "idTopik")
-    @Mapping(target = "namaTopik", expression = "java(request.getNamaTopik() == null || request.getNamaTopik().isEmpty() ? request.getNamaTopik() : request.getNamaTopik())")
-    @Mapping(target = "deskripsi", expression = "java(request.getDeskripsi() == null || request.getDeskripsi().isEmpty() ? request.getDeskripsi() : request.getDeskripsi())")
+    @Mapping(target = "namaTopik", expression = "java(request.getNamaTopik() == null || request.getNamaTopik().isEmpty() ? topik.getNamaTopik() : request.getNamaTopik())")
+    @Mapping(target = "deskripsi", expression = "java(request.getDeskripsi() == null || request.getDeskripsi().isEmpty() ? topik.getDeskripsi() : request.getDeskripsi())")
     Topik updateTopiktoEntity(@MappingTarget Topik topik, Topik request);
+
+    @Named("buildResponseTopik")
+    ResponseTopik buildResponseTopik(Topik topik);
 }
