@@ -22,6 +22,12 @@ public class FAQ {
     @Column(name = "jawaban")
     private String jawaban;
 
+    @Column(name = "tanggal_dibuat")
+    private String tanggalDibuat;
+
+    @Column(name = "tanggal_diubah")
+    private String tanggalDiubah;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_topik", referencedColumnName = "id_topik", insertable = false, updatable = false)
     private Topik topik;

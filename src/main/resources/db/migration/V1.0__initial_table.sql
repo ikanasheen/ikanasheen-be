@@ -152,6 +152,7 @@ CREATE TABLE IF NOT EXISTS proposal_bantuan(
 CREATE TABLE IF NOT EXISTS topik(
     id_topik INT NOT NULL,
     nama_topik VARCHAR(255) NOT NULL,
+    deskripsi VARCHAR(255) NULL,
     CONSTRAINT pkey_topik PRIMARY KEY (id_topik)
 );
 
@@ -160,18 +161,20 @@ CREATE TABLE IF NOT EXISTS faq(
     id_topik INT NOT NULL,
     pertanyaan VARCHAR(255) NOT NULL,
     jawaban VARCHAR(255) NOT NULL,
+    tanggal_dibuat TIMESTAMP NOT NULL,
+    tanggal_diubah TIMESTAMP NULL,
     CONSTRAINT pkey_faq PRIMARY KEY (id_faq),
     CONSTRAINT fk_topik_faq FOREIGN KEY (id_topik) REFERENCES topik(id_topik)
 );
 
 CREATE TABLE IF NOT EXISTS pengaduan(
     id_pengaduan VARCHAR(25) NOT NULL,
-    id_topik INT NOT NULL,
     id_nelayan VARCHAR(25) NOT NULL,
     aduan VARCHAR(255) NOT NULL,
-    tanggapan VARCHAR(255) NOT NULL,
+    penanganan VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
+    tanggal_pengaduan TIMESTAMP NOT NULL,
+    tanggal_penanganan TIMESTAMP NULL,
     CONSTRAINT pkey_pengaduan PRIMARY KEY (id_pengaduan),
-    CONSTRAINT fk_topik_pengaduan FOREIGN KEY (id_topik) REFERENCES topik(id_topik),
     CONSTRAINT fk_nelayan_pengaduan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan)
 );
