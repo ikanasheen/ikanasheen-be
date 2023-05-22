@@ -148,3 +148,30 @@ CREATE TABLE IF NOT EXISTS proposal_bantuan(
     CONSTRAINT fk_bantuan_proposal_bantuan FOREIGN KEY (id_bantuan) REFERENCES bantuan_tersedia(id_bantuan),
     CONSTRAINT fk_dokumen_proposal_bantuan FOREIGN KEY (id_dokumen) REFERENCES fishery_db.dokumen(id)
 );
+
+CREATE TABLE IF NOT EXISTS topik(
+    id_topik INT NOT NULL,
+    nama_topik VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_topik PRIMARY KEY (id_topik)
+);
+
+CREATE TABLE IF NOT EXISTS faq(
+    id_faq VARCHAR(25) NOT NULL,
+    id_topik INT NOT NULL,
+    pertanyaan VARCHAR(255) NOT NULL,
+    jawaban VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_faq PRIMARY KEY (id_faq),
+    CONSTRAINT fk_topik_faq FOREIGN KEY (id_topik) REFERENCES topik(id_topik)
+);
+
+CREATE TABLE IF NOT EXISTS pengaduan(
+    id_pengaduan VARCHAR(25) NOT NULL,
+    id_topik INT NOT NULL,
+    id_nelayan VARCHAR(25) NOT NULL,
+    aduan VARCHAR(255) NOT NULL,
+    tanggapan VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    CONSTRAINT pkey_pengaduan PRIMARY KEY (id_pengaduan),
+    CONSTRAINT fk_topik_pengaduan FOREIGN KEY (id_topik) REFERENCES topik(id_topik),
+    CONSTRAINT fk_nelayan_pengaduan FOREIGN KEY (id_nelayan) REFERENCES nelayan(id_nelayan)
+);
