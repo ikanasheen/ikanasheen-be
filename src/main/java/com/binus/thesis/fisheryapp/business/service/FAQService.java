@@ -30,7 +30,7 @@ import java.util.Optional;
 public class FAQService {
 
     private final FAQRepository repository;
-    private final TopikService faqService;
+    private final TopikService topikService;
 
     private final FAQSpecification specification;
 
@@ -39,7 +39,7 @@ public class FAQService {
 
 
     public ResponseFAQ create(RequestCreateFAQ request) {
-        Topik topik = faqService.getTopik(request.getIdTopik());
+        Topik topik = topikService.getTopik(request.getIdTopik());
         String idFaq = GeneratorUtils.generateId(topik.getNamaTopik().substring(0,3), new Date(), 3);
         FAQ faq = repository.saveAndFlush(transform.createFAQtoEntity(request, idFaq, LocalDateTime.now().toString()));
         return transform.buildResponseFAQ(faq);

@@ -16,4 +16,5 @@ public @interface EndpointAPI {
     String ROLE = "/role";
     String TOPIK = "/topik";
     String FAQ = "/faq";
+    String PENGADUAN = "/pengaduan";
 }

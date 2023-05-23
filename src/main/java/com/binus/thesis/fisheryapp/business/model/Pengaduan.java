@@ -16,6 +16,12 @@ public class Pengaduan {
     @Column(name = "id_nelayan")
     private String idNelayan;
 
+    @Column(name = "no_telepon")
+    private String noTelepon;
+
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "aduan")
     private String aduan;
 

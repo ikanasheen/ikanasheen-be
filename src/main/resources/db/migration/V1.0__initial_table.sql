@@ -170,8 +170,10 @@ CREATE TABLE IF NOT EXISTS faq(
 CREATE TABLE IF NOT EXISTS pengaduan(
     id_pengaduan VARCHAR(25) NOT NULL,
     id_nelayan VARCHAR(25) NOT NULL,
+    no_telepon VARCHAR(255) NULL,
+    email VARCHAR(255) NULL,
     aduan VARCHAR(255) NOT NULL,
-    penanganan VARCHAR(255) NOT NULL,
+    penanganan VARCHAR(255) NULL,
     status VARCHAR(255) NOT NULL,
     tanggal_pengaduan TIMESTAMP NOT NULL,
     tanggal_penanganan TIMESTAMP NULL,
