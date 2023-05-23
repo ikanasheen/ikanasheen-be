@@ -9,6 +9,8 @@ public class ResponseFAQ {
 
     private int idTopik;
 
+    private String namaTopik;
+
     private String pertanyaan;
 
     private String jawaban;

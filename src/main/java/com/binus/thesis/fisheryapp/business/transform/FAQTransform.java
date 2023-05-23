@@ -34,6 +34,7 @@ public interface FAQTransform {
 
     @Named("buildResponseFAQ")
     @Mapping(target = "topik", source = "topik", qualifiedByName = "buildResponseTopik")
+    @Mapping(target = "namaTopik", source = "topik.namaTopik")
     ResponseFAQ buildResponseFAQ(FAQ faq);
 
     @Named("buildResponseFAQList")
