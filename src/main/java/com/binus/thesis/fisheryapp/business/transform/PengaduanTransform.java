@@ -34,6 +34,7 @@ public interface PengaduanTransform {
 
     @Named("buildResponsePengaduan")
     @Mapping(target = "nelayan", source = "nelayan", qualifiedByName = "buildResponseNelayan")
+    @Mapping(target = "namaNelayan", source = "nelayan.namaLengkap")
     ResponsePengaduan buildResponsePengaduan(Pengaduan pengaduan);
 
     @Named("buildResponsePengaduanList")

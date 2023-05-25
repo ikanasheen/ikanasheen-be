@@ -11,6 +11,8 @@ public class ResponsePengaduan {
 
     private String idNelayan;
 
+    private String namaNelayan;
+
     private String noTelepon;
 
     private String email;
