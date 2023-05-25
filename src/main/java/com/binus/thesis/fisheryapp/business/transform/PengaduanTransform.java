@@ -27,7 +27,7 @@ public interface PengaduanTransform {
 
     @Named("penanganantoEntity")
     @Mapping(target = "idPengaduan", source = "request.idPengaduan")
-    @Mapping(target = "aduan", source = "request.penanganan")
+    @Mapping(target = "penanganan", source = "request.penanganan")
     @Mapping(target = "tanggalPenanganan", source = "dateNow")
     @Mapping(target = "status", constant = "TERJAWAB")
     Pengaduan penanganantoEntity(@MappingTarget Pengaduan pengaduan, RequestPenangananPengaduan request, String dateNow);
