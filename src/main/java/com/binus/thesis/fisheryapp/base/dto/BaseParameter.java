@@ -21,6 +21,12 @@ public class BaseParameter<T> implements BaseInterface {
     @JsonProperty("filter")
     protected Map<String, Object> filter;
 
+    @JsonProperty("criteria")
+    protected Map<String, String> criteria;
+
+    @JsonProperty("criteriaType")
+    protected String criteriaType;
+
     @JsonProperty("data")
     protected T data;
 }
