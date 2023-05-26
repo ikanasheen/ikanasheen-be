@@ -223,7 +223,7 @@ public class DashboardService {
                 break;
             case 3:
                 String idNelayan = nelayanService.findByIdUser(request.getIdUser()).getIdNelayan();
-                for (long i=7; i>=0; i--) {
+                for (long i=6; i>=0; i--) {
                     String date = dateNow.minusDays(i).toString();
                     diajukan = transaksiService.findByTanggalDiajukan(date).stream().filter(
                             transaksi -> transaksi.getIdNelayan() != null && transaksi.getIdNelayan().equalsIgnoreCase(idNelayan)).count();
@@ -242,7 +242,7 @@ public class DashboardService {
                 break;
             case 4:
                 String idPembeli = pembeliService.findByIdUser(request.getIdUser()).getIdPembeli();
-                for (long i=7; i>=0; i--) {
+                for (long i=6; i>=0; i--) {
                     String date = dateNow.minusDays(i).toString();
                     diajukan = transaksiService.findByTanggalDiajukan(date).stream().filter(
                             transaksi -> transaksi.getIdPembeli().equalsIgnoreCase(idPembeli)).count();
