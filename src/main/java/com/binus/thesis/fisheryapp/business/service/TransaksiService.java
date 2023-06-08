@@ -196,6 +196,6 @@ public class TransaksiService {
     }
 
     public List<Transaksi> findByNelayanKecamatan(String tanggalDiproses, String kecamatan) {
-        return repository.findByIdNelayanNotNullAndTanggalDiajukanAndNelayanKecamatan(tanggalDiproses, kecamatan);
+        return repository.findByIdNelayanNotNullAndTanggalDiprosesAndNelayanKecamatan(tanggalDiproses, kecamatan);
     }
 }

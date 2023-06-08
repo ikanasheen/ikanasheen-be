@@ -41,9 +41,17 @@ public class FAQSpecification extends BaseSpecification {
             if (paramCriteria != null && paramCriteria.size() > 0) {
                 for (Map.Entry<String, String> entry : paramCriteria.entrySet()) {
                     String searchLike = String.format("%%%s%%", entry.getValue().toLowerCase());
-                    Predicate predicate = builder.or(
-                        builder.like(builder.lower(root.get(entry.getKey())), searchLike)
-                    );
+                    Predicate predicate = null;
+                    if (entry.getKey().equalsIgnoreCase("namaTopik")) {
+                        predicate = builder.or(
+                                builder.like(builder.lower(root.get("topik").get("namaTopik")), searchLike)
+                        );
+                    } else {
+                        predicate = builder.or(
+                                builder.like(builder.lower(root.get(entry.getKey())), searchLike)
+                        );
+                    }
+
                     criterias.add(predicate);
                 }
 
@@ -70,17 +78,10 @@ public class FAQSpecification extends BaseSpecification {
         List<Predicate> predicates = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : filter.entrySet()) {
-            if (entry.getKey().equals("idTopik")) {
-                List<String> filterStatus = (List<String>) entry.getValue();
-                predicates.add(root.get("topik").get("idTopik").in(filterStatus));
-            } else if (entry.getKey().equals("namaTopik")) {
-                List<String> filterStatus = (List<String>) entry.getValue();
+            List<String> filterStatus = (List<String>) entry.getValue();
+            if (entry.getKey().equals("namaTopik")) {
                 predicates.add(root.get("topik").get("namaTopik").in(filterStatus));
-            } else if (entry.getKey().equals("deskripsi")) {
-                List<String> filterStatus = (List<String>) entry.getValue();
-                predicates.add(root.get("topik").get("deskripsi").in(filterStatus));
             } else {
-                List<String> filterStatus = (List<String>) entry.getValue();
                 predicates.add(root.get(entry.getKey()).in(filterStatus));
             }
         }
@@ -91,23 +92,9 @@ public class FAQSpecification extends BaseSpecification {
     private List<String> getSortList(Map<String, String> sort){
         List<String> sortList = new ArrayList<>();
         for (Map.Entry<String, String> entry : sort.entrySet()) {
-            if (entry.getKey().equals("idTopik")) {
-                sortList.add("topik");
-                sortList.add("idTopik");
-                sortList.add(entry.getValue());
-                continue;
-            }
-
             if (entry.getKey().equals("namaTopik")) {
                 sortList.add("topik");
                 sortList.add("namaTopik");
-                sortList.add(entry.getValue());
-                continue;
-            }
-
-            if (entry.getKey().equals("deskripsi")) {
-                sortList.add("topik");
-                sortList.add("deskripsi");
                 sortList.add(entry.getValue());
                 continue;
             }
