@@ -78,7 +78,9 @@ public class PengaduanSpecification extends BaseSpecification {
 
         for (Map.Entry<String, Object> entry : filter.entrySet()) {
             List<String> filterStatus = (List<String>) entry.getValue();
-            if (entry.getKey().equals("namaNelayan")) {
+            if (entry.getKey().equals("idUserNelayan")) {
+                predicates.add(root.get("nelayan").get("idUser").in(filterStatus));
+            } else if (entry.getKey().equals("namaNelayan")) {
                 predicates.add(root.get("nelayan").get("nameLengkap").in(filterStatus));
             } else {
                 predicates.add(root.get(entry.getKey()).in(filterStatus));
@@ -92,7 +94,7 @@ public class PengaduanSpecification extends BaseSpecification {
         List<String> sortList = new ArrayList<>();
         for (Map.Entry<String, String> entry : sort.entrySet()) {
             if (entry.getKey().equals("namaNelayan")) {
-                sortList.add("nama");
+                sortList.add("nelayan");
                 sortList.add("namaLengkap");
                 sortList.add(entry.getValue());
                 continue;
