@@ -81,7 +81,7 @@ public class PengaduanSpecification extends BaseSpecification {
             if (entry.getKey().equals("idUserNelayan")) {
                 predicates.add(root.get("nelayan").get("idUser").in(filterStatus));
             } else if (entry.getKey().equals("namaNelayan")) {
-                predicates.add(root.get("nelayan").get("nameLengkap").in(filterStatus));
+                predicates.add(root.get("nelayan").get("namaLengkap").in(filterStatus));
             } else {
                 predicates.add(root.get(entry.getKey()).in(filterStatus));
             }
