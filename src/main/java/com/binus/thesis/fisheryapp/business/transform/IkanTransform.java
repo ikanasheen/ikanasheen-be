@@ -11,6 +11,7 @@ public interface IkanTransform {
 
     @Named("createIkantoEntity")
     @Mapping(target = "idIkan", source = "idIkan")
+    @Mapping(target = "ukuran", expression = "java(ikan.getUkuran() == null || ikan.getUkuran().isEmpty() ? \"-\" : ikan.getUkuran())")
     Ikan createIkantoEntity(@MappingTarget Ikan ikan, String idIkan);
 
     @Named("updateIkantoEntity")
@@ -18,5 +19,6 @@ public interface IkanTransform {
     @Mapping(target = "namaIkan", expression = "java(ikan.getNamaIkan() == null || ikan.getNamaIkan().isEmpty() ? ikanRepo.getNamaIkan() : ikan.getNamaIkan())")
     @Mapping(target = "deskripsi", expression = "java(ikan.getDeskripsi() == null || ikan.getDeskripsi().isEmpty() ? ikanRepo.getDeskripsi() : ikan.getDeskripsi())")
     @Mapping(target = "hargaDasar", source = "hargaDasar")
+    @Mapping(target = "ukuran", expression = "java(ikan.getUkuran() == null || ikan.getUkuran().isEmpty() ? \"-\" : ikan.getUkuran())")
     Ikan updateIkantoEntity(@MappingTarget Ikan ikanRepo, Ikan ikan);
 }
